@@ -1,0 +1,60 @@
+{
+  "name": "rabbit-mq",
+  "version": "1.0.0",
+  "description": "GUI for rabbit-mq errors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=production node server/server.js",
+    "build": "webpack",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oslabs-beta/rabbit-mq.git"
+  },
+  "author": "cat-snake7",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oslabs-beta/rabbit-mq/issues"
+  },
+  "homepage": "https://github.com/oslabs-beta/rabbit-mq#readme",
+  "dependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/jest": "^28.1.7",
+    "axios": "^0.27.2",
+    "babel-loader": "^8.2.5",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^7.3.0",
+    "cookie-parser": "^1.4.6",
+    "css-loader": "^6.7.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "html-webpack-plugin": "^5.5.0",
+    "pg": "^8.7.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "sass": "^1.54.4",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.22.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^28.1.3",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "ts-jest": "^28.0.8",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.10.0"
+  }
+}
