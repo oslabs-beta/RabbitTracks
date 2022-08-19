@@ -16,7 +16,7 @@ router.post(
 
 router.post(
   "/login",
-  /* verify user, create session*/ (req, res) => {
+  /* verify user, verify session_id (if it exists), create session*/ (req, res) => {
     return res.status(200).json(/* verified_id? */);
   }
 );

@@ -69,6 +69,10 @@ authController.createSession = async (req, res, next) => {
   }
 };
 
-authController.verifySession = async (req, res, next) => {};
+authController.verifySession = async (req, res, next) => {
+  console.log("Verifying session_id...");
+
+  const session_id = req.cookies.session_id;
+};
 
 module.exports = authController;
