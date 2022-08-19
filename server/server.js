@@ -3,7 +3,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require("dotenv").config();
 
+
 const PORT = process.env.PORT;
+
+const authRouter = require('./routes/authRoutes');
 
 const app = express()
   DIST_DIR = path.join(__dirname, '../build/')
@@ -24,7 +27,7 @@ app.get('/', (req, res) => {
 
 
 // Routes
-
+app.use('/auth', authRouter);
 
 
 
