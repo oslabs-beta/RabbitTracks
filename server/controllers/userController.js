@@ -1,5 +1,3 @@
-const { decodeBase64 } = require("bcryptjs");
-
 require("dotenv").config();
 // require db model
 
@@ -7,7 +5,7 @@ const userController = {};
 
 userController.signup = async (req, res, next) => {
   console.log("Signup in progress...");
-  
+
   const { email } = req.body;
   const params = [email, res.locals.encryptedPassword];
   const queryString =

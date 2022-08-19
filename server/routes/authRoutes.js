@@ -8,8 +8,9 @@ router.post(
   "/signup",
   authController.encryptPassword,
   userController.signup,
-  /* create session */ (req, res) => {
-    return res.status(200).json(res.locals.user_id);    // do we need to return anything?
+  authController.createSession,
+  (req, res) => {
+    return res.status(200);
   }
 );
 
