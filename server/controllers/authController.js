@@ -46,7 +46,7 @@ authController.signup = async (req, res, next) => {
     try {
       // const values = await db.query(queryString, params);
       // res.locals.user_id = values.rows[0].user_id;
-      // res.cookie(user_id, res.locals.user_id, { httpOnly: true });
+      // res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
       console.log("Signup completed.");
       return next();
@@ -80,6 +80,7 @@ authController.verifyUser = async (req, res, next) => {
       if (results.rowCount > 0) {
         res.locals.encryptedPassword = results.rows[0].user_password;
         res.locals.user_id = results.rows[0].user_id;
+        res.cookie("user_id", res.locals.user_id, { httpOnly: true });
         console.log("Verified user exists in database.");
         return next();
       } else {
@@ -148,7 +149,7 @@ authController.createSession = async (req, res, next) => {
   const queryString = "UPDATE users SET session_value=$1 WHERE user_id=$2";
 
   try {
-    const token = await jwt.sign({ id: user_id }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ user_id: user_id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
@@ -180,11 +181,64 @@ authController.createSession = async (req, res, next) => {
 // incomplete
 authController.verifySession = async (req, res, next) => {
   console.log("Verifying session_id...");
-  // grab session_id and user_id from req.cookie
-  const token = req.cookies.session_id;
-  const user_id = req.cookies.user_id;
-  // check if it matches from user table
+  const session_id = req.cookies.session_id;
+  // const user_id = req.cookies.user_id;
 
+  if (token) {
+    try {
+      const verifiedToken = await jwt.verify(session_id, process.env.JWT_SECRET);
+
+      if (verifiedToken) {
+        console.log("Verified session_id.");
+        const token_user_id = verifiedToken.user_id;
+      } else {
+        res.clearCookie('session_id');
+        return next({
+          log: "Error in authController.verifySession... Unable to verify session_id. Removed session_id.",
+          status: 400,
+          message: "Unable to verify session_id. Removed session_id."
+        })
+      }
+    } catch (err) {
+      return next({
+        log: `Error in authController.verifySession... Error while verifying session_id: ${JSON.stringify(err)}`,
+        status: 500,
+        message: "Error while verifying session_id."
+      })
+    }
+  } else {
+    return next({
+      log: "Error in authController.verifySession... session_id does not exist.",
+      status: 400,
+      message: "session_id does not exist."
+    })
+  }
+
+  console.log("Verifying session_id belongs to correct user_id...");
+
+  const queryString = "SELECT session_value FROM users WHERE user_id=$1";
+  const params = [ token_user_id ];
+
+  try {
+    // const results = await db.query(queryString, params);
+    if (results.rows[0].session_value === session_id) {
+      console.log("Verified matching session_ids.");
+      return next();
+    } else {
+      res.clearCookie('session_id');
+      return next({
+        log: "Error in authController.verifyUser... session_ids do not match. Removed session_id.",
+        status: 400,
+        message: "session_ids do not match. Removed session_id."
+      })
+    }
+  } catch (err) {
+    return next({
+      log: `Error in authController.verifySession... Error while querying session_value from database: ${JSON.stringify(err)}`,
+      status: 500,
+      message: "Error while querying session_value from database."
+    })
+  }
 };
 
 module.exports = authController;
