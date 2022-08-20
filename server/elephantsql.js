@@ -1,9 +1,7 @@
 const { Sequelize } = require("sequelize");
 
 //Passing a connection URI
-const client = new Sequelize(
-  "postgres://rqbingxx:76BNWZGhlG4TBY8mgdFyHRtJ0hNEdhQU@suleiman.db.elephantsql.com/rqbingxx"
-);
+const client = new Sequelize(process.env.URI);
 
 try {
   client.authenticate();
