@@ -16,7 +16,7 @@ router.post(
 
 router.post(
   "/login",
-  userController.verifyUser,
+  authController.verifyUser,
   authController.verifyPassword,
   authController.createSession, 
   (req, res) => {
