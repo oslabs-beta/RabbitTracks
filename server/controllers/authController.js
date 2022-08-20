@@ -34,6 +34,42 @@ authController.encryptPassword = async (req, res, next) => {
   }
 };
 
+authController.verifyPassword = async (req, res, next) => {
+  console.log("Verifying password...");
+
+  const { password } = req.body;
+  const encryptedPassword = res.locals.encryptedPassword;
+
+  if (password && encryptedPassword) {
+    try {
+      const passwordVerified = await bcrypt.compare(password, encryptedPassword);
+
+      if (passwordVerified) {
+        console.log("Password verified... Successful login.");
+        return next();
+      } else {
+        return next({
+          log: "Error in authController.verifyPassword... Password not verified.",
+          status: 400,
+          message: "Password not verified."
+        })
+      }
+    } catch (err) {
+      return next({
+        log: `Error in authController.verifyPassword... Error while verifying password: ${JSON.stringify(err)}`,
+        status: 500,
+        message: "Error while verifying password."
+      })
+    }
+  } else {
+    return next({
+      log: "Error in authController.verifyPassword... Missing password and/or encrypted password.",
+      status: 400,
+      message: "Missing password and/or encrypted password."
+    })
+  }
+};
+
 authController.createSession = async (req, res, next) => {
   console.log("Creating session_id...");
 
@@ -45,7 +81,7 @@ authController.createSession = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    const params = [token, user_id];
+    const params = [ token, user_id ];
 
     if (token && user_id) {
       // await db.query(queryString, params);
@@ -53,16 +89,17 @@ authController.createSession = async (req, res, next) => {
       console.log("Successfully created session_id.");
       return next();
     } else {
-      console.log(
-        "Missing token or user_id in authController.createSession..."
-      );
-      throw "Missing token or user_id in authController.createSession...";
+      return next({
+        log:
+          "Error in authController.createSession... Missing token or user_id.",
+        status: 500,
+        message: "Missing token or user_id.",
+      });
     }
   } catch (err) {
     return next({
       log:
-        "Error in authController.createSession... Error when attempting to create session_id after signup: " +
-        JSON.stringify(err),
+        `Error in authController.createSession... Error when attempting to create session_id after signup: ${JSON.stringify(err)}`,
       status: 500,
       message: "Unable to create session_id after signup.",
     });
@@ -71,8 +108,11 @@ authController.createSession = async (req, res, next) => {
 
 authController.verifySession = async (req, res, next) => {
   console.log("Verifying session_id...");
+  // grab session_id and user_id from req.cookie
+  const token = req.cookie.session_id;
+  const user_id = req.cookie.user_id;
+  // check if it matches from user table
 
-  const session_id = req.cookies.session_id;
 };
 
 module.exports = authController;
