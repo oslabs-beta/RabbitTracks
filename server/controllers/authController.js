@@ -180,23 +180,24 @@ authController.createSession = async (req, res, next) => {
 
 // incomplete
 authController.verifySession = async (req, res, next) => {
-  console.log("Verifying session_id...");
+  console.log("Verifying session...");
   const session_id = req.cookies.session_id;
-  // const user_id = req.cookies.user_id;
+  let user_id;
 
-  if (token) {
+  if (session_id) {
+    console.log("Verifying session_id is valid...")
     try {
       const verifiedToken = await jwt.verify(session_id, process.env.JWT_SECRET);
 
       if (verifiedToken) {
-        console.log("Verified session_id.");
-        const token_user_id = verifiedToken.user_id;
+        console.log("Verified session_id is valid.");
+        user_id = verifiedToken.user_id;
       } else {
         res.clearCookie('session_id');
         return next({
-          log: "Error in authController.verifySession... Unable to verify session_id. Removed session_id.",
+          log: "Error in authController.verifySession... Invalid session_id. Removed session_id.",
           status: 400,
-          message: "Unable to verify session_id. Removed session_id."
+          message: "Invalid session_id. Removed session_id."
         })
       }
     } catch (err) {
@@ -214,10 +215,10 @@ authController.verifySession = async (req, res, next) => {
     })
   }
 
-  console.log("Verifying session_id belongs to correct user_id...");
+  console.log("Verifying session_id matches...");
 
   const queryString = "SELECT session_value FROM users WHERE user_id=$1";
-  const params = [ token_user_id ];
+  const params = [ user_id ];
 
   try {
     // const results = await db.query(queryString, params);
@@ -227,9 +228,9 @@ authController.verifySession = async (req, res, next) => {
     } else {
       res.clearCookie('session_id');
       return next({
-        log: "Error in authController.verifyUser... session_ids do not match. Removed session_id.",
+        log: "Error in authController.verifyUser... Unable to match session_ids. Removed session_id.",
         status: 400,
-        message: "session_ids do not match. Removed session_id."
+        message: "Unable to match session_ids. Removed session_id."
       })
     }
   } catch (err) {
