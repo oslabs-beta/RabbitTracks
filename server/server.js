@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
 const PORT = process.env.PORT;
@@ -23,19 +22,8 @@ app.get("/", (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, index.html));
 });
 
-//Passing a connection URI
-const sequelize = new Sequelize(
-  "postgres://rqbingxx:76BNWZGhlG4TBY8mgdFyHRtJ0hNEdhQU@suleiman.db.elephantsql.com/rqbingxx"
-);
-
-try {
-  sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
-}
-
 // Routes
+
 
 // 404 Catch-All
 app.use("*", (req, res) => res.status(404).send("Not Found"));
