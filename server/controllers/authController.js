@@ -1,5 +1,6 @@
 require("dotenv").config();
-// require db model
+const Sequelize = require("sequelize");
+const { sequelize, User } = require("../models/elephantsql");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
@@ -39,12 +40,17 @@ authController.signup = async (req, res, next) => {
 
   const { email } = req.body;
   const params = [ email, res.locals.encryptedPassword ];
-  const queryString =
-    "INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id";
+  // const queryString =
+  //   `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
+
+  console.log(email, res.locals.encryptedPassword);
 
   if (email) {
     try {
-      // const values = await db.query(queryString, params);
+      const values = await sequelize.query(`INSERT INTO users (user_email, user_password) VALUES ('test5@test.com', 'test_password');`);
+      console.log('values... ', values);
+      // const user = await Sequelize.create({ user_email: email, user_password: res.locals.encryptedPassword });
+      // console.log('User... ', user)
       // res.locals.user_id = values.rows[0].user_id;
       // res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
@@ -73,10 +79,10 @@ authController.verifyUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   if (email && password) {
-    const queryString = "SELECT user_id, password FROM users WHERE email=$1";
+    const queryString = "SELECT user_id, user_password FROM users WHERE user_email=$1";
     const params = [ email ];
     try {
-      // const results = await db.query(queryString, params);
+      const results = await db.query(queryString, params);
       if (results.rowCount > 0) {
         res.locals.encryptedPassword = results.rows[0].user_password;
         res.locals.user_id = results.rows[0].user_id;
@@ -146,17 +152,17 @@ authController.createSession = async (req, res, next) => {
   console.log("Creating session_id...");
 
   const user_id = res.locals.user_id;
-  const queryString = "UPDATE users SET session_value=$1 WHERE user_id=$2";
+  const queryString = "UPDATE users SET session_key=$1 WHERE user_id=$2";
 
   try {
-    const token = await jwt.sign({ user_id: user_id }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ user_id: user_id }, secret, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
     const params = [ token, user_id ];
 
     if (token && user_id) {
-      // await db.query(queryString, params);
+      await db.query(queryString, params);
       res.cookie("session_id", token, { httpOnly: true });
       console.log("Successfully created session_id.");
       return next();
@@ -178,7 +184,6 @@ authController.createSession = async (req, res, next) => {
   }
 };
 
-// incomplete
 authController.verifySession = async (req, res, next) => {
   console.log("Verifying session...");
   const session_id = req.cookies.session_id;
@@ -217,7 +222,7 @@ authController.verifySession = async (req, res, next) => {
 
   console.log("Verifying session_id matches...");
 
-  const queryString = "SELECT session_value FROM users WHERE user_id=$1";
+  const queryString = "SELECT session_key FROM users WHERE user_id=$1";
   const params = [ user_id ];
 
   try {
@@ -235,9 +240,9 @@ authController.verifySession = async (req, res, next) => {
     }
   } catch (err) {
     return next({
-      log: `Error in authController.verifySession... Error while querying session_value from database: ${JSON.stringify(err)}`,
+      log: `Error in authController.verifySession... Error while querying session_key from database: ${JSON.stringify(err)}`,
       status: 500,
-      message: "Error while querying session_value from database."
+      message: "Error while querying session_key from database."
     })
   }
 };

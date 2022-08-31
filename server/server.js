@@ -11,7 +11,7 @@ const authRouter = require('./routes/authRoutes');
 
 const app = express();
 const DIST_DIR = path.join(__dirname, "../build/");
-const HTML_FILE = path.join(DIST_DIR, "index.html");
+// const HTML_FILE = path.join(DIST_DIR, "index.html");
 
 
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use(express.static("../src/assets"));
 
 // Serve index.html
 app.get("/", (req, res) => {
-  res.status(200).sendFile(path.resolve(__dirname, index.html));
+  res.status(200).sendFile(path.resolve(__dirname, "index.html"));
 });
 
 // Routes

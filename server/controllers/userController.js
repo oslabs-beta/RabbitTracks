@@ -1,5 +1,5 @@
 require("dotenv").config();
-// require db model
+const db = require("../models/elephantsql");
 
 const userController = {};
 
