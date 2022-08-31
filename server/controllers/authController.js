@@ -1,6 +1,6 @@
 require("dotenv").config();
-const Sequelize = require("sequelize");
-const { sequelize, User } = require("../models/elephantsql");
+const { QueryTypes } = require("sequelize");
+const db = require("../models/elephantsql");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
@@ -38,6 +38,9 @@ authController.encryptPassword = async (req, res, next) => {
 authController.signup = async (req, res, next) => {
   console.log("Signup in progress...");
 
+  // https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
+
+
   const { email } = req.body;
   const params = [ email, res.locals.encryptedPassword ];
   // const queryString =
@@ -47,8 +50,8 @@ authController.signup = async (req, res, next) => {
 
   if (email) {
     try {
-      const values = await sequelize.query(`INSERT INTO users (user_email, user_password) VALUES ('test5@test.com', 'test_password');`);
-      console.log('values... ', values);
+      const [ results, metadata ] = await db.query(`INSERT INTO users (user_email, user_password) VALUES ('test5@test.com', 'test_password');`);
+      console.log('results... ', results);
       // const user = await Sequelize.create({ user_email: email, user_password: res.locals.encryptedPassword });
       // console.log('User... ', user)
       // res.locals.user_id = values.rows[0].user_id;

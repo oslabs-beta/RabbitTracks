@@ -6,7 +6,8 @@ require("dotenv").config();
 
 const PORT = process.env.PORT;
 
-const authRouter = require('./routes/authRoutes');
+const authRouter = require('./routes/authRouter');
+const messageRouter = require('./routes/messageRouter');
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use('/auth', authRouter);
+app.use('/messages', messageRouter);
 
 // 404 Catch-All
 app.use("*", (req, res) => res.status(404).send("Not Found"));
