@@ -1,0 +1,1 @@
+// we grab messages and display.... can organize based on rows.... props it up to container
