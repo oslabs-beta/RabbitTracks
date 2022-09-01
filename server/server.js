@@ -17,13 +17,14 @@ app.use(cookieParser());
 app.use(express.static(DIST_DIR));
 app.use(express.static("../src/assets"));
 
+app.use("/message", require("./routes/messageRouter.js"));
+
 // Serve index.html
 app.get("/", (req, res) => {
   res.status(200).sendFile(path.resolve(__dirname, index.html));
 });
 
 // Routes
-
 
 // 404 Catch-All
 app.use("*", (req, res) => res.status(404).send("Not Found"));
