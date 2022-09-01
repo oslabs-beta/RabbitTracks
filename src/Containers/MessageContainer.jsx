@@ -6,23 +6,24 @@ import DeadLetterMessage from "../Components/DeadLetterMessage";
 const MessageContainer = () => {
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
 
-  const getData = async () => {
-    console.log("Getting all messages...");
-    try {
-      const { data } = await axios.get("/messages/get-all-messages");
-      setDeadLetterMessages(data);
-      console.log("Successfully got all messages.");
-    } catch (err) {
-      console.log(
-        "Error while attempting to get all messages in MessageContainer: ",
-        err
-      );
-    }
-  };
 
   // Need to handle how to 'live-update' messages on screen without infinite loop - Jerikko
-  // Look into subscriptions? useContext?
+  // Look into subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
   useEffect(() => {
+    const getData = async () => {
+      console.log("Getting all messages...");
+      try {
+        const { data } = await axios.get("/messages/get-all-messages");
+        setDeadLetterMessages(data);
+        console.log("Successfully got all messages.");
+      } catch (err) {
+        console.log(
+          "Error while attempting to get all messages in MessageContainer: ",
+          err
+        );
+      }
+    };
+    
     getData();
   }, []);
 

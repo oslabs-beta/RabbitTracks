@@ -59,7 +59,7 @@ messageController.addMessage = async (req, res, next) => {
     projectId,
   } = req.body;
 
-  // THIS CAUSES SQL ERROR 22P02 - Jerikko
+  // THIS CAUSES SQL ERROR 22P02 - INVALID TEXT REPRESENTATION - Jerikko
   // const queryString = `INSERT INTO messages (consumerTag,
   //   deliveryTag,
   //   redelivered,
@@ -80,6 +80,7 @@ messageController.addMessage = async (req, res, next) => {
   //   clusterId,
   //   project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${contentType}', '${contentEncoding}', '${deliveryMode}', '${priority}', '${correlationId}', '${replyTo}', '${expiration}', '${messageId}', '${timestamp}', '${type}', '${userId}', '${appId}', '${clusterId}', '${projectId}') RETURNING *`;
 
+  
   // THIS WILL SUCCESSFULLY ADD MESSAGE INTO DATABASE - Jerikko
   const queryString = `INSERT INTO messages (consumerTag,
     deliveryTag,
