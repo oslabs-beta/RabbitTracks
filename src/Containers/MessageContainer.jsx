@@ -8,7 +8,8 @@ const MessageContainer = () => {
 
 
   // Need to handle how to 'live-update' messages on screen without infinite loop - Jerikko
-  // Look into subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
+  // Look into websockets? socket.io? subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
+  // https://stackoverflow.com/questions/53871327/update-react-data-when-mysql-data-changes
   useEffect(() => {
     const getData = async () => {
       console.log("Getting all messages...");
@@ -23,7 +24,7 @@ const MessageContainer = () => {
         );
       }
     };
-    
+
     getData();
   }, []);
 
