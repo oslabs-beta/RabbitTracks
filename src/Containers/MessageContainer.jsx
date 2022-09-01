@@ -11,7 +11,7 @@ const MessageContainer = () => {
     axios
       .get("/messages/get-all-messages")
       .then((res) => {
-        setDeadLetterMessages(res.data);
+        setDeadLetterMessages(res.data.messages);
         console.log(res.data);
       })
       .catch((err) => {

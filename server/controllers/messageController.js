@@ -1,31 +1,97 @@
-require("dotenv").config();
-const { QueryTypes } = require("sequelize");
 const db = require("../models/elephantsql");
 
 const messageController = {};
 
-messageController.getMessages = async (req, res, next) => {  
-  console.log('Getting all messages...');
-  
-  // Eventually incorporate project_id, user_id into query
+messageController.getAllMessages = async (req, res, next) => {
+  console.log("Getting all messages...");
 
-  // incorporate project_id=1 for dummy data
-  try {
-    const queryString = "SELECT * FROM messages WHERE project_id=1";
-  
-    const messages = await db.query(queryString, { type: QueryTypes.SELECT });  
-    res.locals.messages = messages;
-    console.log("Successfully got all messages.");
-  
-    return next();
-  } catch (err) {
+  // projectId will eventually come from somewhere... req.body?
+  const projectId = 1;
+
+  const queryString = `SELECT * FROM messages WHERE project_id = ${projectId}`;
+
+  if (projectId) {
+    await db
+      .query(queryString)
+      .then((data) => {
+        res.locals.messages = data[0];
+        console.log("Successfully got all messages.")
+        return next();
+      })
+      .catch((err) => {
+        return next({
+          log: `Error in messageController.getAllMessages... Query from database unsuccessful: ${JSON.stringify(err)}`,
+          status: 400,
+          message: "Query from database unsuccessful.",
+        });
+      });
+  } else {
     return next({
-      log:
-        `Error in messageController.getMessages... Error when attempting get all messages: ${JSON.stringify(err)}`,
+      log: "Error in messageController.getAllMessages... Did not receive projectId in request.",
       status: 500,
-      message: "Unable to get all messages.",
-    });
+      message: "Did not receive projectId in request."
+    })
   }
-}
+};
+
+messageController.addMessage = async (req, res, next) => {
+  console.log("Adding message to database...")
+
+  const {
+    consumerTag,
+    deliveryTag,
+    redelivered,
+    exchange,
+    routingKey,
+    contentType,
+    contentEncoding,
+    deliveryMode,
+    priority,
+    correlationId,
+    replyTo,
+    expiration,
+    messageId,
+    timestamp,
+    type,
+    userId,
+    appId,
+    clusterId,
+    projectId,
+  } = req.body;
+
+  const queryString = `INSERT INTO messages (consumerTag,
+    deliveryTag,
+    redelivered,
+    exchange,
+    routingKey,
+    contentType,
+    contentEncoding,
+    deliveryMode,
+    priority,
+    correlationId,
+    replyTo,
+    expiration,
+    messageId,
+    timestamp,
+    type,
+    userId,
+    appId,
+    clusterId,
+    project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${contentType}', '${contentEncoding}', '${deliveryMode}', '${priority}', '${correlationId}', '${replyTo}', '${expiration}', '${messageId}', '${timestamp}', '${type}', '${userId}', '${appId}', '${clusterId}', '${projectId}') RETURNING *`;
+
+  await db.query(queryString)
+    .then((data) => {
+      res.locals.message = data[0][0];
+      console.log("Successfully added message.");
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in messageController.addMessage... Unable to add message to database: ${JSON.stringify(err)}`,
+        status: 400,
+        message: "Unable to add message to database.",
+      });
+    });
+};
 
 module.exports = messageController;

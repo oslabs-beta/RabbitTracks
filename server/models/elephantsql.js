@@ -1,7 +1,6 @@
 const { Sequelize } = require("sequelize");
 
-//Passing a connection URI
-const client = new Sequelize(process.env.URI);
+const client = new Sequelize(process.env.SQL_URI);
 
 try {
   console.log("Connecting to database...")
