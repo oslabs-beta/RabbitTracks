@@ -22,53 +22,34 @@ const getMessages = (req, res, next) => {
 };
 
 const addMessage = (req, res, next) => {
-  //post to messages to table
-  const {
-    consumerTag,
-    deliveryTag,
-    redelivered,
-    exchange,
-    routingKey,
-    contentType,
-    contentEncoding,
-    deliveryMode,
-    priority,
-    correlationId,
-    replyTo,
-    expiration,
-    messageId,
-    timestamp,
-    type,
-    userId,
-    appId,
-    clusterId,
-    projectId,
-  } = req.body;
-
-  const text =
-    `INSERT INTO messages (consumerTag,
-    deliveryTag,
-    redelivered,
-    exchange,
-    routingKey,
-    contentType,
-    contentEncoding,
-    deliveryMode,
-    priority,
-    correlationId,
-    replyTo,
-    expiration,
-    messageId,
-    timestamp,
-    type,
-    userId,
-    appId,
-    clusterId,
-    project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${contentType}', '${contentEncoding}', '${deliveryMode}', '${priority}', '${correlationId}', '${replyTo}', '${expiration}', '${messageId}', '${timestamp}', '${type}', '${userId}', '${appId}', '${clusterId}', '${projectId}') RETURNING *`;
-
+  
+  // create SQL query text and omit undefined values
+  let columnText = '';
+  let valuesText = '';
+  let headers;
+  const columns = Object.keys(req.body)
+  for (let i = 0; i < columns.length; i++) {
+    // set aside headers for now, we'll need to come back and add info from headers into deaths table
+    if (columns[i] === 'headers') {
+      headers = req.body[columns[i]];
+    }
+    // for any properties that aren't undefined, add them to the query text
+    else if (columns[i] !== undefined) {
+      if (columnText.length > 0) {
+        columnText += ', ';
+        valuesText += ', ';
+      }
+      columnText += columns[i] === 'projectId' ? `project_id` : `${columns[i]}`;
+      valuesText += `'${req.body[columns[i]]}'`;
+    }
+  }
+  
+  const text = `INSERT INTO messages (${columnText}) VALUES (${valuesText}) RETURNING *`;
+  
+  // insert message into database
   db.query(text)
-    .then((data) => {
-      console.log("this is data", data);
+  .then((data) => {
+    console.log("this is data", data);
       res.locals.message = data[0][0];
       console.log("add message working");
       return next();
