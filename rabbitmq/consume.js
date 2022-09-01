@@ -4,6 +4,7 @@
 
 // and export to DeadLetterMessage JSX component
 
+const axios = require("axios");
 var amqp = require("amqplib/callback_api");
 
 amqp.connect(
@@ -31,43 +32,36 @@ amqp.connect(
 
       console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", DLQ);
 
-      channel.consume(
-        "DLQ2",
-        function (msg) {
-          console.log(" 2nd [x] Received %s", msg.content.toString());
-          console.log("msg --> ", msg);
-          //   console.log(msg.properties.headers["x-death"]);
-          const { fields, properties } = msg;
-          const {
-            consumerTag,
-            deliveryTag,
-            redelivered,
-            exchange,
-            routingKey,
-          } = fields;
-          const {
-            contentType,
-            contentEncoding,
-            headers,
-            deliveryMode,
-            priority,
-            correlationId,
-            replyTo,
-            expiration,
-            messageId,
-            timestamp,
-            type,
-            userId,
-            appId,
-            clusterId,
-          } = properties;
+      channel.consume(DLQ, function (msg) {
+        console.log(" 2nd [x] Received %s", msg.content.toString());
 
-          fetch("/addmessage", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+        // this field will need to be grabbed from the project later instead of hardcoding
+        const projectId = 1;
+
+        const { fields, properties } = msg;
+        const { consumerTag, deliveryTag, redelivered, exchange, routingKey } =
+          fields;
+        const {
+          contentType,
+          contentEncoding,
+          headers,
+          deliveryMode,
+          priority,
+          correlationId,
+          replyTo,
+          expiration,
+          messageId,
+          timestamp,
+          type,
+          userId,
+          appId,
+          clusterId,
+        } = properties;
+
+        axios
+          .post(
+            "http://localhost:3000/message",
+            {
               consumerTag,
               deliveryTag,
               redelivered,
@@ -86,14 +80,25 @@ amqp.connect(
               userId,
               appId,
               clusterId,
-              headers
-            }),
-          });
-        },
-        {
-          noAck: true,
-        }
-      );
+              headers,
+              projectId,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((data) => {
+            console.log("post request complete");
+          })
+          .catch((err) => {
+            console.log("error: ", err.response.data);
+          }),
+          {
+            noAck: false,
+          };
+      });
     });
   }
 );
