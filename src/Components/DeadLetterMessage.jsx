@@ -21,9 +21,9 @@ const DeadLetterMessage = (props) => {
 
   return (
     <div className="dead-letter-message">
-      <hr></hr>
-      Message ID: {message_id}? Or {messageid}?<br></br>
-      Project ID: {project_id}
+      Message ID: {message_id}? Or {messageid}?
+      <br></br>
+      Project ID: {project_id ? project_id : null}
       <br></br>
       Created At: {created_at}
       <br></br>
@@ -35,7 +35,7 @@ const DeadLetterMessage = (props) => {
       <br></br>
       Exchange: {exchange}
       <br></br>
-      Routing Key: {routingKey}
+      Routing Key: {routingKey ? routingKey : 'NULL'}
       <br></br>
       Content Type: {contenttype}
       <br></br>

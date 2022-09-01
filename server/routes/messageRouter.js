@@ -18,7 +18,7 @@ router.post(
   // authController.verifySession,
   messageController.addMessage,
   (req, res) => {
-    return res.status(200);
+    return res.status(200).json(res.locals.message);
   }
 );
 

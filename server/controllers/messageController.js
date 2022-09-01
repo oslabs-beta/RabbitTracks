@@ -21,7 +21,7 @@ messageController.getAllMessages = async (req, res, next) => {
       .catch((err) => {
         return next({
           log: `Error in messageController.getAllMessages... Query from database unsuccessful: ${JSON.stringify(err)}`,
-          status: 400,
+          status: 500,
           message: "Query from database unsuccessful.",
         });
       });
@@ -59,36 +59,46 @@ messageController.addMessage = async (req, res, next) => {
     projectId,
   } = req.body;
 
+  // THIS CAUSES SQL ERROR 22P02 - Jerikko
+  // const queryString = `INSERT INTO messages (consumerTag,
+  //   deliveryTag,
+  //   redelivered,
+  //   exchange,
+  //   routingKey,
+  //   contentType,
+  //   contentEncoding,
+  //   deliveryMode,
+  //   priority,
+  //   correlationId,
+  //   replyTo,
+  //   expiration,
+  //   messageId,
+  //   timestamp,
+  //   type,
+  //   userId,
+  //   appId,
+  //   clusterId,
+  //   project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${contentType}', '${contentEncoding}', '${deliveryMode}', '${priority}', '${correlationId}', '${replyTo}', '${expiration}', '${messageId}', '${timestamp}', '${type}', '${userId}', '${appId}', '${clusterId}', '${projectId}') RETURNING *`;
+
+  // THIS WILL SUCCESSFULLY ADD MESSAGE INTO DATABASE - Jerikko
   const queryString = `INSERT INTO messages (consumerTag,
     deliveryTag,
     redelivered,
     exchange,
     routingKey,
-    contentType,
-    contentEncoding,
-    deliveryMode,
-    priority,
-    correlationId,
-    replyTo,
-    expiration,
-    messageId,
-    timestamp,
-    type,
-    userId,
-    appId,
-    clusterId,
-    project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${contentType}', '${contentEncoding}', '${deliveryMode}', '${priority}', '${correlationId}', '${replyTo}', '${expiration}', '${messageId}', '${timestamp}', '${type}', '${userId}', '${appId}', '${clusterId}', '${projectId}') RETURNING *`;
+    project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${projectId}') RETURNING *`;
 
+  
   await db.query(queryString)
     .then((data) => {
       res.locals.message = data[0][0];
-      console.log("Successfully added message.");
+      console.log("Successfully added message to database.");
       return next();
     })
     .catch((err) => {
       return next({
         log: `Error in messageController.addMessage... Unable to add message to database: ${JSON.stringify(err)}`,
-        status: 400,
+        status: 500,
         message: "Unable to add message to database.",
       });
     });
