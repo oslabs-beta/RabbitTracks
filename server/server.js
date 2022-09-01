@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.static(DIST_DIR));
 app.use(express.static("../src/assets"));
 
-app.use("/addmessage", require("./routes/messageRouter.js"));
+app.use("/message", require("./routes/messageRouter.js"));
 
 // Serve index.html
 app.get("/", (req, res) => {
