@@ -7,17 +7,15 @@ const messageController = {};
 messageController.getMessages = async (req, res, next) => {  
   console.log('Getting all messages...');
   
-  // will eventually incorporate project id, user id into query
+  // Eventually incorporate project_id, user_id into query
 
-  // incorporate project id 1 for dummy data
+  // incorporate project_id=1 for dummy data
   try {
-    const queryString = "SELECT * FROM messages";
+    const queryString = "SELECT * FROM messages WHERE project_id=1";
   
-    const messages = await db.query(queryString, { type: QueryTypes.SELECT });
-    console.log('Messages from messageController... ', messages);
-  
+    const messages = await db.query(queryString, { type: QueryTypes.SELECT });  
     res.locals.messages = messages;
-    console.log("Successuly got all messages.");
+    console.log("Successfully got all messages.");
   
     return next();
   } catch (err) {

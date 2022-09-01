@@ -1,24 +1,36 @@
-// import ENTIRE consume.js and then take the message variable (which is an array) 
-//use state/use effect
-// here will take messages from message component(s) and props it up to App.jsx
-
 import axios from "axios";
+import * as React from "react";
 import { useEffect, useState } from "react";
+import DeadLetterMessage from "../Components/DeadLetterMessage";
 
-export const MessageContainer = () => {
-    const [deadLetterMessages, setDeadLetterMessages] = useState([])
+const MessageContainer = () => {
+  const [deadLetterMessages, setDeadLetterMessages] = useState([]);
 
-    axios.post("Placeholder for url")
-    .then(res => {
-        //what data type is res and how to access the message?
-        setDeadLetterMessages(res)
-        // console.log(res)
-    })
-    .catch((err) => {
+  useEffect(() => {
+    console.log("Getting all messages...");
+    axios
+      .get("/messages/get-all-messages")
+      .then((res) => {
+        setDeadLetterMessages(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
         console.log(`Error occured in DeadLetterMessage component: ${err}`);
-    })
-}
+      });
+  }, []);
 
+  //To make each message clickable:
+  // const handleOnClick = () => {
 
+  // }
 
+  const messages = deadLetterMessages.map((el) => {
+    return (
+      <DeadLetterMessage key={el.message_id} message={el}></DeadLetterMessage>
+    );
+  });
 
+  return <div className="message-container">{messages}</div>;
+};
+
+export default MessageContainer;
