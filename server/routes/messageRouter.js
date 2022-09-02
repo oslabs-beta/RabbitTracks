@@ -1,14 +1,25 @@
 const express = require("express");
-const db = require("../models/elephantsql");
 const router = express.Router();
-const { addMessage, getMessages } = require("../controllers/messageController");
 
-router.get("/get", getMessages, (req, res) => {
-  return res.status(200).json({ messages: res.locals.messages });
-});
+// const authController = require("../controllers/authController");
+const messageController = require("../controllers/messageController");
 
-router.post("/", addMessage, (req, res) => {
-  return res.status(200).json({ message_id: "hello" });
-});
+router.get(
+  "/get-all-messages",
+  // authController.verifySession,
+  messageController.getAllMessages,
+  (req, res) => {
+    return res.status(200).json(res.locals.messages);
+  }
+);
+
+router.post(
+  "/add-message",
+  // authController.verifySession,
+  messageController.addMessage,
+  (req, res) => {
+    return res.status(200).json(res.locals.message);
+  }
+);
 
 module.exports = router;

@@ -1,16 +1,14 @@
 import React from "react";
 // import { render } from 'react-dom';
-import { Route, Routes, Outlet } from "react-router-dom";
+import { Route, Routes, Outlet, BrowserRouter } from "react-router-dom";
+import MessageContainer from "./Containers/MessageContainer";
 
 const App = () => {
-
-  //button to run it
-
-  //render list from XXX component
-
-
-
-  return <div>This is our div</div>;
+  return (
+    <Routes>
+      <Route exact path="/" element={<MessageContainer />} />
+    </Routes>
+  );
 };
 
 export default App;

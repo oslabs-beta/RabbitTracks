@@ -3,102 +3,98 @@
 // send this to Database
 
 // and export to DeadLetterMessage JSX component
-
+require("dotenv").config();
 const axios = require("axios");
 var amqp = require("amqplib/callback_api");
 
-amqp.connect(
-  "amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw",
-  function (error0, connection) {
-    if (error0) {
-      throw error0;
-    }
-    connection.createChannel(function (error1, channel) {
-      if (error1) {
-        throw error1;
-      }
-
-      // theoretically grabbing DLX from user, but hardcoding for now
-      const DLX = "DLX2";
-
-      const DLQ = "project_queue";
-
-      // ASSERTING 2nd DEAD LETTER EXCHANGE AND QUEUE
-
-      // theoretically grabbing DLX from user, but hardcoding for now
-      channel.assertExchange(DLX, "fanout");
-      channel.assertQueue(DLQ, { durable: true });
-      channel.bindQueue(DLQ, DLX);
-
-      console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", DLQ);
-
-      channel.consume(DLQ, function (msg) {
-        console.log(" 2nd [x] Received %s", msg.content.toString());
-
-        // this field will need to be grabbed from the project later instead of hardcoding
-        const projectId = 1;
-
-        const { fields, properties } = msg;
-        const { consumerTag, deliveryTag, redelivered, exchange, routingKey } =
-          fields;
-        const {
-          contentType,
-          contentEncoding,
-          headers,
-          deliveryMode,
-          priority,
-          correlationId,
-          replyTo,
-          expiration,
-          messageId,
-          timestamp,
-          type,
-          userId,
-          appId,
-          clusterId,
-        } = properties;
-
-        axios
-          .post(
-            "http://localhost:3000/message",
-            {
-              consumerTag,
-              deliveryTag,
-              redelivered,
-              exchange,
-              routingKey,
-              contentType,
-              contentEncoding,
-              deliveryMode,
-              priority,
-              correlationId,
-              replyTo,
-              expiration,
-              messageId,
-              timestamp,
-              type,
-              userId,
-              appId,
-              clusterId,
-              headers,
-              projectId,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((data) => {
-            console.log("post request complete");
-          })
-          .catch((err) => {
-            console.log("error: ", err.response.data);
-          }),
-          {
-            noAck: false,
-          };
-      });
-    });
+amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw', function (error0, connection) {
+  if (error0) {
+    throw error0;
   }
-);
+  connection.createChannel(function (error1, channel) {
+    if (error1) {
+      throw error1;
+    }
+
+    // Theoretically grabbing OSP-DLExchange **FROM user**, but hardcoding for now
+    const DLExchange = "OSP-DLExchange";
+    const DLQueue = "OSP-DLQueue";
+
+    channel.assertExchange(DLExchange, "fanout");
+    channel.assertQueue(DLQueue, { durable: true });
+    channel.bindQueue(DLQueue, DLExchange);
+
+    console.log(
+      " [*] Waiting for messages in %s. To exit press CTRL+C",
+      DLQueue
+    );
+
+    channel.consume(DLQueue, async function (msg) {
+      // This field will need to be grabbed from the project later instead of hardcoding
+      const projectId = 1;
+
+      const { content, fields, properties } = msg;
+      const { consumerTag, deliveryTag, redelivered, exchange, routingKey } =
+        fields;
+      const {
+        contentType,
+        contentEncoding,
+        headers,
+        deliveryMode,
+        priority,
+        correlationId,
+        replyTo,
+        expiration,
+        messageId,
+        timestamp,
+        type,
+        userId,
+        appId,
+        clusterId,
+      } = properties;
+
+      console.log(" [x] Received %s", content.toString());
+      console.log("Adding message...");
+
+      await axios
+        .post(
+          "http://localhost:8080/messages/add-message",
+          {
+            consumerTag,
+            deliveryTag,
+            redelivered,
+            exchange,
+            routingKey,
+            contentType,
+            contentEncoding,
+            deliveryMode,
+            priority,
+            correlationId,
+            replyTo,
+            expiration,
+            messageId,
+            timestamp,
+            type,
+            userId,
+            appId,
+            clusterId,
+            headers,
+            projectId,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((data) => {
+          // For some reason, channel.ack(msg) will acknowledge the message, but {noAck: false} doesn't work... Removed {noAck: false} - Jerikko
+          channel.ack(msg);
+          console.log("Successfully added message.");
+        })
+        .catch((err) => {
+          console.log("Axios error when attempting to add message... ", err);
+        });
+    });
+  });
+});
