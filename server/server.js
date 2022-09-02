@@ -3,17 +3,14 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
-
 const PORT = process.env.PORT;
 
-const authRouter = require('./routes/authRouter');
-const messageRouter = require('./routes/messageRouter');
-
+const authRouter = require("./routes/authRouter");
+const messageRouter = require("./routes/messageRouter");
 
 const app = express();
 const DIST_DIR = path.join(__dirname, "../build/");
-// const HTML_FILE = path.join(DIST_DIR, "index.html");
-
+const HTML_FILE = path.join(DIST_DIR, "index.html");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,17 +18,22 @@ app.use(cookieParser());
 
 // Serve static files:
 app.use(express.static(DIST_DIR));
-app.use(express.static("../src/assets"));
-
+app.use(express.static("../src"));
 
 // Serve index.html
-app.get("/", (req, res) => {
-  res.status(200).sendFile(path.resolve(__dirname, "index.html"));
-});
+// app.get("/", (req, res) => {
+//   res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
+// });
 
 // Routes
-app.use('/auth', authRouter);
-app.use('/messages', messageRouter);
+app.use("/auth", authRouter);
+app.use("/messages", messageRouter);
+
+// Serve index.html AND
+// To help React Router for manually typing in URL instead of through clicking Links
+app.get("/*", (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
+});
 
 // 404 Catch-All
 app.use("*", (req, res) => res.status(404).send("Not Found"));
