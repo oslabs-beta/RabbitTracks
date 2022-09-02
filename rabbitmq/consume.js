@@ -7,7 +7,7 @@ require("dotenv").config();
 const axios = require("axios");
 var amqp = require("amqplib/callback_api");
 
-amqp.connect(process.env.RABBIT_URI, function (error0, connection) {
+amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw', function (error0, connection) {
   if (error0) {
     throw error0;
   }
