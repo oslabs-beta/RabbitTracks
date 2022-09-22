@@ -1,7 +1,10 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import DeadLetterMessage from "../Components/DeadLetterMessage";
+// import DeadLetterMessage from "../Components/DeadLetterMessage";
+import DataTable from "../Components/DeadLetterMessage";
+// import e from "express";
+
 
 const MessageContainer = () => {
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
@@ -33,11 +36,12 @@ const MessageContainer = () => {
 
   // }
 
-  const messages = deadLetterMessages.map((el) => {
+  // const messages = deadLetterMessages.map((el) => {
     return (
-      <DeadLetterMessage key={el.message_id} message={el}></DeadLetterMessage>
+      // <DeadLetterMessage key={el.message_id} message={el}></DeadLetterMessage>
+      <DataTable messages={deadLetterMessages}/>
     );
-  });
+  // });
 
   return <div className="message-container">{messages}</div>;
 };

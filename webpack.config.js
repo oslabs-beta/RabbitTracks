@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 require("dotenv").config();
 
 module.exports = {
@@ -11,11 +12,15 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "build"),
   },
+  externals: {
+    express: 'express',
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "OSP",
       template: "index.html",
     }),
+    new NodePolyfillPlugin(),
   ],
   devServer: {
     static: {
@@ -29,6 +34,11 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".jsx", ".ts", ".js"],
+    fallback: {
+      fs: false,
+      net: false,
+      async_hooks: false,
+    },
   },
   module: {
     rules: [
@@ -48,6 +58,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
+        exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
