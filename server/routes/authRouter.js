@@ -10,7 +10,7 @@ router.post(
   authController.signup,
   authController.createSession,
   (req, res) => {
-    return res.status(200);
+    return res.status(200).send('Signup process successfully completed.');
   }
 );
 
@@ -20,7 +20,7 @@ router.post(
   authController.verifyPassword,
   authController.createSession, 
   (req, res) => {
-    return res.status(200);
+    return res.status(200).send('Login process successfully completed.');
   }
 );
 

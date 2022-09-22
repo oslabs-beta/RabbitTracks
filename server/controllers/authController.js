@@ -43,19 +43,18 @@ authController.signup = async (req, res, next) => {
 
   const { email } = req.body;
   const params = [ email, res.locals.encryptedPassword ];
-  // const queryString =
-  //   `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
-
-  console.log(email, res.locals.encryptedPassword);
+  const queryString = `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
 
   if (email) {
     try {
-      const [ results, metadata ] = await db.query(`INSERT INTO users (user_email, user_password) VALUES ('test5@test.com', 'test_password');`);
-      console.log('results... ', results);
-      // const user = await Sequelize.create({ user_email: email, user_password: res.locals.encryptedPassword });
-      // console.log('User... ', user)
-      // res.locals.user_id = values.rows[0].user_id;
-      // res.cookie("user_id", res.locals.user_id, { httpOnly: true });
+      const [ results, metadata ] = await db.query(queryString,
+        {
+          bind: [...params],
+          type: QueryTypes.INSERT
+        });
+
+      res.locals.user_id = results[0].user_id;
+      res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
       console.log("Signup completed.");
       return next();
@@ -156,6 +155,8 @@ authController.createSession = async (req, res, next) => {
 
   const user_id = res.locals.user_id;
   const queryString = "UPDATE users SET session_key=$1 WHERE user_id=$2";
+  // const queryString = `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
+
 
   try {
     const token = await jwt.sign({ user_id: user_id }, secret, {
@@ -165,7 +166,10 @@ authController.createSession = async (req, res, next) => {
     const params = [ token, user_id ];
 
     if (token && user_id) {
-      await db.query(queryString, params);
+      await db.query(queryString,{
+        bind: [...params],
+        type: QueryTypes.UPDATE
+      });
       res.cookie("session_id", token, { httpOnly: true });
       console.log("Successfully created session_id.");
       return next();
