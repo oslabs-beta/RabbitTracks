@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import styles from "./assets/stylesheets/global.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+if (!root) throw new Error('Failed to find the root element');
 
 root.render(
   <BrowserRouter>
