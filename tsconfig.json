@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    // "sourceMap": true,
+    "outDir": "./build/",
+    "target": "es6",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "jsx": "react",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+  },
+  "include": ["src/**/*", "server/**/*", "rabbitmq/consume.js"],
+  "exclude": ["index.html", "src/assets/*"]
+}

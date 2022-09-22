@@ -6,7 +6,7 @@ import MessageContainer from "./Containers/MessageContainer";
 const App = () => {
   return (
     <Routes>
-      <Route exact path="/" element={<MessageContainer />} />
+      <Route path="/" element={<MessageContainer />} />
     </Routes>
   );
 };
