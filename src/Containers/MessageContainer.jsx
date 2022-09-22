@@ -36,14 +36,9 @@ const MessageContainer = () => {
 
   // }
 
-  // const messages = deadLetterMessages.map((el) => {
     return (
-      // <DeadLetterMessage key={el.message_id} message={el}></DeadLetterMessage>
       <DataTable messages={deadLetterMessages}/>
     );
-  // });
-
-  return <div className="message-container">{messages}</div>;
 };
 
 export default MessageContainer;
