@@ -1,9 +1,8 @@
 import React from "react";
-// import { render } from 'react-dom';
 import { Route, Routes, Outlet, BrowserRouter } from "react-router-dom";
 import MessageContainer from "./Containers/MessageContainer";
 
-const App = () => {
+const App = (): JSX.Element => {
   return (
     <Routes>
       <Route path="/" element={<MessageContainer />} />
