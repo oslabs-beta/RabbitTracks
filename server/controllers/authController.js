@@ -84,10 +84,14 @@ authController.verifyUser = async (req, res, next) => {
     const queryString = "SELECT user_id, user_password FROM users WHERE user_email=$1";
     const params = [ email ];
     try {
-      const results = await db.query(queryString, params);
-      if (results.rowCount > 0) {
-        res.locals.encryptedPassword = results.rows[0].user_password;
-        res.locals.user_id = results.rows[0].user_id;
+      const results = await db.query(queryString, {
+        bind: [...params],
+        type: QueryTypes.SELECT
+      });
+      console.log('Results in verifyUser: ', results)
+      if (results.length > 0) {
+        res.locals.encryptedPassword = results[0].user_password;
+        res.locals.user_id = results[0].user_id;
         res.cookie("user_id", res.locals.user_id, { httpOnly: true });
         console.log("Verified user exists in database.");
         return next();
@@ -155,8 +159,6 @@ authController.createSession = async (req, res, next) => {
 
   const user_id = res.locals.user_id;
   const queryString = "UPDATE users SET session_key=$1 WHERE user_id=$2";
-  // const queryString = `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
-
 
   try {
     const token = await jwt.sign({ user_id: user_id }, secret, {
@@ -166,7 +168,7 @@ authController.createSession = async (req, res, next) => {
     const params = [ token, user_id ];
 
     if (token && user_id) {
-      await db.query(queryString,{
+      await db.query(queryString, {
         bind: [...params],
         type: QueryTypes.UPDATE
       });
@@ -233,8 +235,11 @@ authController.verifySession = async (req, res, next) => {
   const params = [ user_id ];
 
   try {
-    // const results = await db.query(queryString, params);
-    if (results.rows[0].session_value === session_id) {
+    const results = await db.query(queryString, {
+      bind: [...params],
+      type: QueryTypes.SELECT
+    });
+    if (results[0].session_value === session_id) {
       console.log("Verified matching session_ids.");
       return next();
     } else {

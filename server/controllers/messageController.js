@@ -89,11 +89,12 @@ messageController.addMessage = async (req, res, next) => {
   //   exchange,
   //   routingKey,
   //   project_id) VALUES ('${consumerTag}', '${deliveryTag}', '${redelivered}', '${exchange}', '${routingKey}', '${projectId}') RETURNING *`;
-
+  console.log("req.body in messageController: ", req.body)
   let columnText = '';
   let valuesText = '';
   let headers;
   const columns = Object.keys(req.body)
+  console.log('Columns in req.body: ', columns)
   for (let i = 0; i < columns.length; i++) {
     // set aside headers for now, we'll need to come back and add info from headers into deaths table
     if (columns[i] === 'headers') {
