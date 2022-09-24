@@ -10,6 +10,6 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
   },
-  "include": ["src/**/*", "server/**/*", "rabbitmq/consume.js"],
+  "include": ["src/**/*", "server/**/*", "rabbitmq/consume.js", "src/Global.d.ts"],
   "exclude": ["index.html", "src/assets/*"]
 }
