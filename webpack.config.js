@@ -6,7 +6,7 @@ require("dotenv").config();
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    bundle: path.resolve(__dirname, "./src/index.js"),
+    bundle: path.resolve(__dirname, "./src/index.tsx"),
   },
   output: {
     filename: "bundle.js",
@@ -60,7 +60,8 @@ module.exports = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: ['ts-loader'],
-      },
+      }
+,
       {
         test: /\.s[ac]ss$/i,
         exclude: /node_modules/,
