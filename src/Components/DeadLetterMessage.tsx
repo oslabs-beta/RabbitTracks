@@ -7,21 +7,23 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 
-export default function DataTable(props) {
+import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand } from '../../types'
+
+export default function DataTable(props: DataTableProps) {
   const { messages } = props;
 
-  console.log(messages)
+  console.log('props from DeadLetterMessage --> ', props)
 
   // BEGIN code to add tooltip with full data on hover
 
-  function isOverflown(element) {
+  function isOverflown(element: any) {
     return (
       element.scrollHeight > element.clientHeight ||
       element.scrollWidth > element.clientWidth
     );
   }
 
-  const GridCellExpand = React.memo(function GridCellExpand(props) {
+  const GridCellExpand: React.FunctionComponent<GridCellExpand> = React.memo(function GridCellExpand(props: GridCellExpandProps) {
     const { width, value } = props;
     const wrapper = React.useRef(null);
     const cellDiv = React.useRef(null);
@@ -46,7 +48,7 @@ export default function DataTable(props) {
         return undefined;
       }
   
-      function handleKeyDown(nativeEvent) {
+      function handleKeyDown(nativeEvent: KeyboardEvent) {
         // IE11, Edge (prior to using Bink?) use 'Esc'
         if (nativeEvent.key === 'Escape' || nativeEvent.key === 'Esc') {
           setShowFullCell(false);
@@ -112,12 +114,15 @@ export default function DataTable(props) {
     );
   });
   
+  console.log('GridCellExpand --> ', GridCellExpand)
+
   GridCellExpand.propTypes = {
     value: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
   };
   
-  function renderCellExpand(params) {
+  function renderCellExpand(params: renderCellExpandParams) {
+    console.log('renderCellExpand params --> ', params)
     return (
       <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
     );
