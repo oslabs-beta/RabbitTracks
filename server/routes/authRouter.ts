@@ -1,5 +1,7 @@
-const express = require("express");
-const router = express.Router();
+// const express = require("express");
+// const router = express.Router();
+import express, { Request, Response } from "express"
+const router = express.Router()
 
 const authController = require("../controllers/authController");
 // const userController = require("../controllers/userController");
@@ -9,8 +11,8 @@ router.post(
   authController.encryptPassword,
   authController.signup,
   authController.createSession,
-  (req, res) => {
-    return res.status(200).send('Signup process successfully completed.');
+  (req: Request, res: Response) => {
+    return res.status(200);
   }
 );
 
@@ -19,8 +21,8 @@ router.post(
   authController.verifyUser,
   authController.verifyPassword,
   authController.createSession, 
-  (req, res) => {
-    return res.status(200).send('Login process successfully completed.');
+  (req: Request, res: Response) => {
+    return res.status(200);
   }
 );
 

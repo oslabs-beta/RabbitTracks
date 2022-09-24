@@ -3,39 +3,44 @@
 // send this to Database
 
 // and export to DeadLetterMessage JSX component
-require("dotenv").config();
-const axios = require("axios");
-var amqp = require("amqplib/callback_api");
 
-amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw', function (error0, connection) {
+import dotenv from 'dotenv'
+dotenv.config()
+import axios from 'axios'
+import amqp, { Connection, Channel, Message } from 'amqplib/callback_api'
+import { CreateDLXMessage } from '../types'
+
+const amqpURL: string = 'amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw'
+
+amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
   if (error0) {
     throw error0;
   }
-  connection.createChannel(function (error1, channel) {
+  connection.createChannel(function (error1: Error, channel: Channel) {
     if (error1) {
       throw error1;
     }
 
     // Theoretically grabbing OSP-DLExchange **FROM user**, but hardcoding for now
-    const DLExchange = "OSP-DLExchange";
-    const DLQueue = "OSP-DLQueue";
+    const DLExchange: string = "OSP-DLExchange";
+    const DLQueue: string = "OSP-DLQueue";
 
     channel.assertExchange(DLExchange, "fanout");
     channel.assertQueue(DLQueue, { durable: true });
-    channel.bindQueue(DLQueue, DLExchange);
+    channel.bindQueue(DLQueue, DLExchange, '');
 
     console.log(
       " [*] Waiting for messages in %s. To exit press CTRL+C",
       DLQueue
     );
 
-    channel.consume(DLQueue, async function (msg) {
+    channel.consume(DLQueue, async function (msg: Message | null) {
       // This field will need to be grabbed from the project later instead of hardcoding
-      const projectId = 1;
+      const projectId: number = 1;
 
-      const { content, fields, properties } = msg;
+      const { content, fields, properties } = { ...msg };
       const { consumerTag, deliveryTag, redelivered, exchange, routingKey } =
-        fields;
+        { ...fields };
       const {
         contentType,
         contentEncoding,
@@ -51,13 +56,13 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
         userId,
         appId,
         clusterId,
-      } = properties;
+      } = { ...properties };
 
-      console.log(" [x] Received %s", content.toString());
+      if (content) console.log(" [x] Received %s", content.toString());
       console.log("Adding message...");
 
       await axios
-        .post(
+        .post<CreateDLXMessage>(
           "http://localhost:8080/messages/add-message",
           {
             consumerTag,
@@ -89,10 +94,10 @@ amqp.connect('amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudam
         )
         .then((data) => {
           // For some reason, channel.ack(msg) will acknowledge the message, but {noAck: false} doesn't work... Removed {noAck: false} - Jerikko
-          channel.ack(msg);
+          if (msg) channel.ack(msg);
           console.log("Successfully added message.");
         })
-        .catch((err) => {
+        .catch((err: Error) => {
           console.log("Axios error when attempting to add message... ", err);
         });
     });
