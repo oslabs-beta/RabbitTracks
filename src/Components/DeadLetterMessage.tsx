@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 
-import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand } from '../../types'
+import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand, Columns, Rows } from '../../types'
 
 export default function DataTable(props: DataTableProps) {
   const { messages } = props;
@@ -142,7 +142,7 @@ export default function DataTable(props: DataTableProps) {
 
   // END code to add tooltip with full data on hover
 
-  const columns = [
+  const columns: Columns = [
     { field: 'consumerTag', headerName: 'consumerTag', renderCell: renderCellExpand, flex: 1.5 },
     { field: 'deliveryTag', headerName: 'deliveryTag', renderCell: renderCellExpand, flex: 1 },
     { field: 'redelivered', headerName: 'redelivered', renderCell: renderCellExpand, flex: 1 },
@@ -163,7 +163,7 @@ export default function DataTable(props: DataTableProps) {
     { field: 'clusterId', headerName: 'clusterId', renderCell: renderCellExpand, flex: 1 },
   ]
   
-  const rows = messages.map(el => {
+  const rows: Rows = messages.map(el => {
     return {
       id: el.message_id,
       consumerTag: el.consumertag,

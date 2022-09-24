@@ -29,22 +29,6 @@ export type DataTableProps = {
     messages: Array<Messages>;
 }
 
-export interface GridCellExpandProps {
-    value: any;
-    width: number;
-}
-
-export type renderCellExpandParams = {
-    id: number;
-    field: string;
-    api?: any;
-    cellMode: string;
-    colDef?: any;
-    formattedValue: string;
-    value: string;
-    columns: any
-}
-
 export interface GridCellExpand {
     propTypes?: any;
     value: any;
@@ -73,3 +57,48 @@ export type Messages = {
     appid: string | null;
     clusterid: string | null;
 }
+
+export interface GridCellExpandProps {
+    value: any;
+    width: number;
+}
+
+export type renderCellExpandParams = {
+    id: number;
+    field: string;
+    api?: any;
+    cellMode: string;
+    colDef?: any;
+    formattedValue: string;
+    value: string;
+    columns: any
+}
+
+export type Columns = Array<{
+    field: string;
+    headerName: string;
+    renderCell: any;
+    flex: number;
+}>
+
+export type Rows = Array<{
+    id: number;
+    consumerTag: string;
+    deliveryTag: number;
+    redelivered: boolean;
+    exchange: string;
+    routingKey: string;
+    contentType: string | null;
+    contentEncoding: string | null;
+    deliveryMode: string | null;
+    priority: number | null;
+    correlationId: string | null;
+    replyTo: string | null;
+    expiration: string | null;
+    messageId: string | null;
+    timestamp: string;
+    type: string | null;
+    userId: string | null;
+    appId: string | null;
+    clusterId: string | null;
+}>
