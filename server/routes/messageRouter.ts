@@ -1,10 +1,8 @@
-// const express = require("express");
-// // const {Request, Response} = express
-// const router = express.Router();
 import express, {Request, Response} from "express"
+import { AuthController } from "../../types";
 const router = express.Router()
 
-const authController = require("../controllers/authController");
+const authController : AuthController = require("../controllers/authController");
 const messageController = require("../controllers/messageController");
 
 router.get(
@@ -26,4 +24,3 @@ router.post(
 );
 
 module.exports = router;
-// export {};

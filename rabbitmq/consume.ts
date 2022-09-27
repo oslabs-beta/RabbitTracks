@@ -8,7 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 import axios from 'axios'
 import amqp, { Connection, Channel, Message } from 'amqplib/callback_api'
-import { CreateDLXMessage } from '../types'
+import { CreateDLXMessage, Properties, Fields } from '../types'
 
 const amqpURL: string = 'amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw'
 
@@ -38,8 +38,8 @@ amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
       // This field will need to be grabbed from the project later instead of hardcoding
       const projectId: number = 1;
 
-      const { content, fields, properties } = { ...msg };
-      const { consumerTag, deliveryTag, redelivered, exchange, routingKey } =
+      const { content, fields, properties } : { content: string, fields: Fields, properties: Properties} = { ...msg };
+      const { consumerTag, deliveryTag, redelivered, exchange, routingKey } : Fields =
         { ...fields };
       const {
         contentType,
@@ -56,7 +56,7 @@ amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
         userId,
         appId,
         clusterId,
-      } = { ...properties };
+      } : Properties = { ...properties };
 
       if (content) console.log(" [x] Received %s", content.toString());
       console.log("Adding message...");
