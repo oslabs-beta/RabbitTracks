@@ -29,6 +29,10 @@ export type DataTableProps = {
     messages: Array<Messages>;
 }
 
+export type UsersProjectsProps = {
+    projects: Array<any>; //put any type temporarily
+}
+
 export interface GridCellExpand {
     propTypes?: any;
     value: any;
