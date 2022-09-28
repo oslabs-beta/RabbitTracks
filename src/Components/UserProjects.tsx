@@ -1,7 +1,7 @@
 import * as React from "react";
-import { UsersProjectsProps } from '../../types'
+import { UserProjectsProps } from '../../types'
 
-export default function UsersProjects(props: UsersProjectsProps) {
+export default function UserProjects(props: UserProjectsProps) {
     const { projects } = props;
 
     //need rows type
@@ -15,7 +15,7 @@ export default function UsersProjects(props: UsersProjectsProps) {
 
     return (
         <div>
-
+          
         </div>
     )
 }

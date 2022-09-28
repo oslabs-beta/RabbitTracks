@@ -29,7 +29,7 @@ export type DataTableProps = {
     messages: Array<Messages>;
 }
 
-export type UsersProjectsProps = {
+export type UserProjectsProps = {
     projects: Array<any>; //put any type temporarily
 }
 
