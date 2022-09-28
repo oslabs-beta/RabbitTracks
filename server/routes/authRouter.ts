@@ -1,9 +1,9 @@
-// const express = require("express");
-// const router = express.Router();
-import express, {Request, Response} from "express"
+import { AuthController } from "../../types";
+import express, { Request, Response } from "express"
 const router = express.Router()
 
-const authController = require("../controllers/authController");
+
+const authController : AuthController = require("../controllers/authController");
 // const userController = require("../controllers/userController");
 
 router.post(
@@ -11,8 +11,9 @@ router.post(
   authController.encryptPassword,
   authController.signup,
   authController.createSession,
+  // authController.verifySession,
   (req: Request, res: Response) => {
-    return res.status(200);
+    return res.status(200).send('Successful signup!');
   }
 );
 
@@ -21,8 +22,9 @@ router.post(
   authController.verifyUser,
   authController.verifyPassword,
   authController.createSession, 
+  // authController.verifySession,
   (req: Request, res: Response) => {
-    return res.status(200);
+    return res.status(200).send('Successful login!');
   }
 );
 

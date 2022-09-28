@@ -4,10 +4,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 import express, { Application, Request, Response, NextFunction } from 'express'
-// import path from "path"
-// import cookieParser from "cookie-parser"
-// import  dotenv  from "dotenv"
-// dotenv.config()
+import { ServerError } from './../types';
 
 const PORT = process.env.PORT;
 
@@ -39,7 +36,7 @@ app.use("/messages", messageRouter);
 app.use("*", (req: Request, res: Response) => res.status(404).send("Not Found"));
 
 // Universal Error Handler
-app.use((err: Error, req: Request, res: Response, next : NextFunction) => {
+app.use((err: ServerError, req: Request, res: Response, next : NextFunction) => {
   const defaultErr = {
     log: "Express error handler caught unknown middleware error.",
     status: 500,

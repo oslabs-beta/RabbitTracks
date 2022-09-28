@@ -1,9 +1,7 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-// import DeadLetterMessage from "../Components/DeadLetterMessage";
 import DataTable from "../Components/DeadLetterMessage";
-// import e from "express";
 
 
 const MessageContainer = () => {
