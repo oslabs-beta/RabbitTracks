@@ -6,15 +6,18 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
 const saltFactor = parseInt(process.env.SALT_WORK_FACTOR);
 
-const authController = {};
+import { Request, Response, NextFunction } from "express";
+import { AuthController, AuthParams, AuthResults, AuthRequestBody } from './../../types'
 
-authController.encryptPassword = async (req, res, next) => {
+const authController : AuthController = {}
+
+authController.encryptPassword = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Encrypting password...");
 
-  const { password, passwordConfirm } = req.body;
+  const { password, passwordConfirm } : AuthRequestBody = req.body;
   if (password && passwordConfirm && password === passwordConfirm) {
     try {
-      const encryptedPassword = await bcrypt.hash(password, saltFactor);
+      const encryptedPassword : string = await bcrypt.hash(password, saltFactor);
       res.locals.encryptedPassword = encryptedPassword;
       console.log("Password encrypted.");
       return next();
@@ -35,27 +38,26 @@ authController.encryptPassword = async (req, res, next) => {
   }
 };
 
-authController.signup = async (req, res, next) => {
+authController.signup = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Signup in progress...");
 
   // https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
 
 
-  const { email } = req.body;
-  const params = [ email, res.locals.encryptedPassword ];
-  // const queryString =
-  //   `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
-
-  console.log(email, res.locals.encryptedPassword);
+  const { email } : AuthRequestBody = req.body;
+  const params : AuthParams = [ email, res.locals.encryptedPassword ];
+  const queryString : string = `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
 
   if (email) {
     try {
-      const [ results, metadata ] = await db.query(`INSERT INTO users (user_email, user_password) VALUES ('test5@test.com', 'test_password');`);
-      console.log('results... ', results);
-      // const user = await Sequelize.create({ user_email: email, user_password: res.locals.encryptedPassword });
-      // console.log('User... ', user)
-      // res.locals.user_id = values.rows[0].user_id;
-      // res.cookie("user_id", res.locals.user_id, { httpOnly: true });
+      const results : Array<AuthResults> = await db.query(queryString,
+        {
+          bind: [...params],
+          type: QueryTypes.INSERT
+        });
+
+      res.locals.user_id = results[0][0].user_id;
+      res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
       console.log("Signup completed.");
       return next();
@@ -76,20 +78,29 @@ authController.signup = async (req, res, next) => {
   }
 };
 
-authController.verifyUser = async (req, res, next) => {
+authController.verifyUser = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Login in progress...");
   console.log("Verifying user exists in database...")
-  const { email, password } = req.body;
+
+  const { email, password } : AuthRequestBody = req.body;
 
   if (email && password) {
-    const queryString = "SELECT user_id, user_password FROM users WHERE user_email=$1";
-    const params = [ email ];
+    const queryString : string = "SELECT user_id, user_password FROM users WHERE user_email=$1";
+    const params : AuthParams = [ email ];
     try {
-      const results = await db.query(queryString, params);
-      if (results.rowCount > 0) {
-        res.locals.encryptedPassword = results.rows[0].user_password;
-        res.locals.user_id = results.rows[0].user_id;
+      const results : AuthResults = await db.query(queryString, {
+        bind: [...params],
+        type: QueryTypes.SELECT
+      });
+
+      console.log('results in verifyUser: ', results)
+
+      if (results.length > 0) {
+
+        res.locals.encryptedPassword = results[0].user_password;
+        res.locals.user_id = results[0].user_id;
         res.cookie("user_id", res.locals.user_id, { httpOnly: true });
+
         console.log("Verified user exists in database.");
         return next();
       } else {
@@ -115,15 +126,15 @@ authController.verifyUser = async (req, res, next) => {
   }
 }
 
-authController.verifyPassword = async (req, res, next) => {
+authController.verifyPassword = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying password...");
 
-  const { password } = req.body;
-  const encryptedPassword = res.locals.encryptedPassword;
+  const { password } : AuthRequestBody = req.body;
+  const encryptedPassword : string = res.locals.encryptedPassword;
 
   if (password && encryptedPassword) {
     try {
-      const passwordVerified = await bcrypt.compare(password, encryptedPassword);
+      const passwordVerified : boolean = await bcrypt.compare(password, encryptedPassword);
 
       if (passwordVerified) {
         console.log("Password verified... Successful login.");
@@ -151,21 +162,24 @@ authController.verifyPassword = async (req, res, next) => {
   }
 };
 
-authController.createSession = async (req, res, next) => {
+authController.createSession = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Creating session_id...");
 
-  const user_id = res.locals.user_id;
-  const queryString = "UPDATE users SET session_key=$1 WHERE user_id=$2";
+  const user_id : number = res.locals.user_id;
+  const queryString : string = "UPDATE users SET session_key=$1 WHERE user_id=$2";
 
   try {
-    const token = await jwt.sign({ user_id: user_id }, secret, {
+    const token : string = await jwt.sign({ user_id: user_id }, secret, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    const params = [ token, user_id ];
+    const params : AuthParams = [ token, user_id ];
 
     if (token && user_id) {
-      await db.query(queryString, params);
+      await db.query(queryString, {
+        bind: [...params],
+        type: QueryTypes.UPDATE
+      });
       res.cookie("session_id", token, { httpOnly: true });
       console.log("Successfully created session_id.");
       return next();
@@ -187,15 +201,17 @@ authController.createSession = async (req, res, next) => {
   }
 };
 
-authController.verifySession = async (req, res, next) => {
+// NEEDS VERIFICATION/TESTING ONCE LOGIN/SIGNUP IS UP AND RUNNING ON THE CLIENT BECAUSE WE GRAB session_id FROM COOKIES
+authController.verifySession = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying session...");
-  const session_id = req.cookies.session_id;
-  let user_id;
+  const session_id : string = req.cookies.session_id;
+  let user_id : number;
 
   if (session_id) {
     console.log("Verifying session_id is valid...")
     try {
-      const verifiedToken = await jwt.verify(session_id, process.env.JWT_SECRET);
+      const verifiedToken : {user_id : number} = await jwt.verify(session_id, process.env.JWT_SECRET);
+      console.log('verfiedToken in verifySession: ', verifiedToken)
 
       if (verifiedToken) {
         console.log("Verified session_id is valid.");
@@ -225,12 +241,18 @@ authController.verifySession = async (req, res, next) => {
 
   console.log("Verifying session_id matches...");
 
-  const queryString = "SELECT session_key FROM users WHERE user_id=$1";
-  const params = [ user_id ];
+  const queryString: string = "SELECT session_key FROM users WHERE user_id=$1";
+  const params : AuthParams = [ user_id ];
 
   try {
-    // const results = await db.query(queryString, params);
-    if (results.rows[0].session_value === session_id) {
+    const results : AuthResults  = await db.query(queryString, {
+      bind: [...params],
+      type: QueryTypes.SELECT
+    });
+
+    console.log('results in verifySession: ', results)
+
+    if (results[0].session_value === session_id) {
       console.log("Verified matching session_ids.");
       return next();
     } else {
