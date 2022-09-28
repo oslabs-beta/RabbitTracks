@@ -20,8 +20,9 @@ authController.encryptPassword = async (req, res, next) => {
       return next();
     } catch (err) {
       return next({
-        log:
-          `Error in authController.encryptPassword... Password hashing error: ${JSON.stringify(err)}`,
+        log: `Error in authController.encryptPassword... Password hashing error: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
         message: "Unable to encrypt password.",
       });
@@ -40,9 +41,8 @@ authController.signup = async (req, res, next) => {
 
   // https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
 
-
   const { email } = req.body;
-  const params = [ email, res.locals.encryptedPassword ];
+  const params = [email, res.locals.encryptedPassword];
   // const queryString =
   //   `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
 
@@ -50,8 +50,10 @@ authController.signup = async (req, res, next) => {
 
   if (email) {
     try {
-      const [ results, metadata ] = await db.query(`INSERT INTO users (user_email, user_password) VALUES ('test5@test.com', 'test_password');`);
-      console.log('results... ', results);
+      const [results, metadata] = await db.query(
+        `INSERT INTO users (user_email, user_password) VALUES ('test7@test.com', 'test_password');`
+      );
+      console.log("results... ", results);
       // const user = await Sequelize.create({ user_email: email, user_password: res.locals.encryptedPassword });
       // console.log('User... ', user)
       // res.locals.user_id = values.rows[0].user_id;
@@ -61,8 +63,9 @@ authController.signup = async (req, res, next) => {
       return next();
     } catch (err) {
       return next({
-        log:
-          `Error in authController.signup... Error when attempting signup: ${JSON.stringify(err)}`,
+        log: `Error in authController.signup... Error when attempting signup: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
         message: "Unable to complete signup process.",
       });
@@ -78,12 +81,13 @@ authController.signup = async (req, res, next) => {
 
 authController.verifyUser = async (req, res, next) => {
   console.log("Login in progress...");
-  console.log("Verifying user exists in database...")
+  console.log("Verifying user exists in database...");
   const { email, password } = req.body;
 
   if (email && password) {
-    const queryString = "SELECT user_id, user_password FROM users WHERE user_email=$1";
-    const params = [ email ];
+    const queryString =
+      "SELECT user_id, user_password FROM users WHERE user_email=$1";
+    const params = [email];
     try {
       const results = await db.query(queryString, params);
       if (results.rowCount > 0) {
@@ -103,8 +107,8 @@ authController.verifyUser = async (req, res, next) => {
       return next({
         log: `Error in authController.verifyUser: ${JSON.stringify(err)}`,
         status: 500,
-        message: "Error while querying user in database."
-      })
+        message: "Error while querying user in database.",
+      });
     }
   } else {
     return next({
@@ -113,7 +117,7 @@ authController.verifyUser = async (req, res, next) => {
       message: "Missing email and/or password.",
     });
   }
-}
+};
 
 authController.verifyPassword = async (req, res, next) => {
   console.log("Verifying password...");
@@ -123,7 +127,10 @@ authController.verifyPassword = async (req, res, next) => {
 
   if (password && encryptedPassword) {
     try {
-      const passwordVerified = await bcrypt.compare(password, encryptedPassword);
+      const passwordVerified = await bcrypt.compare(
+        password,
+        encryptedPassword
+      );
 
       if (passwordVerified) {
         console.log("Password verified... Successful login.");
@@ -132,22 +139,24 @@ authController.verifyPassword = async (req, res, next) => {
         return next({
           log: "Error in authController.verifyPassword... Password not verified.",
           status: 400,
-          message: "Password not verified."
-        })
+          message: "Password not verified.",
+        });
       }
     } catch (err) {
       return next({
-        log: `Error in authController.verifyPassword... Error while verifying password: ${JSON.stringify(err)}`,
+        log: `Error in authController.verifyPassword... Error while verifying password: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
-        message: "Error while verifying password."
-      })
+        message: "Error while verifying password.",
+      });
     }
   } else {
     return next({
       log: "Error in authController.verifyPassword... Missing password and/or encrypted password.",
       status: 400,
-      message: "Missing password and/or encrypted password."
-    })
+      message: "Missing password and/or encrypted password.",
+    });
   }
 };
 
@@ -162,7 +171,7 @@ authController.createSession = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    const params = [ token, user_id ];
+    const params = [token, user_id];
 
     if (token && user_id) {
       await db.query(queryString, params);
@@ -171,16 +180,16 @@ authController.createSession = async (req, res, next) => {
       return next();
     } else {
       return next({
-        log:
-          "Error in authController.createSession... Missing token or user_id.",
+        log: "Error in authController.createSession... Missing token or user_id.",
         status: 500,
         message: "Missing token or user_id.",
       });
     }
   } catch (err) {
     return next({
-      log:
-        `Error in authController.createSession... Error when attempting to create session_id after signup: ${JSON.stringify(err)}`,
+      log: `Error in authController.createSession... Error when attempting to create session_id after signup: ${JSON.stringify(
+        err
+      )}`,
       status: 500,
       message: "Unable to create session_id after signup.",
     });
@@ -193,40 +202,45 @@ authController.verifySession = async (req, res, next) => {
   let user_id;
 
   if (session_id) {
-    console.log("Verifying session_id is valid...")
+    console.log("Verifying session_id is valid...");
     try {
-      const verifiedToken = await jwt.verify(session_id, process.env.JWT_SECRET);
+      const verifiedToken = await jwt.verify(
+        session_id,
+        process.env.JWT_SECRET
+      );
 
       if (verifiedToken) {
         console.log("Verified session_id is valid.");
         user_id = verifiedToken.user_id;
       } else {
-        res.clearCookie('session_id');
+        res.clearCookie("session_id");
         return next({
           log: "Error in authController.verifySession... Invalid session_id. Removed session_id.",
           status: 400,
-          message: "Invalid session_id. Removed session_id."
-        })
+          message: "Invalid session_id. Removed session_id.",
+        });
       }
     } catch (err) {
       return next({
-        log: `Error in authController.verifySession... Error while verifying session_id: ${JSON.stringify(err)}`,
+        log: `Error in authController.verifySession... Error while verifying session_id: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
-        message: "Error while verifying session_id."
-      })
+        message: "Error while verifying session_id.",
+      });
     }
   } else {
     return next({
       log: "Error in authController.verifySession... session_id does not exist.",
       status: 400,
-      message: "session_id does not exist."
-    })
+      message: "session_id does not exist.",
+    });
   }
 
   console.log("Verifying session_id matches...");
 
   const queryString = "SELECT session_key FROM users WHERE user_id=$1";
-  const params = [ user_id ];
+  const params = [user_id];
 
   try {
     // const results = await db.query(queryString, params);
@@ -234,19 +248,21 @@ authController.verifySession = async (req, res, next) => {
       console.log("Verified matching session_ids.");
       return next();
     } else {
-      res.clearCookie('session_id');
+      res.clearCookie("session_id");
       return next({
         log: "Error in authController.verifyUser... Unable to match session_ids. Removed session_id.",
         status: 400,
-        message: "Unable to match session_ids. Removed session_id."
-      })
+        message: "Unable to match session_ids. Removed session_id.",
+      });
     }
   } catch (err) {
     return next({
-      log: `Error in authController.verifySession... Error while querying session_key from database: ${JSON.stringify(err)}`,
+      log: `Error in authController.verifySession... Error while querying session_key from database: ${JSON.stringify(
+        err
+      )}`,
       status: 500,
-      message: "Error while querying session_key from database."
-    })
+      message: "Error while querying session_key from database.",
+    });
   }
 };
 
