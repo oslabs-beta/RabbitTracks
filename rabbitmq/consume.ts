@@ -4,13 +4,20 @@
 
 // and export to DeadLetterMessage JSX component
 
-import dotenv from 'dotenv'
-dotenv.config()
-import axios from 'axios'
-import amqp, { Connection, Channel, Message } from 'amqplib/callback_api'
-import { CreateDLXMessage, Properties, Fields } from '../types'
+import dotenv from "dotenv";
+dotenv.config();
+import axios from "axios";
+import amqp, {
+  Connection,
+  Channel,
+  Message,
+  MessageFields,
+  MessageProperties,
+} from "amqplib/callback_api";
+import { CreateDLXMessage, Properties, Fields } from "../types";
 
-const amqpURL: string = 'amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw'
+const amqpURL: string =
+  "amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw";
 
 amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
   if (error0) {
@@ -27,7 +34,7 @@ amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
 
     channel.assertExchange(DLExchange, "fanout");
     channel.assertQueue(DLQueue, { durable: true });
-    channel.bindQueue(DLQueue, DLExchange, '');
+    channel.bindQueue(DLQueue, DLExchange, "");
 
     console.log(
       " [*] Waiting for messages in %s. To exit press CTRL+C",
@@ -38,9 +45,22 @@ amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
       // This field will need to be grabbed from the project later instead of hardcoding
       const projectId: number = 1;
 
-      const { content, fields, properties } : { content: string, fields: Fields, properties: Properties} = { ...msg };
-      const { consumerTag, deliveryTag, redelivered, exchange, routingKey } : Fields =
-        { ...fields };
+      const {
+        content,
+        fields,
+        properties,
+      }: {
+        content?: Buffer;
+        fields?: MessageFields;
+        properties?: MessageProperties;
+      } = { ...msg };
+      const {
+        consumerTag,
+        deliveryTag,
+        redelivered,
+        exchange,
+        routingKey,
+      }: Fields = { ...fields };
       const {
         contentType,
         contentEncoding,
@@ -56,7 +76,7 @@ amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
         userId,
         appId,
         clusterId,
-      } : Properties = { ...properties };
+      }: Properties = { ...properties };
 
       if (content) console.log(" [x] Received %s", content.toString());
       console.log("Adding message...");

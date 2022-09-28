@@ -23,8 +23,9 @@ authController.encryptPassword = async (req: Request, res: Response, next: NextF
       return next();
     } catch (err) {
       return next({
-        log:
-          `Error in authController.encryptPassword... Password hashing error: ${JSON.stringify(err)}`,
+        log: `Error in authController.encryptPassword... Password hashing error: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
         message: "Unable to encrypt password.",
       });
@@ -63,8 +64,9 @@ authController.signup = async (req: Request, res: Response, next: NextFunction) 
       return next();
     } catch (err) {
       return next({
-        log:
-          `Error in authController.signup... Error when attempting signup: ${JSON.stringify(err)}`,
+        log: `Error in authController.signup... Error when attempting signup: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
         message: "Unable to complete signup process.",
       });
@@ -114,8 +116,8 @@ authController.verifyUser = async (req: Request, res: Response, next: NextFuncti
       return next({
         log: `Error in authController.verifyUser: ${JSON.stringify(err)}`,
         status: 500,
-        message: "Error while querying user in database."
-      })
+        message: "Error while querying user in database.",
+      });
     }
   } else {
     return next({
@@ -124,7 +126,7 @@ authController.verifyUser = async (req: Request, res: Response, next: NextFuncti
       message: "Missing email and/or password.",
     });
   }
-}
+};
 
 authController.verifyPassword = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying password...");
@@ -143,22 +145,24 @@ authController.verifyPassword = async (req: Request, res: Response, next: NextFu
         return next({
           log: "Error in authController.verifyPassword... Password not verified.",
           status: 400,
-          message: "Password not verified."
-        })
+          message: "Password not verified.",
+        });
       }
     } catch (err) {
       return next({
-        log: `Error in authController.verifyPassword... Error while verifying password: ${JSON.stringify(err)}`,
+        log: `Error in authController.verifyPassword... Error while verifying password: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
-        message: "Error while verifying password."
-      })
+        message: "Error while verifying password.",
+      });
     }
   } else {
     return next({
       log: "Error in authController.verifyPassword... Missing password and/or encrypted password.",
       status: 400,
-      message: "Missing password and/or encrypted password."
-    })
+      message: "Missing password and/or encrypted password.",
+    });
   }
 };
 
@@ -185,16 +189,16 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
       return next();
     } else {
       return next({
-        log:
-          "Error in authController.createSession... Missing token or user_id.",
+        log: "Error in authController.createSession... Missing token or user_id.",
         status: 500,
         message: "Missing token or user_id.",
       });
     }
   } catch (err) {
     return next({
-      log:
-        `Error in authController.createSession... Error when attempting to create session_id after signup: ${JSON.stringify(err)}`,
+      log: `Error in authController.createSession... Error when attempting to create session_id after signup: ${JSON.stringify(
+        err
+      )}`,
       status: 500,
       message: "Unable to create session_id after signup.",
     });
@@ -208,7 +212,7 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
   let user_id : number;
 
   if (session_id) {
-    console.log("Verifying session_id is valid...")
+    console.log("Verifying session_id is valid...");
     try {
       const verifiedToken : {user_id : number} = await jwt.verify(session_id, process.env.JWT_SECRET);
       console.log('verfiedToken in verifySession: ', verifiedToken)
@@ -217,26 +221,28 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
         console.log("Verified session_id is valid.");
         user_id = verifiedToken.user_id;
       } else {
-        res.clearCookie('session_id');
+        res.clearCookie("session_id");
         return next({
           log: "Error in authController.verifySession... Invalid session_id. Removed session_id.",
           status: 400,
-          message: "Invalid session_id. Removed session_id."
-        })
+          message: "Invalid session_id. Removed session_id.",
+        });
       }
     } catch (err) {
       return next({
-        log: `Error in authController.verifySession... Error while verifying session_id: ${JSON.stringify(err)}`,
+        log: `Error in authController.verifySession... Error while verifying session_id: ${JSON.stringify(
+          err
+        )}`,
         status: 500,
-        message: "Error while verifying session_id."
-      })
+        message: "Error while verifying session_id.",
+      });
     }
   } else {
     return next({
       log: "Error in authController.verifySession... session_id does not exist.",
       status: 400,
-      message: "session_id does not exist."
-    })
+      message: "session_id does not exist.",
+    });
   }
 
   console.log("Verifying session_id matches...");
@@ -256,19 +262,21 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
       console.log("Verified matching session_ids.");
       return next();
     } else {
-      res.clearCookie('session_id');
+      res.clearCookie("session_id");
       return next({
         log: "Error in authController.verifyUser... Unable to match session_ids. Removed session_id.",
         status: 400,
-        message: "Unable to match session_ids. Removed session_id."
-      })
+        message: "Unable to match session_ids. Removed session_id.",
+      });
     }
   } catch (err) {
     return next({
-      log: `Error in authController.verifySession... Error while querying session_key from database: ${JSON.stringify(err)}`,
+      log: `Error in authController.verifySession... Error while querying session_key from database: ${JSON.stringify(
+        err
+      )}`,
       status: 500,
-      message: "Error while querying session_key from database."
-    })
+      message: "Error while querying session_key from database.",
+    });
   }
 };
 
