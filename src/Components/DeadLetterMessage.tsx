@@ -7,21 +7,21 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 
-export default function DataTable(props) {
-  const { messages } = props;
+import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand, Columns, Rows } from '../../types'
 
-  console.log(messages)
+export default function DataTable(props: DataTableProps) {
+  const { messages } = props;
 
   // BEGIN code to add tooltip with full data on hover
 
-  function isOverflown(element) {
+  function isOverflown(element: any) {
     return (
       element.scrollHeight > element.clientHeight ||
       element.scrollWidth > element.clientWidth
     );
   }
 
-  const GridCellExpand = React.memo(function GridCellExpand(props) {
+  const GridCellExpand: React.FunctionComponent<GridCellExpand> = React.memo(function GridCellExpand(props: GridCellExpandProps) {
     const { width, value } = props;
     const wrapper = React.useRef(null);
     const cellDiv = React.useRef(null);
@@ -46,7 +46,7 @@ export default function DataTable(props) {
         return undefined;
       }
   
-      function handleKeyDown(nativeEvent) {
+      function handleKeyDown(nativeEvent: KeyboardEvent) {
         // IE11, Edge (prior to using Bink?) use 'Esc'
         if (nativeEvent.key === 'Escape' || nativeEvent.key === 'Esc') {
           setShowFullCell(false);
@@ -111,13 +111,13 @@ export default function DataTable(props) {
       </Box>
     );
   });
-  
+
   GridCellExpand.propTypes = {
     value: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
   };
   
-  function renderCellExpand(params) {
+  function renderCellExpand(params: renderCellExpandParams) {
     return (
       <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
     );
@@ -137,7 +137,7 @@ export default function DataTable(props) {
 
   // END code to add tooltip with full data on hover
 
-  const columns = [
+  const columns: Columns = [
     { field: 'consumerTag', headerName: 'consumerTag', renderCell: renderCellExpand, flex: 1.5 },
     { field: 'deliveryTag', headerName: 'deliveryTag', renderCell: renderCellExpand, flex: 1 },
     { field: 'redelivered', headerName: 'redelivered', renderCell: renderCellExpand, flex: 1 },
@@ -158,7 +158,7 @@ export default function DataTable(props) {
     { field: 'clusterId', headerName: 'clusterId', renderCell: renderCellExpand, flex: 1 },
   ]
   
-  const rows = messages.map(el => {
+  const rows: Rows = messages.map(el => {
     return {
       id: el.message_id,
       consumerTag: el.consumertag,

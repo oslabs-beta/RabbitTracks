@@ -50,13 +50,13 @@ authController.signup = async (req: Request, res: Response, next: NextFunction) 
 
   if (email) {
     try {
-      const results : AuthResults = await db.query(queryString,
+      const results : Array<AuthResults> = await db.query(queryString,
         {
           bind: [...params],
           type: QueryTypes.INSERT
         });
 
-      res.locals.user_id = results[0].user_id;
+      res.locals.user_id = results[0][0].user_id;
       res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
       console.log("Signup completed.");
@@ -172,8 +172,6 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
     const token : string = await jwt.sign({ user_id: user_id }, secret, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-
-    console.log('token in createSession: ', token);
 
     const params : AuthParams = [ token, user_id ];
 
