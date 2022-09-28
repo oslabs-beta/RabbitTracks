@@ -1,6 +1,6 @@
 const db = require("../models/elephantsql");
 
-import { Messages } from "../../types";
+import { Messages, MessageController } from "../../types";
 
 import express, {
   Request,
@@ -8,16 +8,8 @@ import express, {
   NextFunction,
   RequestHandler,
 } from "express";
-// // import { AuthController } from './../../types'
 
-type messageController = {
-  getAllMessages?: RequestHandler;
-  addMessage?: RequestHandler;
-};
-
-// type Message
-
-const messageController: messageController = {};
+const messageController: MessageController = {};
 
 messageController.getAllMessages = async (
   req: Request,

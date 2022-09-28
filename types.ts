@@ -65,6 +65,13 @@ export type AuthRequestBody = {
   passwordConfirm?: string;
 };
 
+// types for '/server/controllers/messageController'
+
+export type MessageController = {
+  getAllMessages?: RequestHandler;
+  addMessage?: RequestHandler;
+};
+
 // types for '/src/Components/DeadLetterMessage'
 
 export type DataTableProps = {
