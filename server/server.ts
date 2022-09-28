@@ -13,6 +13,7 @@ const PORT = process.env.PORT;
 
 const authRouter = require("./routes/authRouter");
 const messageRouter = require("./routes/messageRouter");
+const userRouter = require("./routes/userRouter")
 
 const app : Application = express();
 const DIST_DIR = path.join(__dirname, "../build/");
@@ -34,6 +35,7 @@ app.get("/", (req: Request, res: Response) => {
 // Routes
 app.use("/auth", authRouter);
 app.use("/messages", messageRouter);
+app.use("/user", userRouter)
 
 // 404 Catch-All
 app.use("*", (req: Request, res: Response) => res.status(404).send("Not Found"));
