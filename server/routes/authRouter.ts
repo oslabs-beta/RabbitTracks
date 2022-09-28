@@ -11,7 +11,7 @@ router.post(
   authController.encryptPassword,
   authController.signup,
   authController.createSession,
-  // authController.verifySession,
+  authController.verifySession,
   (req: Request, res: Response) => {
     return res.status(200).send('Successful signup!');
   }

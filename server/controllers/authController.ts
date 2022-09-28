@@ -211,6 +211,8 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
   const session_id : string = req.cookies.session_id;
   let user_id : number;
 
+  console.log('session_id in verifySession: ', session_id)
+
   if (session_id) {
     console.log("Verifying session_id is valid...");
     try {
@@ -258,7 +260,7 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
 
     console.log('results in verifySession: ', results)
 
-    if (results[0].session_value === session_id) {
+    if (results[0].session_value == session_id) {
       console.log("Verified matching session_ids.");
       return next();
     } else {
