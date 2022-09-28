@@ -3,7 +3,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import UserProjects from "../Components/UserProjects";
 
-const UserProjectsContainer = () => {
+const UserProjectsContainer = () : JSX.Element => {
   const [projectsList, setProjectsList] = useState([]);
 
   //will need user_id to fetch data from backend
@@ -26,7 +26,10 @@ const UserProjectsContainer = () => {
   }, []);
 
     return (
+      <div>
+      <div>User Projects Container</div>
       <UserProjects projects={projectsList}/>
+      </div>
     );
 };
 

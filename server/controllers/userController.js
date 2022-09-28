@@ -3,6 +3,10 @@ const db = require("../models/elephantsql");
 
 const userController = {};
 
+userController.getAllUserProjects = async (req, res, next) => {
+    
+}
+
 // userController.signup = async (req, res, next) => {
 //   console.log("Signup in progress...");
 
