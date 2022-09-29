@@ -2,6 +2,7 @@
 const path = require("path");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const cors = require("cors")
 
 import express, { Application, Request, Response, NextFunction } from 'express'
 import { ServerError } from './../types';
@@ -16,6 +17,7 @@ const app : Application = express();
 const DIST_DIR = path.join(__dirname, "../build/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

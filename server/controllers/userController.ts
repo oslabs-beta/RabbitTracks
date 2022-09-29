@@ -7,7 +7,7 @@ import express, { Request, Response, NextFunction, RequestHandler } from "expres
 const userController: UserController = {};
 
 userController.getAllUserProjects = async (req: Request, res: Response, next: NextFunction) => {
-  const { user_id } : UserProjectReqBody = req.body; //need type
+  const { user_id } : UserProjectReqBody = req.body;
   const queryString: string = `SELECT * FROM users_projects WHERE user_id = ${user_id}`;
 
   if (user_id) {

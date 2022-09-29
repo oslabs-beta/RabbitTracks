@@ -95,7 +95,7 @@ export type DataTableProps = {
 };
 
 export type UserProjectsProps = {
-    projects: Array<any>; //put any type temporarily
+    projects: Array<UserProjects>; //put any type temporarily
 }
 
 export interface GridCellExpand {
@@ -176,3 +176,10 @@ export type Rows = Array<{
   appId: string | null;
   clusterId: string | null;
 }>;
+
+export type UserProjectsRows = Array<{
+  user_project_id: number;
+    user_id: number;
+    project_id: number;
+    created_at: string
+}>
