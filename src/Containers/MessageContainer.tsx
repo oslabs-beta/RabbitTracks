@@ -1,12 +1,11 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-// import DeadLetterMessage from "../Components/DeadLetterMessage";
 import DataTable from "../Components/DeadLetterMessage";
-// import e from "express";
 
 
-const MessageContainer = () => {
+const MessageContainer = () : JSX.Element => {
+  // DOES THIS NEED TYPING?
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
 
 
@@ -14,10 +13,11 @@ const MessageContainer = () => {
   // Look into websockets? socket.io? subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
   // https://stackoverflow.com/questions/53871327/update-react-data-when-mysql-data-changes
   useEffect(() => {
-    const getData = async () => {
+    const getData = async () : Promise<void> => {
       console.log("Getting all messages...");
       try {
-        const { data } = await axios.get("/messages/get-all-messages");
+        // data TYPING NEEDS VERIFICATION
+        const { data } : { data: [] } = await axios.get("/messages/get-all-messages");
         setDeadLetterMessages(data);
         console.log("Successfully got all messages.");
       } catch (err) {

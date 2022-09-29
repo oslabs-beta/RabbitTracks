@@ -12,8 +12,6 @@ import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellEx
 export default function DataTable(props: DataTableProps) {
   const { messages } = props;
 
-  console.log('props from DeadLetterMessage --> ', props)
-
   // BEGIN code to add tooltip with full data on hover
 
   function isOverflown(element: any) {
@@ -113,8 +111,6 @@ export default function DataTable(props: DataTableProps) {
       </Box>
     );
   });
-  
-  console.log('GridCellExpand --> ', GridCellExpand)
 
   GridCellExpand.propTypes = {
     value: PropTypes.string.isRequired,
@@ -122,7 +118,6 @@ export default function DataTable(props: DataTableProps) {
   };
   
   function renderCellExpand(params: renderCellExpandParams) {
-    console.log('renderCellExpand params --> ', params)
     return (
       <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
     );
