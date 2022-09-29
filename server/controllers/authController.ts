@@ -205,7 +205,7 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
   }
 };
 
-// NEEDS VERIFICATION/TESTING ONCE LOGIN/SIGNUP IS UP AND RUNNING ON THE CLIENT BECAUSE WE GRAB session_id FROM COOKIES
+// NEEDS Re-WORKIONG
 authController.verifySession = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying session...");
   const session_id : string = req.cookies.session_id;
