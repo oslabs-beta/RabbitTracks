@@ -1,4 +1,22 @@
+import { RequestHandler } from "express";
+
 // types for '/rabbitmq/consume'
+
+//userController types:
+export type UserController = {
+    getAllUserProjects?: RequestHandler;
+};
+
+export type UserProjects = {
+    user_project_id: number;
+    user_id: number;
+    project_id: number;
+    created_at: string
+}
+
+export type UserProjectReqBody = {
+    user_id: number
+}
 
 export type CreateDLXMessage = {
     consumerTag: string;
