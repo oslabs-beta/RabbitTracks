@@ -10,6 +10,7 @@ const PORT = process.env.PORT;
 
 const authRouter = require("./routes/authRouter");
 const messageRouter = require("./routes/messageRouter");
+const userRouter = require("./routes/userRouter")
 
 const app : Application = express();
 const DIST_DIR = path.join(__dirname, "../build/");
@@ -26,12 +27,12 @@ app.use(express.static("../src/assets"));
 // Routes
 app.use("/auth", authRouter);
 app.use("/messages", messageRouter);
+app.use("/usersprojects", userRouter);
 
 // Serve index.html
 app.get("/*", (req: Request, res: Response) => {
   res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
 });
-
 
 // 404 Catch-All
 app.use("*", (req: Request, res: Response) => res.status(404).send("Not Found"));

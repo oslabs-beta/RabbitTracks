@@ -72,6 +72,12 @@ export type MessageController = {
   addMessage?: RequestHandler;
 };
 
+// types for '/server/controllers/userController'
+
+export type UserController = {
+  addProject?: RequestHandler;
+}
+
 // types for '/src/Components/DeadLetterMessage'
 
 export type DataTableProps = {
