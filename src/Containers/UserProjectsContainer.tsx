@@ -26,6 +26,9 @@ const UserProjectsContainer = () : JSX.Element => {
     getData();
   }, []);
 
+  //also need to fetch data from projects table by project_id
+  //can be one query with join
+
     return (
       <div>
       <div>User Projects Container</div>
