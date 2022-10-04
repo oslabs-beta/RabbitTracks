@@ -7,11 +7,19 @@ import Signup from "./Components/Signup";
 import NavAfterLoggedIn from "./Components/NavBar/NavAfterLoggedIn";
 import NavLoginPage from "./Components/NavBar/NavLoginPage";
 import NavSignupPage from "./Components/NavBar/NavSignupPage";
+import ErrorPage from "./Containers/ErrorPageContainer";
+import { Link } from "react-router-dom";
+
+//errorPage path only works if first parameter after / does not match... ie if /signup/alkdfjas, it does not work currently
+
+//attempt to implement an if-else here?
 
 const App = (): JSX.Element => {
   return (
     <Routes>
+      <Route path="*" element={<ErrorPage />} />
       <Route path="/" element={<Login />} />
+      <Route path="/signup/*" element={<ErrorPage />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/userprojects" element={<UserProjectsContainer />} />
       <Route path="/messages" element={<MessageContainer />} />
