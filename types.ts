@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import * as React from 'react'
 
 // types for '/rabbitmq/consume'
 
@@ -162,3 +163,17 @@ export type Rows = Array<{
   appId: string | null;
   clusterId: string | null;
 }>;
+
+// types for AddProjectModal
+
+export interface ModalProps {
+  isShown: boolean;
+  handleClose: () => void;
+  handleSave: () => void;
+  // modalContent: JSX.Element;
+  headerText: string;
+  setNameErr: React.Dispatch<React.SetStateAction<boolean>>;
+  setURLErr: React.Dispatch<React.SetStateAction<boolean>>;
+  projectNameError: boolean;
+  projectURLError: boolean;
+}
