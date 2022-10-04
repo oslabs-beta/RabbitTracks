@@ -13,7 +13,7 @@ export type UserProjects = {
 }
 
 export type UserProjectsProps = {
-  projects: Array<UserProjects>; //put any type temporarily
+  projects: Array<UserProjects>;
 }
 
 export type UserProjectReqBody = {

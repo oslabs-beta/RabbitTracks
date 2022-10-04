@@ -22,7 +22,7 @@ const UserProjectsContainer = () : JSX.Element => {
   };
 
   useEffect(() => {
-    //need to provide logged-in user_id
+    //Currently, hard-coded, but we need to provide logged-in user_id
     getData({"user_id": "2"});
   }, []);
 
