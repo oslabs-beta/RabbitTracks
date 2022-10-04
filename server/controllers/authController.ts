@@ -4,6 +4,8 @@ const db = require("../models/elephantsql");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET;
+const expiresIn = process.env.JWT_EXPIRES_IN;
+const jwtSecret = process.env.JWT_SECRET;
 const saltFactor = parseInt(process.env.SALT_WORK_FACTOR);
 
 import { Request, Response, NextFunction } from "express";
@@ -58,7 +60,7 @@ authController.signup = async (req: Request, res: Response, next: NextFunction) 
         });
 
       res.locals.user_id = results[0][0].user_id;
-      res.cookie("user_id", res.locals.user_id, { httpOnly: true });
+      // res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
       console.log("Signup completed.");
       return next();
@@ -95,13 +97,10 @@ authController.verifyUser = async (req: Request, res: Response, next: NextFuncti
         type: QueryTypes.SELECT
       });
 
-      console.log('results in verifyUser: ', results)
-
       if (results.length > 0) {
 
         res.locals.encryptedPassword = results[0].user_password;
         res.locals.user_id = results[0].user_id;
-        res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
         console.log("Verified user exists in database.");
         return next();
@@ -174,7 +173,7 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
 
   try {
     const token : string = await jwt.sign({ user_id: user_id }, secret, {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: expiresIn,
     });
 
     const params : AuthParams = [ token, user_id ];
@@ -196,32 +195,29 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
     }
   } catch (err) {
     return next({
-      log: `Error in authController.createSession... Error when attempting to create session_id after signup: ${JSON.stringify(
+      log: `Error in authController.createSession... Error when attempting to create session_id: ${JSON.stringify(
         err
       )}`,
       status: 500,
-      message: "Unable to create session_id after signup.",
+      message: "Unable to create session_id.",
     });
   }
 };
 
-// NEEDS Re-WORKIONG
+// NEEDS TESTING WHEN CONNECTING INTO OTHER ROUTERS
 authController.verifySession = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying session...");
   const session_id : string = req.cookies.session_id;
   let user_id : number;
 
-  console.log('session_id in verifySession: ', session_id)
-
   if (session_id) {
-    console.log("Verifying session_id is valid...");
+    console.log("Decoding session_id...");
     try {
-      const verifiedToken : {user_id : number} = await jwt.verify(session_id, process.env.JWT_SECRET);
-      console.log('verfiedToken in verifySession: ', verifiedToken)
+      const decodedToken : {user_id : number} = await jwt.verify(session_id, jwtSecret);
 
-      if (verifiedToken) {
-        console.log("Verified session_id is valid.");
-        user_id = verifiedToken.user_id;
+      if (decodedToken) {
+        console.log("Decoded session_id.");
+        user_id = decodedToken.user_id;
       } else {
         res.clearCookie("session_id");
         return next({
@@ -231,12 +227,20 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
         });
       }
     } catch (err) {
-      return next({
-        log: `Error in authController.verifySession... Error while verifying session_id: ${JSON.stringify(
+      if (err.message === "jwt expired") {
+        return next({
+          log: `Error in authController.verifySession... Session expired: ${JSON.stringify(
+            err
+          )}`,
+          status: 500,
+          message: "Session expired.",
+        })
+      } else return next({
+        log: `Error in authController.verifySession... Error while decoding session_id: ${JSON.stringify(
           err
         )}`,
         status: 500,
-        message: "Error while verifying session_id.",
+        message: "Error while decoding session_id.",
       });
     }
   } else {
@@ -247,9 +251,9 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
     });
   }
 
-  console.log("Verifying session_id matches...");
+  console.log("Verifying user authorization...");
 
-  const queryString: string = "SELECT session_key FROM users WHERE user_id=$1";
+  const queryString: string = "SELECT * FROM users WHERE user_id=$1";
   const params : AuthParams = [ user_id ];
 
   try {
@@ -258,26 +262,24 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
       type: QueryTypes.SELECT
     });
 
-    console.log('results in verifySession: ', results)
-
-    if (results[0].session_value == session_id) {
-      console.log("Verified matching session_ids.");
+    if (results[0].user_id == user_id) {
+      console.log("User is authorized.");
       return next();
     } else {
       res.clearCookie("session_id");
       return next({
-        log: "Error in authController.verifyUser... Unable to match session_ids. Removed session_id.",
+        log: "Error in authController.verifyUser... Unable to verify that user is authorized. Removed session_id.",
         status: 400,
-        message: "Unable to match session_ids. Removed session_id.",
+        message: "Unable to verify that user is authorized. Removed session_id.",
       });
     }
   } catch (err) {
     return next({
-      log: `Error in authController.verifySession... Error while querying session_key from database: ${JSON.stringify(
+      log: `Error in authController.verifySession... Error while querying database for authorized user: ${JSON.stringify(
         err
       )}`,
       status: 500,
-      message: "Error while querying session_key from database.",
+      message: "Error while querying database for authorized user.",
     });
   }
 };
