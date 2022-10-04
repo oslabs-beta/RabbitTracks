@@ -8,10 +8,12 @@ export type UserController = {
 };
 
 export type UserProjects = {
-    user_project_id: number;
-    user_id: number;
-    project_id: number;
-    created_at: string
+    project_name: string;
+    project_url: string
+}
+
+export type UserProjectsProps = {
+  projects: Array<UserProjects>; //put any type temporarily
 }
 
 export type UserProjectReqBody = {
@@ -173,7 +175,3 @@ export type Rows = Array<{
   appId: string | null;
   clusterId: string | null;
 }>;
-
-export type UserProjectsProps = {
-  projects: Array<UserProjects>; //put any type temporarily
-}
