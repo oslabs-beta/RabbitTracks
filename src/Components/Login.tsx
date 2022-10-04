@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -45,6 +45,7 @@ export default function Login() : JSX.Element {
     // data NEEDS TYPING
     .then(data => {
       console.log("Successful login!");
+      // eventually want to add user_id to URL to load specific user projects page
       navigate('/userprojects');
     }).catch(err => {
       console.log("Unsuccessful login: ", err);
