@@ -8,6 +8,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
+import RabbitPaw from "../../assets/rabbitpaw.jpg";
 
 export default function NavAfterLoggedIn() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -34,11 +35,18 @@ export default function NavAfterLoggedIn() {
           label={auth ? "Logout" : "Login"}
         />
       </FormGroup> */}
-      <AppBar position="static">
+      <AppBar position="static" id="nav-bar">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/userprojects">Rabbit Tracks Logo Here</Link>
+            <Link to="/userprojects">
+              <img id="rabbit-paw-pic" src={RabbitPaw} />
+            </Link>
           </Typography>
+          <div id="nav-title">
+            <h2>
+              RABBIT <b id="first-word">TRACKS</b>
+            </h2>
+          </div>
           {
             <div>
               <IconButton
@@ -49,7 +57,7 @@ export default function NavAfterLoggedIn() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircle id="icon-button" />
               </IconButton>
               <Menu
                 id="menu-appbar"
