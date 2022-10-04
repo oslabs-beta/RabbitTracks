@@ -11,6 +11,7 @@ router.post(
   authController.encryptPassword,
   authController.signup,
   authController.createSession,
+  // NOT WORKING: seems like some async issue? 
   // authController.verifySession,
   (req: Request, res: Response) => {
     return res.status(200).send('Successful signup!');
@@ -21,7 +22,8 @@ router.post(
   "/login",
   authController.verifyUser,
   authController.verifyPassword,
-  authController.createSession, 
+  authController.createSession,
+  // NOT WORKING: seems like some async issue? 
   // authController.verifySession,
   (req: Request, res: Response) => {
     return res.status(200).send('Successful login!');

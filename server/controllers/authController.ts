@@ -205,11 +205,13 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
   }
 };
 
-// NEEDS VERIFICATION/TESTING ONCE LOGIN/SIGNUP IS UP AND RUNNING ON THE CLIENT BECAUSE WE GRAB session_id FROM COOKIES
+// NEEDS Re-WORKIONG
 authController.verifySession = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying session...");
   const session_id : string = req.cookies.session_id;
   let user_id : number;
+
+  console.log('session_id in verifySession: ', session_id)
 
   if (session_id) {
     console.log("Verifying session_id is valid...");
@@ -258,7 +260,7 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
 
     console.log('results in verifySession: ', results)
 
-    if (results[0].session_value === session_id) {
+    if (results[0].session_value == session_id) {
       console.log("Verified matching session_ids.");
       return next();
     } else {
