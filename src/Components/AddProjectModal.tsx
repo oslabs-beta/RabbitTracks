@@ -9,7 +9,7 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import FormLabel from '@mui/material/FormLabel';
 
-const AddProjectModal: FunctionComponent<ModalProps> = ({isShown, handleClose, handleSave, headerText, setNameErr, setURLErr, projectNameError, projectURLError}) => {
+export default function AddProjectModal ({isShown, handleClose, handleSave, headerText, setNameErr, setURLErr, projectNameError, projectURLError}: ModalProps) {
 
   const resetNameErr = () => {
     setNameErr(false);
@@ -69,4 +69,4 @@ const AddProjectModal: FunctionComponent<ModalProps> = ({isShown, handleClose, h
   );
 }
 
-export default AddProjectModal;
+// export default AddProjectModal;

@@ -6,6 +6,16 @@ const userController: UserController = require("../controllers/userController")
 
 const router = express.Router()
 
+router.get(
+  "/get-all-user-projects",
+  // authController.createSession,
+  authController.verifySession,
+  userController.getAllUserProjects,
+  (req: Request, res: Response) => {
+    return res.status(200).json(res.locals.userprojects);
+  }
+);
+
 router.post('/addproject',
   authController.verifySession,
   userController.addProject,
@@ -14,4 +24,4 @@ router.post('/addproject',
   }
 )
 
-module.exports = router
+module.exports = router;

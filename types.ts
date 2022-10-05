@@ -3,6 +3,15 @@ import * as React from 'react'
 
 // types for '/rabbitmq/consume'
 
+export type UserProjects = {
+    project_name: string;
+    project_url: string
+}
+
+export type UserProjectsProps = {
+  projects: Array<UserProjects>;
+}
+
 export interface CreateDLXMessage extends Fields, Properties {
   projectId: number;
 }
@@ -77,6 +86,7 @@ export type MessageController = {
 
 export type UserController = {
   addProject?: RequestHandler;
+  getAllUserProjects?: RequestHandler;
 }
 
 // types for '/src/Components/DeadLetterMessage'
@@ -84,6 +94,7 @@ export type UserController = {
 export type DataTableProps = {
   messages: Array<Messages>;
 };
+
 
 export interface GridCellExpand {
   propTypes?: any;
