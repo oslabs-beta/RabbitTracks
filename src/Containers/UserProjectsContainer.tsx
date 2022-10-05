@@ -6,11 +6,10 @@ import UserProjects from "../Components/UserProjects";
 const UserProjectsContainer = () : JSX.Element => {
   const [projectsList, setProjectsList] = useState([]);
 
-  const getData = async (param : {}) : Promise<void> => {
+  const getData = async () : Promise<void> => {
     console.log("Getting all user projects...");
     try {
-      const { data }: { data: [] } = await axios.post("http://localhost:3000/user/get-all-user-projects", 
-      param);     
+      const { data }: { data: [] } = await axios.get("http://localhost:3000/user/get-all-user-projects");     
       setProjectsList(data);
       console.log("Successfully got all user projects.");
     } catch (err) {
@@ -22,8 +21,7 @@ const UserProjectsContainer = () : JSX.Element => {
   };
 
   useEffect(() => {
-    //Currently, hard-coded, but we need to provide logged-in user_id
-    getData({"user_id": "2"});
+    getData();
   }, []);
 
       return (

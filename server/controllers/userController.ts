@@ -1,14 +1,13 @@
 const db = require("../models/elephantsql");
 
-import { UserProjects, UserController, UserProjectReqBody } from "../../types";
+import { UserProjects, UserController } from "../../types";
 
 import express, { Request, Response, NextFunction, RequestHandler } from "express";
 
 const userController: UserController = {};
 
 userController.getAllUserProjects = async (req: Request, res: Response, next: NextFunction) => {
-  const { user_id } : UserProjectReqBody = req.body;
-  //can the res.locals.user_id or the cookie from authController verifyUser (or session info) be used for the user_id?
+  const user_id = res.locals.user_id
   const queryString: string = `SELECT projects.project_name, projects.project_url from users_projects INNER JOIN projects 
   on users_projects.project_id = projects.project_id where user_id = ${user_id}`
 

@@ -16,10 +16,6 @@ export type UserProjectsProps = {
   projects: Array<UserProjects>;
 }
 
-export type UserProjectReqBody = {
-    user_id: number
-}
-
 export interface CreateDLXMessage extends Fields, Properties {
   projectId: number;
 }
