@@ -1,17 +1,17 @@
 require("dotenv").config();
-const db = require("../models/elephantsql");
 
 import { UserController } from "../../types";
 import { Request, Response, NextFunction } from "express";
 import { QueryTypes } from "sequelize";
 
+const db = require("../models/elephantsql");
 const userController: UserController = {};
 
 userController.addProject = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
     console.log("Adding new project...");
-    const { projectName, projectURL } = req.body;
+    const { projectName, projectURL } : { projectName: string, projectURL: string } = req.body;
 
-    // this needs to be removed after authController.verifyUser is functioning
+    // this needs to be removed after authController.verifySession is functioning
     res.locals.user_id = 2;
 
     const queryString: string =
@@ -23,11 +23,12 @@ userController.addProject = async (req: Request, res: Response, next: NextFuncti
 
     console.log('queryString --> ',queryString)
 
+
     await db
-    .query(queryString)
-    .then((data: any) => {
-      res.locals.message = data[0][0];
-      console.log("data -->", data);
+    .query(queryString, { type: QueryTypes.INSERT })
+    .then((value: Array<Array<{ user_id: number }>>): void => {
+      res.locals.message = value[0][0];
+      console.log("data -->", value);
       console.log("Successfully added project to database.");
       return next();
     })
