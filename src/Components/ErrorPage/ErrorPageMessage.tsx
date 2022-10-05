@@ -1,9 +1,10 @@
 import React from "react";
+import { JsxElement } from "typescript";
 
-function ErrorPageMessage() {
+function ErrorPageMessage(): JSX.Element {
   return (
     <div>
-      <h2>Uh oh - page not found!</h2>
+      <h2 id="error-message">----- Page not found! -----</h2>
     </div>
   );
 }

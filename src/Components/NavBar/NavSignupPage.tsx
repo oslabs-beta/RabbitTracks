@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
 import RabbitPaw from "../../assets/rabbitpaw.jpg";
 
-export default function NavSignupPage() {
+export default function NavSignupPage(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,7 +26,7 @@ export default function NavSignupPage() {
       <AppBar position="static" id="nav-bar">
         <div id="welcome-title">
           <h1>
-            WELCOME TO RABBIT <b id="first-word">TRACKS</b>
+            RABBIT <b id="first-word">TRACKS</b> SIGN UP
             <br></br>
           </h1>
         </div>

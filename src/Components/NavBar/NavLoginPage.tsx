@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
 import RabbitPaw from "../../assets/rabbitpaw.jpg";
 
-export default function NavLoginPage() {
+export default function NavLoginPage(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

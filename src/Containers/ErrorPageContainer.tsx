@@ -22,7 +22,7 @@ function ErrorPage() {
         </div>
         <div>
           <h1 id="error-text">
-            Click on the Rabbit to get back to the home screen!
+            <b>Click on the Rabbit to get back to the home screen!</b>
           </h1>
         </div>
       </div>

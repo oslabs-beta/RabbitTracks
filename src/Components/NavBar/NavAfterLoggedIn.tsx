@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
 import RabbitPaw from "../../assets/rabbitpaw.jpg";
 
-export default function NavAfterLoggedIn() {
+export default function NavAfterLoggedIn(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -42,47 +42,50 @@ export default function NavAfterLoggedIn() {
               <img id="rabbit-paw-pic" src={RabbitPaw} />
             </Link>
           </Typography>
-          <div id="nav-title">
-            <h2>
-              RABBIT <b id="first-word">TRACKS</b>
-            </h2>
-          </div>
+
           {
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle id="icon-button" />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <Link to="/messages/project1">
-                  <MenuItem onClick={handleClose}>Project 1</MenuItem>
-                </Link>
-                <MenuItem onClick={handleClose}>Project 2</MenuItem>
-                <Link to="/signup">
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </Link>
-              </Menu>
-            </div>
+            <>
+              <div id="nav-title">
+                <h2>
+                  RABBIT <b id="first-word">TRACKS</b>
+                </h2>
+              </div>
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle id="icon-button" />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <Link to="/messages/project1">
+                    <MenuItem onClick={handleClose}>Project 1</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleClose}>Project 2</MenuItem>
+                  <Link to="/signup">
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </Link>
+                </Menu>
+              </div>
+            </>
           }
         </Toolbar>
       </AppBar>

@@ -9,6 +9,7 @@ import NavLoginPage from "./Components/NavBar/NavLoginPage";
 import NavSignupPage from "./Components/NavBar/NavSignupPage";
 import ErrorPage from "./Containers/ErrorPageContainer";
 import { Link } from "react-router-dom";
+import path from "path";
 
 //errorPage path only works if first parameter after / does not match... ie if /signup/alkdfjas, it does not work currently
 
@@ -19,8 +20,8 @@ const App = (): JSX.Element => {
     <Routes>
       <Route path="*" element={<ErrorPage />} />
       <Route path="/" element={<Login />} />
-      <Route path="/signup/*" element={<ErrorPage />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/signup/poo" element={<ErrorPage />} />
       <Route path="/userprojects" element={<UserProjectsContainer />} />
       <Route path="/messages" element={<MessageContainer />} />
     </Routes>

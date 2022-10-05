@@ -32,8 +32,8 @@ body {
 
 #nav-title {
     font-family: 'Peralta', cursive;
-    text-align: center;
-    align-items: center;
+    text-align: left;
+    // align-items: ;
 }
 
 #icon-button {
@@ -52,4 +52,9 @@ body {
 
 #welcome-statement {
     text-align: center;
+}
+
+#error-message {
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif
 }
