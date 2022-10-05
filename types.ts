@@ -2,6 +2,20 @@ import { RequestHandler } from "express";
 
 // types for '/rabbitmq/consume'
 
+//userController types:
+export type UserController = {
+    getAllUserProjects?: RequestHandler;
+};
+
+export type UserProjects = {
+    project_name: string;
+    project_url: string
+}
+
+export type UserProjectsProps = {
+  projects: Array<UserProjects>;
+}
+
 export interface CreateDLXMessage extends Fields, Properties {
   projectId: number;
 }
@@ -77,6 +91,7 @@ export type MessageController = {
 export type DataTableProps = {
   messages: Array<Messages>;
 };
+
 
 export interface GridCellExpand {
   propTypes?: any;
