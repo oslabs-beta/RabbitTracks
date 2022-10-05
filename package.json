@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/oslabs-beta/rabbit-mq#readme",
   "dependencies": {
+    "@mui/icons-material": "^5.10.6",
     "amqplib": "^0.10.2",
     "axios": "^0.27.2",
     "babel-loader": "^8.2.5",

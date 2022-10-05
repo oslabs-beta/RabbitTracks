@@ -2,6 +2,7 @@ import express, {Request, Response} from "express"
 const router = express.Router()
 
 const userController = require("../controllers/userController");
+const authController = require("../controllers/authController")
 
 router.get(
   "/get-all-user-projects",
