@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -31,8 +31,9 @@ function Copyright(props: any) : JSX.Element {
 const theme = createTheme();
 
 export default function Login() : JSX.Element {
-  // navigate NEED TYPING
+  // navigate NEEDS TYPING?
   let navigate = useNavigate();
+  console.log(navigate)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) : Promise<void> => {
     event.preventDefault();
     // CHECK TYPING
@@ -42,9 +43,10 @@ export default function Login() : JSX.Element {
       email: data.get('email'),
       password: data.get('password'),
     })
-    // data NEEDS TYPING
+    // data NEEDS TYPING?
     .then(data => {
-      console.log("Successful login!");
+      console.log("Successful login!", data);
+      // eventually want to add user_id to URL (aka params) to load specific user projects page
       navigate('/userprojects');
     }).catch(err => {
       console.log("Unsuccessful login: ", err);
