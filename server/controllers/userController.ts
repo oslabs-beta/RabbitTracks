@@ -2,7 +2,7 @@ const db = require("../models/elephantsql");
 
 import { UserProjects, UserController } from "../../types";
 
-import express, { Request, Response, NextFunction, RequestHandler } from "express";
+import express, { Request, Response, NextFunction } from "express";
 
 const userController: UserController = {};
 
