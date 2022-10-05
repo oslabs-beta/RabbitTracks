@@ -264,6 +264,7 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
 
     if (results[0].user_id == user_id) {
       console.log("User is authorized.");
+      res.locals.user_id = results[0].user_id;
       return next();
     } else {
       res.clearCookie("session_id");
