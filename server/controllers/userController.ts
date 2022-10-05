@@ -11,9 +11,6 @@ userController.addProject = async (req: Request, res: Response, next: NextFuncti
     console.log("Adding new project...");
     const { projectName, projectURL } : { projectName: string, projectURL: string } = req.body;
 
-    // this needs to be removed after authController.verifySession is functioning
-    res.locals.user_id = 2;
-
     const queryString: string =
     `WITH project AS
         ( INSERT INTO projects (project_name, project_url)
