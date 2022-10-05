@@ -204,7 +204,6 @@ authController.createSession = async (req: Request, res: Response, next: NextFun
   }
 };
 
-// NEEDS TESTING WHEN CONNECTING INTO OTHER ROUTERS
 authController.verifySession = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
   console.log("Verifying session...");
   const session_id : string = req.cookies.session_id;
