@@ -15,7 +15,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
-function Copyright(props: any) {
+function Copyright(props: any) : JSX.Element {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
@@ -31,21 +31,21 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
-  // navigate NEEDS TYPING
+  // navigate NEEDS TYPING?
   let navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) : Promise<void> => {
     event.preventDefault();
     const data : FormData = new FormData(event.currentTarget);
     console.log("Signing up...")
-    // axios request goes here:
     await axios.post("/auth/signup", {
       email: data.get('email'),
       password: data.get('password'),
       passwordConfirm: data.get('passwordConfirm')
     })
-    // data NEEDS TYPING
+    // data NEEDS TYPING --> user id?
     .then(data => {
       console.log("Successful signup!");
+      // eventually will add user_id as a params
       navigate('/userprojects');
     }).catch(err => {
       console.log("Unsuccessful signup: ", err)
