@@ -17,10 +17,11 @@ const app : Application = express();
 const DIST_DIR = path.join(__dirname, "../build/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 
+app.use(cookieParser());
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+
 
 // Serve static files:
 app.use(express.static(DIST_DIR));

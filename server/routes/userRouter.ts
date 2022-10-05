@@ -6,6 +6,7 @@ const authController = require("../controllers/authController")
 
 router.get(
   "/get-all-user-projects",
+  // authController.createSession,
   authController.verifySession,
   userController.getAllUserProjects,
   (req: Request, res: Response) => {

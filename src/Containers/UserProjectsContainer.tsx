@@ -9,7 +9,7 @@ const UserProjectsContainer = () : JSX.Element => {
   const getData = async () : Promise<void> => {
     console.log("Getting all user projects...");
     try {
-      const { data }: { data: [] } = await axios.get("http://localhost:3000/user/get-all-user-projects");     
+      const { data }: { data: [] } = await axios.get("/user/get-all-user-projects");     
       setProjectsList(data);
       console.log("Successfully got all user projects.");
     } catch (err) {
