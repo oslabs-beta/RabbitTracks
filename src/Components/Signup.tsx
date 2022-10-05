@@ -46,6 +46,7 @@ export default function SignUp() {
     // data NEEDS TYPING
     .then(data => {
       console.log("Successful signup!");
+      // eventually want to add user_id to URL (aka params) to load specific user projects page
       navigate('/userprojects');
     }).catch(err => {
       console.log("Unsuccessful signup: ", err)

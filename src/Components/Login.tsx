@@ -36,7 +36,6 @@ export default function Login() : JSX.Element {
   console.log(navigate)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) : Promise<void> => {
     event.preventDefault();
-    // CHECK TYPING
     const data : FormData = new FormData(event.currentTarget);
     console.log("Logging in...")
     await axios.post("/auth/login", {
