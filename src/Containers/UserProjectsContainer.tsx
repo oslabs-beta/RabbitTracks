@@ -2,6 +2,7 @@ import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import UserProjects from "../Components/UserProjects";
+import MessageContainer from "./MessageContainer";
 
 const UserProjectsContainer = () : JSX.Element => {
   const [projectsList, setProjectsList] = useState([]);

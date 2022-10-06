@@ -8,12 +8,18 @@ export type UserController = {
 };
 
 export type UserProjects = {
+    project_id: number;
     project_name: string;
     project_url: string
 }
 
 export type UserProjectsProps = {
   projects: Array<UserProjects>;
+}
+
+export type UserMessagesProps = {
+  projectId?: number;
+  onClick?: React.MouseEventHandler
 }
 
 export interface CreateDLXMessage extends Fields, Properties {
