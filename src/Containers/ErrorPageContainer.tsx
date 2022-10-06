@@ -5,7 +5,7 @@ import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
 import RabbitPhoto from "../../src/assets/images/rabbitphoto.jpg";
 // import RabbitPhoto from "../../build/src/assets/rabbitphoto.jpg";
 
-function ErrorPage() {
+export default function ErrorPage() {
   return (
     <>
       <ErrorPageMessage />
@@ -30,4 +30,4 @@ function ErrorPage() {
   );
 }
 
-export default ErrorPage;
+// export default ErrorPage;

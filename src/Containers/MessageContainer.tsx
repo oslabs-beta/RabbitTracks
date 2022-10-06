@@ -33,11 +33,6 @@ const MessageContainer = (): JSX.Element => {
     getData();
   }, []);
 
-  // To make each message clickable:
-  // const handleOnClick = () => {
-
-  // }
-
   return (
     <>
       <NavAfterLoggedIn />

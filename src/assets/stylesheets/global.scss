@@ -42,6 +42,12 @@ body {
     text-align: left;
 }
 
+#header-title {
+    font-family: 'Peralta', cursive;
+    text-align: center;
+    flex-grow: 1;
+}
+
 #icon-button {
     height: 60px;
     width: 60px;
