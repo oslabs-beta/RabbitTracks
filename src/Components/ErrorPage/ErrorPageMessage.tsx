@@ -1,5 +1,4 @@
 import React from "react";
-import { JsxElement } from "typescript";
 
 function ErrorPageMessage(): JSX.Element {
   return (
