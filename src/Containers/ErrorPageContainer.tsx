@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
 // importing image not from build works too... i wonder if that is more efficient than running it in build?
-import RabbitPhoto from "../../src/assets/rabbitphoto.jpg";
+import RabbitPhoto from "../../src/assets/images/rabbitphoto.jpg";
 // import RabbitPhoto from "../../build/src/assets/rabbitphoto.jpg";
 
 function ErrorPage() {
