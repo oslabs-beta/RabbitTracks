@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { FunctionComponent } from 'react';
 import Modal from 'react-modal';
 import { ModalProps } from '../../types';
 
@@ -68,5 +67,3 @@ export default function AddProjectModal ({isShown, handleClose, handleSave, head
     </div>
   );
 }
-
-// export default AddProjectModal;
