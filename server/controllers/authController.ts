@@ -47,9 +47,9 @@ authController.signup = async (req: Request, res: Response, next: NextFunction) 
   // https://sequelize.org/docs/v6/core-concepts/raw-queries/#bind-parameter
 
 
-  const { email } : AuthRequestBody = req.body;
-  const params : AuthParams = [ email, res.locals.encryptedPassword ];
-  const queryString : string = `INSERT INTO users (user_email, user_password) VALUES ($1, $2) RETURNING user_id;`;
+  const { firstName, lastName, email } : AuthRequestBody = req.body;
+  const params : AuthParams = [ firstName, lastName, email, res.locals.encryptedPassword ];
+  const queryString : string = `INSERT INTO users (first_name, last_name, user_email, user_password) VALUES ($1, $2, $3, $4) RETURNING user_id;`;
 
   if (email) {
     try {
@@ -60,7 +60,6 @@ authController.signup = async (req: Request, res: Response, next: NextFunction) 
         });
 
       res.locals.user_id = results[0][0].user_id;
-      // res.cookie("user_id", res.locals.user_id, { httpOnly: true });
 
       console.log("Signup completed.");
       return next();

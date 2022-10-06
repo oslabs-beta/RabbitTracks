@@ -60,6 +60,8 @@ export type AuthResults = Array<{
 export type AuthParams = Array<number | string>;
 
 export type AuthRequestBody = {
+  firstName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
   passwordConfirm?: string;

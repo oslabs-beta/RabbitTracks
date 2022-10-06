@@ -38,6 +38,8 @@ export default function SignUp() {
     const data : FormData = new FormData(event.currentTarget);
     console.log("Signing up...")
     await axios.post("/auth/signup", {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
       passwordConfirm: data.get('passwordConfirm')
