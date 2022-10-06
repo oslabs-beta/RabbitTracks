@@ -210,6 +210,9 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
   const session_id : string = req.cookies.session_id;
   let user_id : number;
 
+  // console.log("req.headers...", req.headers.cookies)
+  // console.log("session id: " + req.cookies)
+
   if (session_id) {
     console.log("Decoding session_id...");
     try {

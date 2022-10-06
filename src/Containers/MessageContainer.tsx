@@ -1,23 +1,25 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import DataTable from "../Components/DeadLetterMessage";
+import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
 
-
-const MessageContainer = () : JSX.Element => {
+const MessageContainer = (): JSX.Element => {
   // DOES THIS NEED TYPING?
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
-
 
   // Need to handle how to 'live-update' messages on screen without infinite loop - Jerikko
   // Look into websockets? socket.io? subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
   // https://stackoverflow.com/questions/53871327/update-react-data-when-mysql-data-changes
   useEffect(() => {
-    const getData = async () : Promise<void> => {
+    const getData = async (): Promise<void> => {
       console.log("Getting all messages...");
       try {
         // data TYPING NEEDS VERIFICATION
-        const { data } : { data: [] } = await axios.get("/messages/get-all-messages");
+        const { data }: { data: [] } = await axios.get(
+          "/messages/get-all-messages"
+        );
         setDeadLetterMessages(data);
         console.log("Successfully got all messages.");
       } catch (err) {
@@ -36,9 +38,12 @@ const MessageContainer = () : JSX.Element => {
 
   // }
 
-    return (
-      <DataTable messages={deadLetterMessages}/>
-    );
+  return (
+    <>
+      <NavAfterLoggedIn />
+      <DataTable messages={deadLetterMessages} />
+    </>
+  );
 };
 
 export default MessageContainer;
