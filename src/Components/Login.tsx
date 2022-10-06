@@ -39,7 +39,6 @@ const theme = createTheme();
 export default function Login(): JSX.Element {
   // navigate NEEDS TYPING?
   let navigate = useNavigate();
-  console.log(navigate);
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
