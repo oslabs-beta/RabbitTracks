@@ -1,15 +1,18 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
 import UserProjects from "../Components/UserProjects";
 
-const UserProjectsContainer = () : JSX.Element => {
+const UserProjectsContainer = (): JSX.Element => {
   const [projectsList, setProjectsList] = useState([]);
 
-  const getData = async () : Promise<void> => {
+  const getData = async (): Promise<void> => {
     console.log("Getting all user projects...");
     try {
-      const { data }: { data: [] } = await axios.get("/user/get-all-user-projects");     
+      const { data }: { data: [] } = await axios.get(
+        "/user/get-all-user-projects"
+      );
       setProjectsList(data);
       console.log("Successfully got all user projects.");
     } catch (err) {
@@ -24,11 +27,14 @@ const UserProjectsContainer = () : JSX.Element => {
     getData();
   }, []);
 
-      return (
+  return (
+    <>
+      <NavAfterLoggedIn />
       <div>
-      <UserProjects projects={projectsList}/>
+        <UserProjects projects={projectsList} />
       </div>
-    );
+    </>
+  );
 };
 
 export default UserProjectsContainer;

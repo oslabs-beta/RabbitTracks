@@ -80,7 +80,7 @@ export default function NavAfterLoggedIn(): JSX.Element {
                     <MenuItem onClick={handleClose}>Project 1</MenuItem>
                   </Link>
                   <MenuItem onClick={handleClose}>Project 2</MenuItem>
-                  <Link to="/signup">
+                  <Link to="/">
                     <MenuItem onClick={handleClose}>Logout</MenuItem>
                   </Link>
                 </Menu>
