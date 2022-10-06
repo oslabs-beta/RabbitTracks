@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavSignupPage from "./NavBar/NavSignupPage";
 import axios from "axios";
 
-function Copyright(props: any) : JSX.Element {
+function Copyright(props: any): JSX.Element {
   return (
     <Typography
       variant="body2"
@@ -43,23 +43,25 @@ export default function SignUp() {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    const data : FormData = new FormData(event.currentTarget);
-    console.log("Signing up...")
-    await axios.post("/auth/signup", {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-      passwordConfirm: data.get('passwordConfirm')
-    })
-    // data NEEDS TYPING --> user id?
-    .then(data => {
-      console.log("Successful signup!");
-      // eventually will add user_id as a params
-      navigate('/userprojects');
-    }).catch(err => {
-      console.log("Unsuccessful signup: ", err)
-    })
+    const data: FormData = new FormData(event.currentTarget);
+    console.log("Signing up...");
+    await axios
+      .post("/auth/signup", {
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        email: data.get("email"),
+        password: data.get("password"),
+        passwordConfirm: data.get("passwordConfirm"),
+      })
+      // data NEEDS TYPING --> user id?
+      .then((data) => {
+        console.log("Successful signup!");
+        // eventually will add user_id as a params
+        navigate("/userprojects");
+      })
+      .catch((err) => {
+        console.log("Unsuccessful signup: ", err);
+      });
   };
 
   return (
@@ -178,7 +180,9 @@ export default function SignUp() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-              />
+              >
+                Sign Up
+              </Button>
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />
