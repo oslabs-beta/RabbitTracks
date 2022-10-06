@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 require("dotenv").config();
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
   },
   externals: {
-    express: 'express',
+    express: "express",
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -59,13 +59,23 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        use: ['ts-loader'],
-      }
-,
+        use: ["ts-loader"],
+      },
       {
         test: /\.s[ac]ss$/i,
         exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[ext]",
+            },
+          },
+        ],
       },
     ],
   },
