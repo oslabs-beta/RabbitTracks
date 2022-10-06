@@ -37,7 +37,7 @@ export default function NavAfterLoggedIn(): JSX.Element {
       </FormGroup> */}
       <AppBar position="static" id="nav-bar">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div">
             <Link to="/userprojects">
               <img id="rabbit-paw-pic" src={RabbitPaw} />
             </Link>
@@ -45,11 +45,9 @@ export default function NavAfterLoggedIn(): JSX.Element {
 
           {
             <>
-              <div id="nav-title">
-                <h2>
-                  RABBIT <b id="first-word">TRACKS</b>
-                </h2>
-              </div>
+              <h2 id="header-title">
+                RABBIT <b id="first-word">TRACKS</b>
+              </h2>
               <div>
                 <IconButton
                   size="large"
