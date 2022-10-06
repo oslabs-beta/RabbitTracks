@@ -4,6 +4,7 @@ import { useEffect, useState, MouseEvent, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import UserProjects from "../Components/UserProjects";
 import AddProjectModal from "../Components/AddProjectModal";
+import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
 
 
 const UserProjectsContainer = () : JSX.Element => {
@@ -68,6 +69,7 @@ const UserProjectsContainer = () : JSX.Element => {
 
     return (
       <div>
+        <NavAfterLoggedIn />
         <div>
           <UserProjects projects={projectsList}/>
         </div>
