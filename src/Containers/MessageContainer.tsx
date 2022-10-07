@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import DataTable from "../Components/DeadLetterMessage";
 import { UserMessagesProps } from '../../types'
 
-
 const MessageContainer = (props: UserMessagesProps) : JSX.Element => {
   const { projectId } = props;
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
-
 
   // Need to handle how to 'live-update' messages on screen without infinite loop - Jerikko
   // Look into websockets? socket.io? subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
