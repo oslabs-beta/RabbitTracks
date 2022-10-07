@@ -1,7 +1,70 @@
 body {
     background-color: white;
 }
+.nav-after-logged-in {
+    display: flex;
+    justify-content: space-around;
+}
+#error-image {
+   display: flex;  
+   flex-direction: row;
+   align-items: center;
+   background-color: #ff5a00;
+   font-family: 'Courier New', Courier, monospace;
+}
+#error-text {
+    margin-left: 15px;
+}
+#error-message {
+    background-color: white;
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif
+}
 
+#save-button {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+#nav-bar {
+    background-color: #ff5a00;
+}
+
+#rabbit-paw-pic {
+    margin-top: 10px;
+    height: 50px;
+    width: 65px;
+    border-radius: 50%
+}
+
+#nav-title {
+    font-family: 'Peralta', cursive;
+    text-align: left;
+}
+
+#header-title {
+    font-family: 'Peralta', cursive;
+    text-align: center;
+    flex-grow: 1;
+}
+
+#icon-button {
+    height: 60px;
+    width: 60px;
+}
+
+#first-word {
+    color: black
+}
+
+#welcome-title {
+    text-align: center;
+    font-family: 'Peralta', cursive;
+}
+
+#welcome-statement {
+    text-align: center;
+}
 .projects-container {
     display: flex;
     flex-direction: column;
@@ -24,5 +87,5 @@ body {
     width: 32%;
     height: 10%;
     color:rgb(58, 42, 3);
-    text-align: center
+    text-align: center;
 }

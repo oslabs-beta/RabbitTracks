@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import DataTable from "../Components/DeadLetterMessage";
 import { UserMessagesProps } from '../../types'
 
@@ -12,7 +13,7 @@ const MessageContainer = (props: UserMessagesProps) : JSX.Element => {
   // Look into websockets? socket.io? subscriptions? useContext? Polling? setInterval? Want to avoid screen refreshes probably...
   // https://stackoverflow.com/questions/53871327/update-react-data-when-mysql-data-changes
   useEffect(() => {
-    const getData = async () : Promise<void> => {
+    const getData = async (): Promise<void> => {
       console.log("Getting all messages...");
       try {
         const { data } : { data: [] } = await axios.post("/messages/get-all-messages", 
@@ -30,12 +31,12 @@ const MessageContainer = (props: UserMessagesProps) : JSX.Element => {
     getData();
   }, []);
 
-  // To make each message clickable:
-  // const handleOnClick = () => {}
-
-    return (
-      <DataTable messages={deadLetterMessages}/>
-    );
+  return (
+    <>
+      <NavAfterLoggedIn />
+      <DataTable messages={deadLetterMessages} />
+    </>
+  );
 };
 
 export default MessageContainer;

@@ -1,11 +1,7 @@
 import { RequestHandler } from "express";
+import * as React from 'react'
 
 // types for '/rabbitmq/consume'
-
-//userController types:
-export type UserController = {
-    getAllUserProjects?: RequestHandler;
-};
 
 export type UserProjects = {
     project_id: number;
@@ -80,6 +76,8 @@ export type AuthResults = Array<{
 export type AuthParams = Array<number | string>;
 
 export type AuthRequestBody = {
+  firstName?: string;
+  lastName?: string;
   email?: string;
   password?: string;
   passwordConfirm?: string;
@@ -91,6 +89,13 @@ export type MessageController = {
   getAllMessages?: RequestHandler;
   addMessage?: RequestHandler;
 };
+
+// types for '/server/controllers/userController'
+
+export type UserController = {
+  addProject?: RequestHandler;
+  getAllUserProjects?: RequestHandler;
+}
 
 // types for '/src/Components/DeadLetterMessage'
 
@@ -177,3 +182,17 @@ export type Rows = Array<{
   appId: string | null;
   clusterId: string | null;
 }>;
+
+// types for AddProjectModal
+
+export interface ModalProps {
+  isShown: boolean;
+  handleClose: () => void;
+  handleSave: () => void;
+  // modalContent: JSX.Element;
+  headerText: string;
+  setNameErr: React.Dispatch<React.SetStateAction<boolean>>;
+  setURLErr: React.Dispatch<React.SetStateAction<boolean>>;
+  projectNameError: boolean;
+  projectURLError: boolean;
+}
