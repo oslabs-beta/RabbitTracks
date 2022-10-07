@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import DataTable from "../Components/DeadLetterMessage";
 import { UserMessagesProps } from '../../types'
+import NavAfterLoggedIn from '../Components/NavBar/NavAfterLoggedIn'
 
 const MessageContainer = (props: UserMessagesProps) : JSX.Element => {
   const { projectId } = props;
