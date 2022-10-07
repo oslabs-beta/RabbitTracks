@@ -18,8 +18,7 @@ messageController.getAllMessages = async (
 ) => {
   console.log("Getting all messages...");
 
-  // projectId will eventually come from logged in user's project_id
-  const projectId: number = 1;
+  const projectId: number = req.body.project_id;
 
   const queryString: string = `SELECT * FROM messages WHERE project_id = ${projectId}`;
 

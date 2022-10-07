@@ -3,6 +3,7 @@ import * as React from "react";
 import { useEffect, useState, MouseEvent, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import UserProjects from "../Components/UserProjects";
+import MessageContainer from "./MessageContainer";
 import AddProjectModal from "../Components/AddProjectModal";
 import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
 

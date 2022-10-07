@@ -5,9 +5,9 @@ const router = express.Router()
 const authController : AuthController = require("../controllers/authController");
 const messageController = require("../controllers/messageController");
 
-router.get(
+router.post(
   "/get-all-messages",
-  authController.verifySession,
+  // authController.verifySession,
   messageController.getAllMessages,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.messages);
