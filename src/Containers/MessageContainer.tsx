@@ -3,10 +3,10 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../Components/DeadLetterMessage";
-import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
+import { UserMessagesProps } from '../../types'
 
-const MessageContainer = (): JSX.Element => {
-  // DOES THIS NEED TYPING?
+const MessageContainer = (props: UserMessagesProps) : JSX.Element => {
+  const { projectId } = props;
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
 
   // Need to handle how to 'live-update' messages on screen without infinite loop - Jerikko
@@ -16,10 +16,8 @@ const MessageContainer = (): JSX.Element => {
     const getData = async (): Promise<void> => {
       console.log("Getting all messages...");
       try {
-        // data TYPING NEEDS VERIFICATION
-        const { data }: { data: [] } = await axios.get(
-          "/messages/get-all-messages"
-        );
+        const { data } : { data: [] } = await axios.post("/messages/get-all-messages", 
+        {"project_id": "1"}); //hard-codded project_id until figure out why props not working
         setDeadLetterMessages(data);
         console.log("Successfully got all messages.");
       } catch (err) {
