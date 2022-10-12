@@ -6,6 +6,11 @@ const cors = require("cors")
 import express, { Application, Request, Response, NextFunction } from "express";
 import { ServerError } from "./../types";
 
+// Socket.IO stuff
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+
 const PORT = process.env.PORT;
 
 const authRouter = require("./routes/authRouter");
@@ -16,6 +21,23 @@ const app: Application = express();
 const DIST_DIR = path.join(__dirname, "../build/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 // const FOUROHFOUR_FILE = path.join(DIST_DIR, "404error.html");
+
+// Socket.io stuff
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: 'http://localhost:3000'
+  }
+});
+io.on("connection", (socket: any) => {
+  console.log(`Connected to socket: ${socket.id}.`)
+})
+
+const messagesSocket = io.of("/messages");
+messagesSocket.on("connection", (socket: any) => {
+  console.log('Socket connected on /messages');
+})
+
 
 app.use(cookieParser());
 app.use(cors())
@@ -55,8 +77,13 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+httpServer.listen(PORT, (err: any) => {
+  if (err) console.log(err);
+  console.log(`Listening on port ${PORT}`)
 });
+
+// app.listen(PORT, () => {
+//   console.log(`Listening on port ${PORT}`);
+// });
 
 module.exports = app;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, Outlet, BrowserRouter } from "react-router-dom";
 import MessageContainer from "./Containers/MessageContainer";
 import UserProjectsContainer from "./Containers/UserProjectsContainer";
@@ -11,11 +11,13 @@ import ErrorPage from "./Containers/ErrorPageContainer";
 import { Link } from "react-router-dom";
 import path from "path";
 
+
 //errorPage path only works if first parameter after / does not match... ie if /signup/alkdfjas, it does not work currently
 
 //attempt to implement an if-else here?
 
 const App = (): JSX.Element => {
+
   return (
     <Routes>
       <Route path="*" element={<ErrorPage />} />
