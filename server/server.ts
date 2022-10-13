@@ -15,7 +15,6 @@ const userRouter = require("./routes/userRouter")
 const app: Application = express();
 const DIST_DIR = path.join(__dirname, "../build/");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
-// const FOUROHFOUR_FILE = path.join(DIST_DIR, "404error.html");
 
 app.use(cookieParser());
 app.use(cors())
@@ -54,7 +53,6 @@ app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-// Start Server
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
