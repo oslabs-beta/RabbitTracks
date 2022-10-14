@@ -96,7 +96,7 @@ export default function DataTable(props: DataTableProps) {
           <Popper
             open={showFullCell && anchorEl !== null}
             anchorEl={anchorEl}
-            style={{ width, marginLeft: -17 }}
+            style={{ width, offset: -17 }}
           >
             <Paper
               elevation={1}
@@ -113,7 +113,7 @@ export default function DataTable(props: DataTableProps) {
   });
 
   GridCellExpand.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
     width: PropTypes.number.isRequired,
   };
   
@@ -191,6 +191,9 @@ export default function DataTable(props: DataTableProps) {
         rowsPerPageOptions={[10]}
         components={{ Toolbar: GridToolbar }}
         initialState={{
+          sorting: {
+            sortModel: [{ field: 'timestamp', sort: 'desc' }],
+          },
           columns: {
             columnVisibilityModel: {
               // On load, hide any columns set as false, all other columns start as visible

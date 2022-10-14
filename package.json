@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=production ts-node server/server.ts",
     "build": "webpack",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.ts\""
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.ts\" \"cross-env NODE_ENV=development ts-node rabbitmq/consume.ts\""
   },
   "repository": {
     "type": "git",
@@ -45,10 +45,13 @@
     "sass": "^1.54.4",
     "sass-loader": "^13.0.2",
     "sequelize": "^6.21.4",
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2",
     "sqlite3": "^5.0.11",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "ws": "^8.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
