@@ -93,8 +93,6 @@ messagesSocket.on('connection', (socket: Socket) => {
   
         if (content) console.log(" [x] Received %s", content.toString());
         console.log("Adding message...");
-  
-        socket.emit('data received', (input: string) => console.log(input))
 
         await axios
           .post<CreateDLXMessage>(
@@ -131,7 +129,7 @@ messagesSocket.on('connection', (socket: Socket) => {
             // For some reason, channel.ack(msg) will acknowledge the message, but {noAck: false} doesn't work... Removed {noAck: false} - Jerikko
             if (msg) channel.ack(msg);
             console.log("Successfully added message.");
-            socket.emit('data added', () => console.log(`'data added' event emitted`))
+            socket.emit('data added', () => console.log(`'data added' event emitted`));
           })
           .catch((err: Error) => {
             console.log("Axios error when attempting to add message... ", err);

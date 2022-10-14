@@ -12,10 +12,8 @@ const MessageContainer = (props: UserMessagesProps): JSX.Element => {
 
   // establish socket connection
   const messagesSocket = io('http://localhost:4000/messages');
-  messagesSocket.on('connect', () => console.log(`I've connected!!`));
-  messagesSocket.on('data added', (callback) => {
-    getData();
-  });
+  messagesSocket.on('connect', () => console.log(`Sockets connection established on /messages`));
+  messagesSocket.on('data added', (callback) => getData());
 
 
   const getData = async (): Promise<void> => {
