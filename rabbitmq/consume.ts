@@ -24,10 +24,13 @@ const io = require("socket.io")(4000, {
   }
 })
 
+const messagesSocket = io.of("/messages");
+
+
 const amqpURL: string =
 "amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw";
 
-io.on('connection', (socket: Socket) => {
+messagesSocket.on('connection', (socket: Socket) => {
   amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
     if (error0) {
       throw error0;
@@ -128,7 +131,7 @@ io.on('connection', (socket: Socket) => {
             // For some reason, channel.ack(msg) will acknowledge the message, but {noAck: false} doesn't work... Removed {noAck: false} - Jerikko
             if (msg) channel.ack(msg);
             console.log("Successfully added message.");
-            socket.emit('data added', () => console.log('data in database'))
+            socket.emit('data added', () => console.log(`'data added' event emitted`))
           })
           .catch((err: Error) => {
             console.log("Axios error when attempting to add message... ", err);

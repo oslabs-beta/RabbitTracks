@@ -76,7 +76,7 @@ messageController.addMessage = async (req, res, next) => {
     .query(queryString)
     .then((data: Array<Array<Messages>>) => {
       res.locals.message = data[0][0];
-      console.log("dis data", data);
+      // console.log("dis data", data);
       console.log("Successfully added message to database.");
       return next();
     })

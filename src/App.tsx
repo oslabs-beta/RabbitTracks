@@ -15,14 +15,6 @@ import path from "path";
 
 //attempt to implement an if-else here?
 
-import { io } from "socket.io-client";
-const socket = io("http://localhost:4000");
-
-// connect to the server
-socket.on('connect', () => console.log(`I've connected!!`))
-socket.on('data received', (callback) => callback('got data'))
-socket.on('data added', (callback) => callback())
-
 
 const App = (): JSX.Element => {
   return (
