@@ -18,9 +18,9 @@ export default function UserProjects(props: UserProjectsProps) {
       )
     } 
 
-    const rows: JSX.Element[] = projects.map(el => {
+    const rows: JSX.Element[] = projects.map((el, i) => {
         return (
-          <div className="projects-container">
+          <div className="projects-container" key={i}>
             <div className="projects-div">
           <p>Project Name: {el.project_name}</p>
           {/* <p>Project URL: <a href={el.project_url} target="_blank" onClick={() => getMessages(el.project_id)}>Click here to go to project</a></p> */}
