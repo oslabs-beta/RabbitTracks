@@ -286,4 +286,11 @@ authController.verifySession = async (req: Request, res: Response, next: NextFun
   }
 };
 
+authController.logout = async (req: Request, res: Response, next: NextFunction) : Promise<void> => {
+  console.log("Logging out...");
+  res.clearCookie("session_id");
+  console.log("Logged out successfuly.")
+  return next();
+};
+
 module.exports = authController;
