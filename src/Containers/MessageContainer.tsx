@@ -34,9 +34,24 @@ const MessageContainer = (props: UserMessagesProps): JSX.Element => {
   };
 
   useEffect(() => {
+    // run RabbitMQ consumer
+    const externalScript = document.createElement('script');
+    externalScript.src = "../../rabbitmq/consume.ts";
+    externalScript.async = true;
+    document.head.append(externalScript);
+
+    const inlineScript = document.createElement('script');
+    inlineScript.innerHTML = '../../rabbitmq/consume.ts';
+    document.body.append(inlineScript);
+
     getData();
+
     return () => {
       messagesSocket.disconnect();
+      
+      // stop RabbitMQ consumer
+      externalScript.remove();
+      inlineScript.remove();
     };
   }, []);
 
