@@ -65,6 +65,7 @@ export type AuthController = {
   verifyPassword?: RequestHandler;
   createSession?: RequestHandler;
   verifySession?: RequestHandler;
+  logout?: RequestHandler;
 };
 
 export type AuthResults = Array<{

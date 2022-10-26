@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,8 +10,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
 import RabbitPaw from "../../assets/images/rabbitpaw.jpg";
+import axios from "axios";
 
 export default function NavAfterLoggedIn(): JSX.Element {
+  let navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -19,6 +22,24 @@ export default function NavAfterLoggedIn(): JSX.Element {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = async (
+    event: React.MouseEvent<HTMLElement>
+  ): Promise<void> => {
+    event.preventDefault();
+    // CHECK TYPING
+    console.log("Logging out...");
+    await axios
+      .post("/auth/logout")
+      // data NEEDS TYPING?
+      .then((data) => {
+        console.log("Successful logout!");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("Unsuccessful logout: ", err);
+      });
   };
 
   return (
@@ -78,8 +99,8 @@ export default function NavAfterLoggedIn(): JSX.Element {
                     <MenuItem onClick={handleClose}>Project 1</MenuItem>
                   </Link>
                   <MenuItem onClick={handleClose}>Project 2</MenuItem>
-                  <Link to="/signup">
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  <Link to="/">
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Link>
                 </Menu>
               </div>
