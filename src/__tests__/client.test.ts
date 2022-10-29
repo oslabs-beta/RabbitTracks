@@ -15,9 +15,9 @@ afterEach(() => {
   cleanup();
 });
 
-test("renders the landing page", () => {
-  render(<App />);
-});
+// test("renders the landing page", () => {
+//   render(<App />);
+// });
 
 // test("should render some container", () => {
 //   render(< />);

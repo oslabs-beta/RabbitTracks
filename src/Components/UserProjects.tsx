@@ -7,24 +7,19 @@ import { useNavigate } from "react-router-dom"
 export default function UserProjects(props: UserProjectsProps) {
     const { projects } = props;    
 
-    //handleclick event of project url and pass in message container
     let navigate = useNavigate() 
-    const getMessages = (project_id : number) => {
-      navigate(`/messages/`)
-          return (
-        <div>
-          <MessageContainer projectId={project_id}/>
-        </div>
-      )
+    const handleClickGetMessages = (projectID : Number) => {
+      navigate("/messages", {state: {projectID: projectID}})
     } 
 
-    const rows: JSX.Element[] = projects.map(el => {
+    const rows: JSX.Element[] = projects.map((el, i) => {
         return (
-          <div className="projects-container">
+          <div className="projects-container" key={i}>
             <div className="projects-div">
-          <p>Project Name: {el.project_name}</p>
-          {/* <p>Project URL: <a href={el.project_url} target="_blank" onClick={() => getMessages(el.project_id)}>Click here to go to project</a></p> */}
-          <button onClick={() => getMessages(el.project_id)}>Click here to go to project</button>
+          <p>{el.project_name}</p>
+          <div>
+          <button className="messages-btn" onClick={() => handleClickGetMessages(el.project_id)}>Click here to see messages</button>
+          </div>
           </div>
           </div>
         )

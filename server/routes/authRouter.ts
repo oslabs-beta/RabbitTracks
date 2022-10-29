@@ -25,4 +25,8 @@ router.post(
   }
 );
 
+router.post("/logout", authController.logout, (req: Request, res: Response) => {
+  return res.status(200).send('Successful logout!');
+})
+
 module.exports = router;
