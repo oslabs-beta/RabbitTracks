@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation } from "react-router-dom";
 import DataTable from '../Components/DeadLetterMessage';
 import { UserMessagesProps } from '../../types';
@@ -11,12 +11,6 @@ const MessageContainer = (): JSX.Element => {
   const [deadLetterMessages, setDeadLetterMessages] = useState([]);
 
   const { state } = useLocation();
-
-  // establish socket connection
-  const messagesSocket = io('http://localhost:4000/messages');
-  messagesSocket.on('connect', () => console.log(`Sockets connection established on /messages`));
-  messagesSocket.on('data added', (callback) => { getData() });
-
 
   const getData = async (): Promise<void> => {
     console.log('Getting all messages...');
@@ -34,26 +28,23 @@ const MessageContainer = (): JSX.Element => {
       );
     }
   };
+  
 
   useEffect(() => {
-    // run RabbitMQ consumer
-    const externalScript = document.createElement('script');
-    externalScript.src = "../../rabbitmq/consume.ts";
-    externalScript.async = true;
-    document.head.append(externalScript);
-
-    const inlineScript = document.createElement('script');
-    inlineScript.innerHTML = '../../rabbitmq/consume.ts';
-    document.body.append(inlineScript);
-
     getData();
 
+  // Establish client-side socket connection on component mount
+    const messagesSocket = io('http://localhost:3000/messages');
+    messagesSocket.on('connect', () => {
+      console.log(`Socket connection established on /messages`)
+      messagesSocket.emit('join', 'consume-messages')
+    });
+    messagesSocket.on('message-added', (callback) => { getData() });
+    messagesSocket.on('disconnect', () => console.log('Client side websocket has disconnected'));
+
     return () => {
+      // close socket connection on component unmount
       messagesSocket.disconnect();
-      
-      // stop RabbitMQ consumer
-      externalScript.remove();
-      inlineScript.remove();
     };
   }, []);
 

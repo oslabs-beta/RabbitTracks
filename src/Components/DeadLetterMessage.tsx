@@ -75,39 +75,43 @@ export default function DataTable(props: DataTableProps) {
           display: 'flex',
         }}
       >
-        <Box
-          ref={cellDiv}
-          sx={{
-            height: '100%',
-            width,
-            display: 'block',
-            position: 'absolute',
-            top: 0,
+        <>
+          <Box
+            ref={cellDiv}
+            sx={{
+              height: '100%',
+              width,
+              display: 'block',
+              position: 'absolute',
+              top: 0,
 
-          }}
-        />
-        <Box
-          ref={cellValue}
-          sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-        >
-          {value}
-        </Box>
-        {showPopper && (
-          <Popper
-            open={showFullCell && anchorEl !== null}
-            anchorEl={anchorEl}
-            style={{ width, offset: -17 }}
+            }}
+          />
+          <Box
+            ref={cellValue}
+            sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
           >
-            <Paper
-              elevation={1}
-              style={{ minHeight: 'fit-content', whiteSpace: 'nowrap', width: 'fit-content' }}
+            <>
+            {value}
+            </>
+          </Box>
+          {showPopper && (
+            <Popper
+              open={showFullCell && anchorEl !== null}
+              anchorEl={anchorEl}
+              style={{ width, offset: -17 }}
             >
-              <Typography variant="body2" style={{ padding: 8 }}>
-                {value}
-              </Typography>
-            </Paper>
-          </Popper>
-        )}
+              <Paper
+                elevation={1}
+                style={{ minHeight: 'fit-content', whiteSpace: 'nowrap', width: 'fit-content' }}
+              >
+                <Typography variant="body2" style={{ padding: 8 }}>
+                  {value}
+                </Typography>
+              </Paper>
+            </Popper>
+          )}
+        </>
       </Box>
     );
   });
