@@ -1,7 +1,7 @@
 import * as React from "react";
 import { UserProjectsProps } from '../../types'
-import MessageContainer from "../Containers/MessageContainer";
 import { useNavigate } from "react-router-dom"
+import axios from "axios";
 
 
 export default function UserProjects(props: UserProjectsProps) {
@@ -9,7 +9,22 @@ export default function UserProjects(props: UserProjectsProps) {
 
     let navigate = useNavigate() 
     const handleClickGetMessages = (projectID : Number) => {
-      navigate("/messages", {state: {projectID: projectID}})
+      navigate("/messages", {state: {projectID: projectID}});
+
+      axios.post('/messages/run-consume', {
+        projectID
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("Successfully started consumer");
+      })
+      .catch((err: Error) => {
+        console.log("Axios error when attempting to start consumer... ", err);
+      });
     } 
 
     const rows: JSX.Element[] = projects.map((el, i) => {

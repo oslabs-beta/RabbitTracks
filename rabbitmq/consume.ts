@@ -4,60 +4,65 @@
 
 // and export to DeadLetterMessage JSX component
 
-
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
-import axios from "axios";
+import axios from 'axios';
 import amqp, {
   Connection,
   Channel,
   Message,
   MessageFields,
   MessageProperties,
-} from "amqplib/callback_api";
-import { CreateDLXMessage, Properties, Fields } from "../types";
-import { Socket } from "dgram";
-
-const io = require("socket.io")(4000, {
-  cors: {
-      origin: ['http://localhost:8080']
-  }
-})
-
-const messagesSocket = io.of("/messages");
+} from 'amqplib/callback_api';
+import { CreateDLXMessage, Properties, Fields } from '../types';
+import { Socket } from 'dgram';
 
 
-const amqpURL: string =
-"amqps://xhvmtemw:wv7SvO0M_6pC28ICXh5JqrkmAKyj4-XJ@gull.rmq.cloudamqp.com/xhvmtemw";
+export const runConsume = (URL: string) => {
+  
+  // Establish client-side socket connection
+  const io = require('socket.io-client');
+  const socket = io.connect("http://localhost:3000/messages", {
+    reconnection: true
+  });
+  
+  socket.on('connect', function(socket: Socket) {
+    console.log(`Socket connection established in consume file`)
+  });
 
-messagesSocket.on('connection', (socket: Socket) => {
-  amqp.connect(amqpURL, function (error0: Error, connection: Connection) {
+  socket.emit('hello');
+
+  amqp.connect(URL, function (error0: Error, connection: Connection) {
     if (error0) {
       throw error0;
     }
-  
+
+    console.log('RabbitMQ Connection Established');
+
     connection.createChannel(function (error1: Error, channel: Channel) {
       if (error1) {
         throw error1;
       }
-      
+
       // Theoretically grabbing OSP-DLExchange **FROM user**, but hardcoding for now
-      const DLExchange: string = "OSP-DLExchange";
-      const DLQueue: string = "OSP-DLQueue";
-  
-      channel.assertExchange(DLExchange, "fanout");
+      const DLExchange: string = 'OSP-DLExchange';
+      const DLQueue: string = 'OSP-DLQueue';
+
+      channel.assertExchange(DLExchange, 'fanout');
       channel.assertQueue(DLQueue, { durable: true });
-      channel.bindQueue(DLQueue, DLExchange, "");
-  
+      channel.bindQueue(DLQueue, DLExchange, '');
+
       console.log(
-        " [*] Waiting for messages in %s. To exit press CTRL+C",
+        ' [*] Waiting for messages in %s. To exit press CTRL+C',
         DLQueue
       );
-  
+
       channel.consume(DLQueue, async function (msg: Message | null) {
+        console.log('RabbitMQ Consume Triggered');
+        
         // This field will need to be grabbed from the project later instead of hardcoding
         const projectId: number = 1;
-  
+        
         const {
           content,
           fields,
@@ -90,52 +95,58 @@ messagesSocket.on('connection', (socket: Socket) => {
           appId,
           clusterId,
         }: Properties = { ...properties };
-  
-        if (content) console.log(" [x] Received %s", content.toString());
-        console.log("Adding message...");
-
+        
+        if (content) console.log(' [x] Received %s', content.toString());
+        console.log('Adding message...');
+        
         await axios
-          .post<CreateDLXMessage>(
-            "http://localhost:8080/messages/add-message",
-            {
-              consumerTag,
-              deliveryTag,
-              redelivered,
-              exchange,
-              routingKey,
-              contentType,
-              contentEncoding,
-              deliveryMode,
-              priority,
-              correlationId,
-              replyTo,
-              expiration,
-              messageId,
-              timestamp,
-              type,
-              userId,
-              appId,
-              clusterId,
-              headers,
-              projectId,
+        .post<CreateDLXMessage>(
+          'http://localhost:8080/messages/add-message',
+          {
+            consumerTag,
+            deliveryTag,
+            redelivered,
+            exchange,
+            routingKey,
+            contentType,
+            contentEncoding,
+            deliveryMode,
+            priority,
+            correlationId,
+            replyTo,
+            expiration,
+            messageId,
+            timestamp,
+            type,
+            userId,
+            appId,
+            clusterId,
+            headers,
+            projectId,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
             },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
+          }
           )
           .then((data) => {
             // For some reason, channel.ack(msg) will acknowledge the message, but {noAck: false} doesn't work... Removed {noAck: false} - Jerikko
             if (msg) channel.ack(msg);
-            console.log("Successfully added message.");
-            socket.emit('data added', () => console.log(`'data added' event emitted`));
+            console.log('Successfully added message.');
+            socket.emit('message-added', () =>
+              console.log(`'message-added' event emitted by consumer`)
+            );
           })
           .catch((err: Error) => {
-            console.log("Axios error when attempting to add message... ", err);
+            console.log(
+              'Axios error when attempting to add message... ',
+              err
+              );
+            });
           });
+        });
       });
-    });
-  });
 
-})
+    };
+    
