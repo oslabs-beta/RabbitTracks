@@ -1,7 +1,7 @@
 // const { Sequelize } = require("sequelize");
 import { Sequelize } from "sequelize";
 
-const sequelize: Sequelize = new Sequelize(process.env.SQL_URI);
+const sequelize: Sequelize = new Sequelize(process.env.SQL_URI, {logging: false});
 try {
   console.log("Connecting to database...");
   sequelize.authenticate();
