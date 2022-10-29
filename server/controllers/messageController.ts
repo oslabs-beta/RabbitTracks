@@ -103,7 +103,7 @@ messageController.runConsume = async (req, res, next) => {
       .then((data: Array<any>) => {
         const URL = data[0][0]['project_url'];
         console.log('project_url: ', data[0][0]['project_url']);
-        runConsume(URL);
+        runConsume(URL, projectID);
         return next();
       })
       .catch((err: Error) => {
