@@ -1,4 +1,5 @@
 const db = require("../models/elephantsql");
+import { runConsume } from "../../rabbitmq/consume";
 
 import { Messages, MessageController } from "../../types";
 
@@ -89,5 +90,38 @@ messageController.addMessage = async (req, res, next) => {
       });
     });
 };
+
+messageController.runConsume = async (req, res, next) => {
+
+  const projectID: number = req.body.projectID;
+
+  const queryString: string = `SELECT project_url FROM projects WHERE project_id = ${projectID}`;
+
+  if (projectID) {
+    await db
+      .query(queryString)
+      .then((data: Array<any>) => {
+        const URL = data[0][0]['project_url'];
+        console.log('project_url: ', data[0][0]['project_url']);
+        runConsume(URL);
+        return next();
+      })
+      .catch((err: Error) => {
+        return next({
+          log: `Error in messageController.runConsume... Query from database unsuccessful: ${JSON.stringify(
+            err
+          )}`,
+          status: 500,
+          message: "Query from database unsuccessful.",
+        });
+      });
+  } else {
+    return next({
+      log: "Error in messageController.runConsume... Did not receive projectId in runConsume request.",
+      status: 500,
+      message: "Did not receive projectId in runConsume request.",
+    });
+  }
+}
 
 module.exports = messageController;

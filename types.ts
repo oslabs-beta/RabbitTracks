@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import { Request, RequestHandler } from "express";
 import * as React from 'react'
 
 // types for '/rabbitmq/consume'
@@ -89,6 +89,7 @@ export type AuthRequestBody = {
 export type MessageController = {
   getAllMessages?: RequestHandler;
   addMessage?: RequestHandler;
+  runConsume?: RequestHandler;
 };
 
 // types for '/server/controllers/userController'
