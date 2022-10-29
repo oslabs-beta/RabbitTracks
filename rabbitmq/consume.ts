@@ -18,7 +18,7 @@ import { CreateDLXMessage, Properties, Fields } from '../types';
 import { Socket } from 'dgram';
 
 
-export const runConsume = (URL: string) => {
+export const runConsume = (URL: string, projectID: number) => {
   
   // Establish client-side socket connection
   const io = require('socket.io-client');
@@ -61,7 +61,7 @@ export const runConsume = (URL: string) => {
         console.log('RabbitMQ Consume Triggered');
         
         // This field will need to be grabbed from the project later instead of hardcoding
-        const projectId: number = 1;
+        const projectId: number = projectID;
         
         const {
           content,
