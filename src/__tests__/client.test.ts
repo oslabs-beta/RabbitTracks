@@ -1,6 +1,6 @@
 import { render, screen, cleanup } from "@testing-library/react";
 import {describe, expect, test} from '@jest/globals';
-import "@testing-library/jest-dom";
+// import "@testing-library/jest-dom";
 import sum from '../sum';
 import App from "../App";
 

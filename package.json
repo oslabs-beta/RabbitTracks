@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "types": "src/index.tsx",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "start": "cross-env NODE_ENV=production ts-node server/server.ts",
     "build": "webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.ts\" \"cross-env NODE_ENV=development ts-node rabbitmq/consume.ts\""

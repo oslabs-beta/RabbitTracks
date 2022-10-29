@@ -1,7 +1,7 @@
 const request = require("supertest");
 
 // this is http://localhost:3000   <<< precisely this
-const server = require("./server");
+const server = require("../server");
 
 describe("POST /auth/login", () => {
   describe("when the password is missing", () => {
