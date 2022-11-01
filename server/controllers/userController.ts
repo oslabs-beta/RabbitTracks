@@ -44,11 +44,10 @@ userController.addProject = async (req: Request, res: Response, next: NextFuncti
     const { projectName, projectURL } : { projectName: string, projectURL: string } = req.body;
 
     const queryString: string =
-    `WITH project AS
-        ( INSERT INTO projects (project_name, project_url)
-        VALUES ('${projectName}', '${projectURL}')
-        RETURNING projects.project_id )
-    INSERT INTO users_projects (user_id, project_id) SELECT ${res.locals.user_id}, project_id FROM project RETURNING user_id`
+    `INSERT INTO projects (project_url)
+        VALUES ('${projectURL}')
+        ON CONFLICT (project_url) DO NOTHING;
+    INSERT INTO users_projects (user_id, project_id, project_name) SELECT ${res.locals.user_id}, projects.project_id, '${projectName}' FROM projects WHERE project_url = '${projectURL}' RETURNING user_id`
 
     console.log('queryString --> ',queryString)
 
