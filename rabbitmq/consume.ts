@@ -1,9 +1,3 @@
-// here we will be consuming the message(s) that are passed through the *USERS* DLE...
-
-// send this to Database
-
-// and export to DeadLetterMessage JSX component
-
 import dotenv from 'dotenv';
 dotenv.config();
 import axios from 'axios';
@@ -17,36 +11,32 @@ import amqp, {
 import { CreateDLXMessage, Properties, Fields } from '../types';
 import { Socket } from 'dgram';
 
-
 export const runConsume = (URL: string, projectID: number) => {
-  
   // Establish client-side socket connection
   const io = require('socket.io-client');
-  const socket = io.connect("http://localhost:3000/messages", {
-    reconnection: true
-  });
-  
-  socket.on('connect', function(socket: Socket) {
-    console.log(`Socket connection established in consume file`)
+  const socket = io.connect('http://localhost:3000/messages', {
+    reconnection: true,
   });
 
-  socket.emit('hello');
+  socket.on('connect', function (socket: Socket) {
+    console.log(`Socket connection established in consume file`);
+  });
 
+  // Establish connection with user's RabbitMQ instance
   amqp.connect(URL, function (error0: Error, connection: Connection) {
     if (error0) {
       throw error0;
     }
-
-    console.log('RabbitMQ Connection Established');
 
     connection.createChannel(function (error1: Error, channel: Channel) {
       if (error1) {
         throw error1;
       }
 
-      // Theoretically grabbing OSP-DLExchange **FROM user**, but hardcoding for now
-      const DLExchange: string = 'OSP-DLExchange';
-      const DLQueue: string = 'OSP-DLQueue';
+      // If hooking into pre-existing RabbitMQ Dead Letter Exchange, update DLExchange to match existing exchange name
+      const DLExchange: string = 'RabbitTracks-DLExchange';
+      // If multiple users are hooking into the same RabbitMQ instance, but using separate databases, change DLQueue name to be unique for each user
+      const DLQueue: string = 'RabbitTracks-DLQueue';
 
       channel.assertExchange(DLExchange, 'fanout');
       channel.assertQueue(DLQueue, { durable: true });
@@ -58,11 +48,8 @@ export const runConsume = (URL: string, projectID: number) => {
       );
 
       channel.consume(DLQueue, async function (msg: Message | null) {
-        console.log('RabbitMQ Consume Triggered');
-        
-        // This field will need to be grabbed from the project later instead of hardcoding
         const projectId: number = projectID;
-        
+
         const {
           content,
           fields,
@@ -95,58 +82,53 @@ export const runConsume = (URL: string, projectID: number) => {
           appId,
           clusterId,
         }: Properties = { ...properties };
-        
+
         if (content) console.log(' [x] Received %s', content.toString());
-        console.log('Adding message...');
-        
+
+        // Add consumed messages to database
         await axios
-        .post<CreateDLXMessage>(
-          'http://localhost:8080/messages/add-message',
-          {
-            consumerTag,
-            deliveryTag,
-            redelivered,
-            exchange,
-            routingKey,
-            contentType,
-            contentEncoding,
-            deliveryMode,
-            priority,
-            correlationId,
-            replyTo,
-            expiration,
-            messageId,
-            timestamp,
-            type,
-            userId,
-            appId,
-            clusterId,
-            headers,
-            projectId,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
+          .post<CreateDLXMessage>(
+            'http://localhost:8080/messages/add-message',
+            {
+              consumerTag,
+              deliveryTag,
+              redelivered,
+              exchange,
+              routingKey,
+              contentType,
+              contentEncoding,
+              deliveryMode,
+              priority,
+              correlationId,
+              replyTo,
+              expiration,
+              messageId,
+              timestamp,
+              type,
+              userId,
+              appId,
+              clusterId,
+              headers,
+              projectId,
             },
-          }
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
           )
           .then((data) => {
-            // For some reason, channel.ack(msg) will acknowledge the message, but {noAck: false} doesn't work... Removed {noAck: false} - Jerikko
             if (msg) channel.ack(msg);
-            console.log('Successfully added message.');
+
+            // Send notification to server-side socket to notify MessageContainer to grab and render newly stored messages
             socket.emit('message-added', () =>
               console.log(`'message-added' event emitted by consumer`)
             );
           })
           .catch((err: Error) => {
-            console.log(
-              'Axios error when attempting to add message... ',
-              err
-              );
-            });
+            console.log('Axios error when attempting to add message... ', err);
           });
-        });
       });
-
-    };
-    
+    });
+  });
+};

@@ -1,13 +1,13 @@
-import { AuthController, UserController } from "../../types";
-import express, { Request, Response } from "express"
+import { AuthController, UserController } from '../../types';
+import express, { Request, Response } from 'express';
 
-const authController: AuthController = require("../controllers/authController");
-const userController: UserController = require("../controllers/userController")
+const authController: AuthController = require('../controllers/authController');
+const userController: UserController = require('../controllers/userController');
 
-const router = express.Router()
+const router = express.Router();
 
 router.get(
-  "/get-all-user-projects",
+  '/get-all-user-projects',
   authController.verifySession,
   userController.getAllUserProjects,
   (req: Request, res: Response) => {
@@ -15,12 +15,13 @@ router.get(
   }
 );
 
-router.post('/addproject',
+router.post(
+  '/addproject',
   authController.verifySession,
   userController.addProject,
   (req: Request, res: Response) => {
     return res.status(200).send('New Project Added!');
   }
-)
+);
 
 module.exports = router;
