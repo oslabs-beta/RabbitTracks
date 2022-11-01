@@ -10,7 +10,7 @@ const userController: UserController = {};
 
 userController.getAllUserProjects = async (req: Request, res: Response, next: NextFunction) => {
   const user_id = res.locals.user_id
-  const queryString: string = `SELECT projects.project_name, projects.project_url, projects.project_id FROM users_projects 
+  const queryString: string = `SELECT projects.project_url, projects.project_id, users_projects.project_name FROM users_projects 
   RIGHT JOIN projects ON users_projects.project_id = projects.project_id WHERE user_id = ${user_id}`
 
   if (user_id) {
