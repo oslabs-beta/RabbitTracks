@@ -97,9 +97,9 @@ export default function Login(): JSX.Element {
               Login
             </Typography>
             {loginError && 
-            <Alert severity="error" onClose={handleLoginErrorClose}>
-              Incorrect login credentials
-            </Alert>}
+              <Alert severity="error" onClose={handleLoginErrorClose}>
+                Incorrect login credentials
+              </Alert>}
             <Box
               component="form"
               onSubmit={handleSubmit}
