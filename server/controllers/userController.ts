@@ -10,8 +10,9 @@ const userController: UserController = {};
 
 userController.getAllUserProjects = async (req: Request, res: Response, next: NextFunction) => {
   const user_id = res.locals.user_id
-  const queryString: string = `SELECT projects.project_name, projects.project_url, projects.project_id FROM users_projects 
-  RIGHT JOIN projects ON users_projects.project_id = projects.project_id WHERE user_id = ${user_id}`
+  const queryString: string = `SELECT projects.project_url, projects.project_id, users_projects.project_name FROM users_projects 
+  RIGHT JOIN projects ON users_projects.project_id = projects.project_id WHERE user_id = ${user_id}
+  ORDER BY users_projects.created_at DESC`
 
   if (user_id) {
     await db
@@ -44,11 +45,10 @@ userController.addProject = async (req: Request, res: Response, next: NextFuncti
     const { projectName, projectURL } : { projectName: string, projectURL: string } = req.body;
 
     const queryString: string =
-    `WITH project AS
-        ( INSERT INTO projects (project_name, project_url)
-        VALUES ('${projectName}', '${projectURL}')
-        RETURNING projects.project_id )
-    INSERT INTO users_projects (user_id, project_id) SELECT ${res.locals.user_id}, project_id FROM project RETURNING user_id`
+    `INSERT INTO projects (project_url)
+        VALUES ('${projectURL}')
+        ON CONFLICT (project_url) DO NOTHING;
+    INSERT INTO users_projects (user_id, project_id, project_name) SELECT ${res.locals.user_id}, projects.project_id, '${projectName}' FROM projects WHERE project_url = '${projectURL}' RETURNING user_id`
 
     console.log('queryString --> ',queryString)
 
