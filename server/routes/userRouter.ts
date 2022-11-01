@@ -8,7 +8,6 @@ const router = express.Router()
 
 router.get(
   "/get-all-user-projects",
-  // authController.createSession,
   authController.verifySession,
   userController.getAllUserProjects,
   (req: Request, res: Response) => {

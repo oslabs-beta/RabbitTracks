@@ -23,4 +23,12 @@ router.post(
   }
 );
 
+router.post(
+  "/run-consume",
+  messageController.runConsume,
+  (req: Request, res: Response) => {
+    return res.status(200).send('Consume file started');
+  }
+)
+
 module.exports = router;
