@@ -8,6 +8,9 @@ import { ServerError } from "./../types";
 // import { Socket, SocketType } from 'dgram';
 
 const PORT = process.env.PORT;
+const MODE = process.env.NODE_ENV
+let DIST_DIR : string
+let HTML_FILE : string
 
 const authRouter = require("./routes/authRouter");
 const messageRouter = require("./routes/messageRouter");
@@ -16,8 +19,20 @@ const userRouter = require("./routes/userRouter")
 const app: Application = express();
 const http = require('http');
 const httpServer = http.createServer(app);
-const DIST_DIR = path.join(__dirname, "../build/");
-const HTML_FILE = path.join(DIST_DIR, "index.html");
+if (MODE === "production") {
+  DIST_DIR = path.join(__dirname, "../build/");
+  HTML_FILE = path.join(DIST_DIR, "index.html");
+}
+
+// // Don't serve static files or homepage from Dev Server
+// if (process.env.NODE_ENV === "production") {
+//   // Serve static files
+//   app.use("/", express.static(path.resolve(__dirname, "../build")));
+//   // Serve index
+//   app.get("/*", (req, res) =>
+//     res.status(200).sendFile(path.resolve(__dirname, "../build/index.html"))
+//   );
+// };
 
 app.use(cookieParser());
 app.use(cors())
@@ -25,8 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files:
-app.use(express.static(DIST_DIR));
-app.use(express.static("../src/assets"));
+if (MODE === "production") app.use(express.static(DIST_DIR));
+// app.use(express.static("../src/assets"));
 
 // Routes
 app.use("/auth", authRouter);
@@ -34,9 +49,11 @@ app.use("/messages", messageRouter);
 app.use("/user", userRouter)
 
 // Serve index.html
-app.get("/*", (req: Request, res: Response) => {
+if (MODE === "production") {
+  app.get("/*", (req: Request, res: Response) => {
   res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
 });
+} 
 
 // 404 Catch-All
 app.use("*", (req: Request, res: Response) =>
