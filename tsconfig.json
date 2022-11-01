@@ -15,6 +15,6 @@
     //   "dom"
     // ]
   },
-  "include": ["src/**/*", "server/**/*", "rabbitmq/consume.js", "src/Global.d.ts"],
+  "include": ["src/**/*", "server/**/*", "rabbitmq/consume.js", "src/Global.d.ts", "jest.config.ts"],
   "exclude": ["index.html", "src/assets/stylesheets/*"]
 }

@@ -12,8 +12,8 @@ import Login from "../Components/Login";
 
 test("does login button read the word login", async () => {
   render(<App />);
-  // const buttonElement = screen.getByTestId("login-button");
-  // expect(buttonElement.textContent).toBe("Login");
+  const buttonElement = screen.getByTestId("login-btn");
+  expect(buttonElement.textContent).toBe("Login");
 });
 
 // test("should render some container", () => {
