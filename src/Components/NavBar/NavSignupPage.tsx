@@ -26,7 +26,7 @@ export default function NavSignupPage(): JSX.Element {
       <AppBar position="static" id="nav-bar">
         <div id="welcome-title">
           <h1>
-            RABBIT <b id="first-word">TRACKS</b> SIGN UP
+            RABBIT <b id="first-word">TRACKS</b>
             <br></br>
           </h1>
         </div>

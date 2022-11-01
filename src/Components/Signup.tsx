@@ -26,7 +26,7 @@ function Copyright(props: any) : JSX.Element {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        RabbitTracks
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -181,6 +181,11 @@ export default function SignUp() {
               >
                 Sign Up
               </Button>
+              <Grid container justifyContent="center">
+                  <Link href="/" variant="body2">
+                    {"Already have an account? Login"}
+                  </Link>
+                </Grid>
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />

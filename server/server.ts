@@ -5,7 +5,6 @@ const cors = require("cors")
 
 import express, { Application, Request, Response, NextFunction } from "express";
 import { ServerError } from "./../types";
-// import { Socket, SocketType } from 'dgram';
 
 const PORT = process.env.PORT;
 
@@ -34,17 +33,12 @@ app.use("/auth", authRouter);
 app.use("/messages", messageRouter);
 app.use("/user", userRouter)
 
+
 // Serve index.html
-// if (process.env.NODE_ENV === "production") {
-  app.get("/*", (req: Request, res: Response) => {
-    res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
-  });
-// } 
-// else {
-//   app.get("/*", (req: Request, res: Response) => {
-//     res.status(200).sendFile(path.resolve(__dirname, "../index.html"));
-//   });
-// }
+app.get("/*", (req: Request, res: Response) => {
+  res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
+});
+
 
 // 404 Catch-All
 app.use("*", (req: Request, res: Response) =>
@@ -53,14 +47,13 @@ app.use("*", (req: Request, res: Response) =>
 
 // Universal Error Handler
 app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
-  console.log(err, "This is Line 49 in server.ts")
   const defaultErr = {
     log: "Express error handler caught unknown middleware error.",
     status: 500,
     message: { err: "An error occurred" },
   };
   const errorObj = Object.assign({}, defaultErr, err);
-  // console.error(errorObj.log);
+  console.error(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
