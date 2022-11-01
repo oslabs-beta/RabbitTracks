@@ -56,7 +56,8 @@ const UserProjectsContainer = () : JSX.Element => {
         )
         .then((data) => {
           console.log("Successfully added project!");
-          setShow(false)
+          setShow(false);
+          getData();
         })
         .catch((err: Error) => {
           console.log("Axios error when attempting to add project... ", err);
