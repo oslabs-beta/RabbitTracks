@@ -5,8 +5,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -39,7 +37,6 @@ function Copyright(props: any): JSX.Element {
 const theme = createTheme();
 
 export default function Login(): JSX.Element {
-  // navigate NEEDS TYPING?
   const [loginError, setLoginError] = useState(false);
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -60,13 +57,10 @@ export default function Login(): JSX.Element {
       })
 
       .then((data) => {
-        console.log("Successful login!", data);
-        // eventually want to add user_id to URL (aka params) to load specific user projects page
         setLoginError(false);
         navigate("/userprojects");
       })
       .catch((err) => {
-        console.log("Unsuccessful login: ", err);
         setLoginError(true);
       });
   };
@@ -131,10 +125,6 @@ export default function Login(): JSX.Element {
                 value={passwordValue}
                 onChange={(e)=>setPasswordValue(e.target.value)}
               />
-              {/* <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -144,11 +134,6 @@ export default function Login(): JSX.Element {
                 Sign In
               </Button>
               <Grid container justifyContent="center">
-                {/* <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid> */}
                 <Grid item>
                   <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
