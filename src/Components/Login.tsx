@@ -1,14 +1,16 @@
 import * as React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -26,7 +28,7 @@ function Copyright(props: any): JSX.Element {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Rabbit Tracks
+        RabbitTracks
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -38,6 +40,10 @@ const theme = createTheme();
 
 export default function Login(): JSX.Element {
   // navigate NEEDS TYPING?
+  const [loginError, setLoginError] = useState(false);
+  const [emailValue, setEmailValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+
   let navigate = useNavigate();
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -55,12 +61,20 @@ export default function Login(): JSX.Element {
       .then((data) => {
         console.log("Successful login!", data);
         // eventually want to add user_id to URL (aka params) to load specific user projects page
+        setLoginError(false);
         navigate("/userprojects");
       })
       .catch((err) => {
         console.log("Unsuccessful login: ", err);
+        setLoginError(true);
       });
   };
+
+  const handleLoginErrorClose = () => {
+    setLoginError(false);
+    setEmailValue('');
+    setPasswordValue('');
+  }
 
   return (
     <>
@@ -76,12 +90,16 @@ export default function Login(): JSX.Element {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <Avatar sx={{ m: 1, bgcolor: "info.main" }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Login
             </Typography>
+            {loginError && 
+              <Alert severity="error" onClose={handleLoginErrorClose}>
+                Incorrect login credentials
+              </Alert>}
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -97,6 +115,8 @@ export default function Login(): JSX.Element {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value={emailValue}
+                onChange={(e)=>setEmailValue(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -107,11 +127,13 @@ export default function Login(): JSX.Element {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={passwordValue}
+                onChange={(e)=>setPasswordValue(e.target.value)}
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
-              />
+              /> */}
               <Button
                 type="submit"
                 fullWidth
@@ -120,12 +142,12 @@ export default function Login(): JSX.Element {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
+              <Grid container justifyContent="center">
+                {/* <Grid item xs>
                   <Link href="#" variant="body2">
                     Forgot password?
                   </Link>
-                </Grid>
+                </Grid> */}
                 <Grid item>
                   <Link href="/signup" variant="body2">
                     {"Don't have an account? Sign Up"}

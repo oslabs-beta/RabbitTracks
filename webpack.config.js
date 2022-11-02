@@ -18,7 +18,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "OSP",
+      title: "RabbitTracks",
       template: "index.html",
     }),
     new NodePolyfillPlugin(),
