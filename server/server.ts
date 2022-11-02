@@ -18,7 +18,7 @@ const httpServer = http.createServer(app);
 const DIST_DIR = path.join(__dirname, '../build/');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
 
-
+console.log('test')
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
