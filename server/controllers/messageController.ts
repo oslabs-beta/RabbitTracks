@@ -1,14 +1,14 @@
-const db = require("../models/elephantsql");
-import { runConsume } from "../../rabbitmq/consume";
+const db = require('../models/elephantsql');
+import { runConsume } from '../../rabbitmq/consume';
 
-import { Messages, MessageController } from "../../types";
+import { Messages, MessageController } from '../../types';
 
 import express, {
   Request,
   Response,
   NextFunction,
   RequestHandler,
-} from "express";
+} from 'express';
 
 const messageController: MessageController = {};
 
@@ -17,8 +17,6 @@ messageController.getAllMessages = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("Getting all messages...");
-
   const projectId: number = req.body.project_id;
 
   const queryString: string = `SELECT * FROM messages WHERE project_id = ${projectId}`;
@@ -28,7 +26,6 @@ messageController.getAllMessages = async (
       .query(queryString)
       .then((data: Array<Messages>) => {
         res.locals.messages = data[0];
-        console.log("Successfully got all messages.");
         return next();
       })
       .catch((err: Error) => {
@@ -37,36 +34,36 @@ messageController.getAllMessages = async (
             err
           )}`,
           status: 500,
-          message: "Query from database unsuccessful.",
+          message: 'Query from database unsuccessful.',
         });
       });
   } else {
     return next({
-      log: "Error in messageController.getAllMessages... Did not receive projectId in getAllMessages request.",
+      log: 'Error in messageController.getAllMessages... Did not receive projectId in getAllMessages request.',
       status: 500,
-      message: "Did not receive projectId in getAllMessages request.",
+      message: 'Did not receive projectId in getAllMessages request.',
     });
   }
 };
 
 messageController.addMessage = async (req, res, next) => {
-  console.log("Adding message to database...");
-  let columnText: string = "";
-  let valuesText: string = "";
+  // Process message content to only include variables that contain values in SQL query
+  let columnText: string = '';
+  let valuesText: string = '';
   let headers: string;
   const columns: Array<string> = Object.keys(req.body);
   for (let i = 0; i < columns.length; i++) {
-    // set aside headers for now, we'll need to come back and add info from headers into deaths table
-    if (columns[i] === "headers") {
+    // Headers aren't currently being stored in the database--come back to this later
+    if (columns[i] === 'headers') {
       headers = req.body[columns[i]];
     }
-    // for any properties that aren't undefined, add them to the query text
+    // For any properties that aren't undefined, add them to the query text
     else if (columns[i] !== undefined) {
       if (columnText.length > 0) {
-        columnText += ", ";
-        valuesText += ", ";
+        columnText += ', ';
+        valuesText += ', ';
       }
-      columnText += columns[i] === "projectId" ? `project_id` : `${columns[i]}`;
+      columnText += columns[i] === 'projectId' ? `project_id` : `${columns[i]}`;
       valuesText += `'${req.body[columns[i]]}'`;
     }
   }
@@ -77,7 +74,6 @@ messageController.addMessage = async (req, res, next) => {
     .query(queryString)
     .then((data: Array<Array<Messages>>) => {
       res.locals.message = data[0][0];
-      console.log("Successfully added message to database.");
       return next();
     })
     .catch((err: Error) => {
@@ -86,15 +82,14 @@ messageController.addMessage = async (req, res, next) => {
           err
         )}`,
         status: 500,
-        message: "Unable to add message to database.",
+        message: 'Unable to add message to database.',
       });
     });
 };
 
 messageController.runConsume = async (req, res, next) => {
-
   const projectID: number = req.body.projectID;
-
+  // Grab the URL from the database to use in rabbitmq/consume
   const queryString: string = `SELECT project_url FROM projects WHERE project_id = ${projectID}`;
 
   if (projectID) {
@@ -102,7 +97,7 @@ messageController.runConsume = async (req, res, next) => {
       .query(queryString)
       .then((data: Array<any>) => {
         const URL = data[0][0]['project_url'];
-        console.log('project_url: ', data[0][0]['project_url']);
+        // Start the channel in rabbitmq/consume, using the selected project ID and its URL
         runConsume(URL, projectID);
         return next();
       })
@@ -112,16 +107,16 @@ messageController.runConsume = async (req, res, next) => {
             err
           )}`,
           status: 500,
-          message: "Query from database unsuccessful.",
+          message: 'Query from database unsuccessful.',
         });
       });
   } else {
     return next({
-      log: "Error in messageController.runConsume... Did not receive projectId in runConsume request.",
+      log: 'Error in messageController.runConsume... Did not receive projectId in runConsume request.',
       status: 500,
-      message: "Did not receive projectId in runConsume request.",
+      message: 'Did not receive projectId in runConsume request.',
     });
   }
-}
+};
 
 module.exports = messageController;
