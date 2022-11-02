@@ -17,7 +17,6 @@ messageController.getAllMessages = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("Getting all messages...");
 
   const projectId: number = req.body.project_id;
 
@@ -28,7 +27,6 @@ messageController.getAllMessages = async (
       .query(queryString)
       .then((data: Array<Messages>) => {
         res.locals.messages = data[0];
-        console.log("Successfully got all messages.");
         return next();
       })
       .catch((err: Error) => {
@@ -50,7 +48,7 @@ messageController.getAllMessages = async (
 };
 
 messageController.addMessage = async (req, res, next) => {
-  console.log("Adding message to database...");
+  // Process messages to only include variables that contain values in SQL query
   let columnText: string = "";
   let valuesText: string = "";
   let headers: string;
