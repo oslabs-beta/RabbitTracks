@@ -7,7 +7,7 @@ const messageController = require("../controllers/messageController");
 
 router.post(
   "/get-all-messages",
-  // authController.verifySession,
+  authController.verifySession,
   messageController.getAllMessages,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.messages);
@@ -16,7 +16,7 @@ router.post(
 
 router.post(
   "/add-message",
-  // authController.verifySession,
+  authController.verifySession,
   messageController.addMessage,
   (req: Request, res: Response) => {
     return res.status(200).json(res.locals.message);
