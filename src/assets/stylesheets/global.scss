@@ -46,6 +46,14 @@ body {
     font-family: 'Peralta', cursive;
     text-align: center;
     flex-grow: 1;
+    padding-left: 6%;
+    padding-right: .5%;
+}
+
+#header-title2 {
+    font-family: 'Peralta', cursive;
+    text-align: center;
+    flex-grow: 1;
 }
 
 #icon-button {
@@ -94,5 +102,44 @@ body {
 .messages-btn {
     background-color: #ff5a00;
     color: rgb(255, 255, 255);
-    font-size: 15px
+    font-size: 15px;
+    border-radius: 15px;
+}
+
+.hovertext {
+    position: relative;
+  }
+  
+  .hovertext:before {
+    content: attr(data-hover);
+    visibility: hidden;
+    opacity: 0;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    transition: opacity 1s ease-in-out;
+  
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 110%;
+  }
+  
+  .hovertext:hover:before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+.add-project-btn {
+    background-color: rgb(200, 186, 149);
+    color: white;
+    font-size: 15px;
+    border-radius: 15px;
+    width: 120px;
+    border: solid #ff5a00;
+    font-weight: 600;
+    margin-top: 15px;
 }

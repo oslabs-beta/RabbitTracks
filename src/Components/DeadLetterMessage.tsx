@@ -1,18 +1,14 @@
 import * as React from "react";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
-
 import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand, Columns, Rows } from '../../types'
 
 export default function DataTable(props: DataTableProps) {
   const { messages } = props;
-
-  // BEGIN code to add tooltip with full data on hover
 
   function isOverflown(element: any) {
     return (
@@ -23,9 +19,11 @@ export default function DataTable(props: DataTableProps) {
 
   const GridCellExpand: React.FunctionComponent<GridCellExpand> = React.memo(function GridCellExpand(props: GridCellExpandProps) {
     const { width, value } = props;
+
     const wrapper = React.useRef(null);
     const cellDiv = React.useRef(null);
     const cellValue = React.useRef(null);
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [showFullCell, setShowFullCell] = React.useState(false);
     const [showPopper, setShowPopper] = React.useState(false);
@@ -47,7 +45,6 @@ export default function DataTable(props: DataTableProps) {
       }
   
       function handleKeyDown(nativeEvent: KeyboardEvent) {
-        // IE11, Edge (prior to using Bink?) use 'Esc'
         if (nativeEvent.key === 'Escape' || nativeEvent.key === 'Esc') {
           setShowFullCell(false);
         }
@@ -139,8 +136,6 @@ export default function DataTable(props: DataTableProps) {
     value: PropTypes.string,
   };
 
-  // END code to add tooltip with full data on hover
-
   const columns: Columns = [
     { field: 'consumerTag', headerName: 'consumerTag', renderCell: renderCellExpand, flex: 1.5 },
     { field: 'deliveryTag', headerName: 'deliveryTag', renderCell: renderCellExpand, flex: 1 },
@@ -217,7 +212,6 @@ export default function DataTable(props: DataTableProps) {
             },
           },
         }}
-        // checkboxSelection // uncomment to add a checkbox next to each row item
       />
     </div>
   );

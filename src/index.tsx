@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./assets/stylesheets/global.scss";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 if (!root) throw new Error('Failed to find the root element');
 

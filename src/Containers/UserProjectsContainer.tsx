@@ -1,12 +1,9 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState, MouseEvent, MouseEventHandler } from "react";
-import { Link } from "react-router-dom";
 import UserProjects from "../Components/UserProjects";
-import MessageContainer from "./MessageContainer";
 import AddProjectModal from "../Components/AddProjectModal";
 import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
-
 
 const UserProjectsContainer = () : JSX.Element => {
   const [projectsList, setProjectsList] = useState([]);
@@ -15,22 +12,17 @@ const UserProjectsContainer = () : JSX.Element => {
   const [projURLErr, setURLErr] = useState(false);
 
   const getData = async () : Promise<void> => {
-    console.log("Getting all user projects...");
     try {
       const { data }: { data: [] } = await axios.get("/user/get-all-user-projects");     
       setProjectsList(data);
-      console.log("Successfully got all user projects.");
     } catch (err) {
-      console.log(
-        "Error while attempting to get all users projects in UserProjectsContainer: ",
-        err
-      );
     }
   };
   
   useEffect(() => {
     getData();
   }, []);
+
   const onOpen: MouseEventHandler = (e: MouseEvent) => setShow(true);
   const onClose = (): void => {
     setShow(false)
@@ -40,6 +32,7 @@ const UserProjectsContainer = () : JSX.Element => {
   const onSave = async (): Promise<void> => {
     const projectName = (document.getElementById('project-name') as HTMLInputElement).value
     const projectURL = (document.getElementById('project-url') as HTMLInputElement).value
+
     if (projectName && projectURL) {
       await axios
         .post(
@@ -55,12 +48,10 @@ const UserProjectsContainer = () : JSX.Element => {
           }
         )
         .then((data) => {
-          console.log("Successfully added project!");
           setShow(false);
           getData();
         })
         .catch((err: Error) => {
-          console.log("Axios error when attempting to add project... ", err);
         });
     }
     else {
@@ -71,12 +62,9 @@ const UserProjectsContainer = () : JSX.Element => {
 
     return (
       <div>
-        <NavAfterLoggedIn />
+        <div><NavAfterLoggedIn /></div>
         <div>
-          <UserProjects projects={projectsList}/>
-        </div>
-        <div>
-          <button onClick={onOpen}>Add Project</button>
+          <button className="add-project-btn" onClick={onOpen}>Add Project</button>
           <AddProjectModal
             isShown={show}
             handleClose={onClose}
@@ -87,6 +75,9 @@ const UserProjectsContainer = () : JSX.Element => {
             projectNameError={projNameErr}
             projectURLError={projURLErr}
           />
+        </div>
+        <div>
+          <UserProjects projects={projectsList}/>
         </div>
       </div>
     )

@@ -37,28 +37,25 @@ function Copyright(props: any): JSX.Element {
 const theme = createTheme();
 
 export default function Login(): JSX.Element {
-  // navigate NEEDS TYPING?
   let navigate = useNavigate();
+
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    // CHECK TYPING
+
     const data: FormData = new FormData(event.currentTarget);
-    console.log("Logging in...");
+
     await axios
       .post("/auth/login", {
         email: data.get("email"),
         password: data.get("password"),
       })
-      // data NEEDS TYPING?
+
       .then((data) => {
-        console.log("Successful login!", data);
-        // eventually want to add user_id to URL (aka params) to load specific user projects page
         navigate("/userprojects");
       })
       .catch((err) => {
-        console.log("Unsuccessful login: ", err);
       });
   };
 

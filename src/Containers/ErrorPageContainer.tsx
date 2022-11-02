@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
-// importing image not from build works too... i wonder if that is more efficient than running it in build?
 import RabbitPhoto from "../../src/assets/images/rabbitphoto.jpg";
-// import RabbitPhoto from "../../build/src/assets/rabbitphoto.jpg";
 
 export default function ErrorPage() {
   return (
@@ -15,7 +13,7 @@ export default function ErrorPage() {
             <img
               src={RabbitPhoto}
               alt=" <-- Sad Rabbit photo"
-              title="Sad Rabbit phot"
+              title="Sad Rabbit photo"
               height="300"
             />
           </Link>
@@ -29,5 +27,3 @@ export default function ErrorPage() {
     </>
   );
 }
-
-// export default ErrorPage;

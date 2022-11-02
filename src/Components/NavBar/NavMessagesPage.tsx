@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link } from "react-router-dom";
+import RabbitPaw from "../../assets/images/rabbitpaw.jpg";
 import axios from "axios";
 
 export default function NavAfterLoggedIn(): JSX.Element {
@@ -39,9 +41,17 @@ export default function NavAfterLoggedIn(): JSX.Element {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" id="nav-bar">
         <Toolbar>
+          <Typography variant="h6" component="div">
+            <Link to="/userprojects">
+              <span className="hovertext" data-hover="Go to projects">
+              <img id="rabbit-paw-pic" src={RabbitPaw} />
+              </span>
+            </Link>
+          </Typography>
+
           {
             <>
-              <h2 id="header-title">
+              <h2 id="header-title2">
                 RABBIT <b id="first-word">TRACKS</b>
               </h2>
               <div>
@@ -70,6 +80,10 @@ export default function NavAfterLoggedIn(): JSX.Element {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
+                  <Link to="/messages/project1">
+                    <MenuItem onClick={handleClose}>Project 1</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleClose}>Project 2</MenuItem>
                   <Link to="/">
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Link>
