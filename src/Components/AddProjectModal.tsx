@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Modal from 'react-modal';
 import { ModalProps } from '../../types';
-
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
@@ -9,7 +8,6 @@ import Button from '@mui/material/Button';
 import FormLabel from '@mui/material/FormLabel';
 
 export default function AddProjectModal ({isShown, handleClose, handleSave, headerText, setNameErr, setURLErr, projectNameError, projectURLError}: ModalProps) {
-
   const resetNameErr = () => {
     setNameErr(false);
   }
@@ -21,7 +19,6 @@ export default function AddProjectModal ({isShown, handleClose, handleSave, head
   return (
     <div>
       <Modal
-        // className={'modal'}
         isOpen={isShown}
         onRequestClose={handleClose}
         appElement={document.getElementById('root')}

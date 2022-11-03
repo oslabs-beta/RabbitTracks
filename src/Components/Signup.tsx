@@ -4,8 +4,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -26,7 +26,7 @@ function Copyright(props: any) : JSX.Element {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        RabbitTracks
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -37,14 +37,14 @@ function Copyright(props: any) : JSX.Element {
 const theme = createTheme();
 
 export default function SignUp() {
-  // navigate NEEDS TYPING?
   let navigate = useNavigate();
+
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
     const data : FormData = new FormData(event.currentTarget);
-    console.log("Signing up...")
+
     await axios.post("/auth/signup", {
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
@@ -52,41 +52,15 @@ export default function SignUp() {
       password: data.get('password'),
       passwordConfirm: data.get('passwordConfirm')
     })
-    // data NEEDS TYPING --> user id?
     .then(data => {
-      console.log("Successful signup!");
-      // eventually will add user_id as a params
       navigate('/userprojects');
     }).catch(err => {
-      console.log("Unsuccessful signup: ", err)
     })
   };
 
   return (
     <>
       <NavSignupPage />
-      {/* <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 3 }} */}
       <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -164,21 +138,28 @@ export default function SignUp() {
                     autoComplete="confirm-password"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <FormControlLabel
                     control={
                       <Checkbox value="allowExtraEmails" color="primary" />
                     }
                     label="I want to receive inspiration, marketing promotions and updates via email."
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-              />
+              >
+                Sign Up
+              </Button>
+              <Grid container justifyContent="center">
+                  <Link href="/" variant="body2">
+                    {"Already have an account? Login"}
+                  </Link>
+                </Grid>
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />

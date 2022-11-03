@@ -5,7 +5,7 @@ import UserProjectsContainer from "./Containers/UserProjectsContainer";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import ErrorPage from "./Containers/ErrorPageContainer";
-import path from "path";
+// import path from "path";
 
 const App = (): JSX.Element => {
   return (
@@ -13,7 +13,7 @@ const App = (): JSX.Element => {
       <Route path="*" element={<ErrorPage />} />
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/signup/cat" element={<ErrorPage />} />
+      {/* <Route path="/signup/cat" element={<ErrorPage />} /> */}
       <Route path="/userprojects" element={<UserProjectsContainer />} />
       <Route path="/messages" element={<MessageContainer />} />
     </Routes>

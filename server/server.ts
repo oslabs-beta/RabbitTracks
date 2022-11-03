@@ -3,8 +3,8 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const cors = require('cors');
 
-import express, { Application, Request, Response, NextFunction } from 'express';
-import { ServerError } from './../types';
+import express, { Application, Request, Response, NextFunction } from "express";
+import { ServerError } from "./../types";
 
 const PORT = process.env.PORT;
 
@@ -17,6 +17,7 @@ const http = require('http');
 const httpServer = http.createServer(app);
 const DIST_DIR = path.join(__dirname, '../build/');
 const HTML_FILE = path.join(DIST_DIR, 'index.html');
+
 
 app.use(cookieParser());
 app.use(cors());
@@ -32,10 +33,12 @@ app.use('/auth', authRouter);
 app.use('/messages', messageRouter);
 app.use('/user', userRouter);
 
+
 // Serve index.html
 app.get('/*', (req: Request, res: Response) => {
   res.status(200).sendFile(path.resolve(__dirname, HTML_FILE));
 });
+
 
 // 404 Catch-All
 app.use('*', (req: Request, res: Response) =>
