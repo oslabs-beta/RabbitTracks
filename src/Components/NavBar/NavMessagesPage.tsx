@@ -80,10 +80,6 @@ export default function NavAfterLoggedIn(): JSX.Element {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <Link to="/messages/project1">
-                    <MenuItem onClick={handleClose}>Project 1</MenuItem>
-                  </Link>
-                  <MenuItem onClick={handleClose}>Project 2</MenuItem>
                   <Link to="/">
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Link>
