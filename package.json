@@ -1,7 +1,7 @@
 {
-  "name": "rabbit-mq",
+  "name": "RabbitTracks",
   "version": "1.0.0",
-  "description": "GUI for rabbit-mq errors",
+  "description": "UI for RabbitMQ Dead-Letter messages",
   "main": "src/index.js",
   "types": "src/index.tsx",
   "scripts": {
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/rabbit-mq.git"
+    "url": "git+https://github.com/oslabs-beta/RabbitTracks.git"
   },
   "author": "cat-snake7",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/rabbit-mq/issues"
+    "url": "https://github.com/oslabs-beta/RabbitTracks/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/rabbit-mq#readme",
+  "homepage": "https://github.com/oslabs-beta/RabbitTracks#readme",
   "dependencies": {
     "@mui/icons-material": "^5.10.6",
     "amqplib": "^0.10.2",
