@@ -6,9 +6,7 @@
   "types": "src/index.tsx",
   "scripts": {
     "test": "jest",
-    "start": "npm run open",
-    "open": "concurrently \"http-server -a localhost -p 8080\" \"open http://localhost:8080/",
-
+    "start": "cross-env NODE_ENV=production ts-node server/server.ts",
     "build": "webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.ts\""
   },
