@@ -1,7 +1,7 @@
 {
   "name": "RabbitTracks",
   "version": "1.0.0",
-  "description": "UI for RabbitMQ Dead-Letter messages",
+  "description": "UI for visualizing RabbitMQ Dead-Letter messages",
   "main": "src/index.js",
   "types": "src/index.tsx",
   "scripts": {
