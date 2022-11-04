@@ -1,0 +1,145 @@
+body {
+    background-color: white;
+}
+.nav-after-logged-in {
+    display: flex;
+    justify-content: space-around;
+}
+#error-image {
+   display: flex;  
+   flex-direction: row;
+   align-items: center;
+   background-color: #ff5a00;
+   font-family: 'Courier New', Courier, monospace;
+}
+#error-text {
+    margin-left: 15px;
+}
+#error-message {
+    background-color: white;
+    text-align: left;
+    font-family:Arial, Helvetica, sans-serif
+}
+
+#save-button {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+#nav-bar {
+    background-color: #ff5a00;
+}
+
+#rabbit-paw-pic {
+    margin-top: 10px;
+    height: 50px;
+    width: 65px;
+    border-radius: 50%
+}
+
+#nav-title {
+    font-family: 'Peralta', cursive;
+    text-align: left;
+}
+
+#header-title {
+    font-family: 'Peralta', cursive;
+    text-align: center;
+    flex-grow: 1;
+    padding-left: 6.5%;
+    padding-right: .5%;
+}
+
+#header-title2 {
+    font-family: 'Peralta', cursive;
+    text-align: center;
+    flex-grow: 1;
+}
+
+#icon-button {
+    height: 60px;
+    width: 60px;
+}
+
+#first-word {
+    color: black
+}
+
+#welcome-title {
+    text-align: center;
+    font-family: 'Peralta', cursive;
+}
+
+#welcome-statement {
+    text-align: center;
+}
+.projects-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.projects-div {
+    border: solid #ff5a00;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5%;
+    border-radius: 25px;
+    background: rgb(200, 186, 149);
+    background-position: left top;
+    background-repeat: repeat;
+    padding: 20px;
+    width: 20%;
+    height: 10%;
+    color:rgb(58, 42, 3);
+    text-align: center;
+    margin-top: 5px;
+}
+
+.messages-btn {
+    background-color: #ff5a00;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    border-radius: 15px;
+}
+
+.hovertext {
+    position: relative;
+  }
+  
+  .hovertext:before {
+    content: attr(data-hover);
+    visibility: hidden;
+    opacity: 0;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    transition: opacity 1s ease-in-out;
+  
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 110%;
+  }
+  
+  .hovertext:hover:before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+.add-project-btn {
+    background-color: rgb(200, 186, 149);
+    color: white;
+    font-size: 15px;
+    border-radius: 15px;
+    width: 120px;
+    border: solid #ff5a00;
+    font-weight: 600;
+    margin-top: 15px;
+}
