@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
 import RabbitPhoto from "../../src/assets/images/rabbitphoto.jpg";
 
-export default function ErrorPage() {
+export default function ErrorPage() : JSX.Element {
   return (
     <>
       <ErrorPageMessage />
       <div id="error-image">
         <div id="error-message">
-          <Link to="/userprojects">
+          <Link to="/">
             <img
               src={RabbitPhoto}
               alt=" <-- Sad Rabbit photo"
@@ -20,7 +20,7 @@ export default function ErrorPage() {
         </div>
         <div>
           <h1 id="error-text">
-            <b>Click on the Rabbit to get back to the home screen!</b>
+            <b>Click on the Rabbit to get back to the login screen!</b>
           </h1>
         </div>
       </div>

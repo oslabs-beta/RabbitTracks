@@ -11,7 +11,7 @@ const UserProjectsContainer = () : JSX.Element => {
   const [projNameErr, setNameErr] = useState(false);
   const [projURLErr, setURLErr] = useState(false);
 
-  const getData = async () : Promise<void> => {
+  const getAllUserProjects = async () : Promise<void> => {
     try {
       const { data }: { data: [] } = await axios.get("/user/get-all-user-projects");     
       setProjectsList(data);
@@ -20,7 +20,7 @@ const UserProjectsContainer = () : JSX.Element => {
   };
   
   useEffect(() => {
-    getData();
+    getAllUserProjects();
   }, []);
 
   const onOpen: MouseEventHandler = (e: MouseEvent) => setShow(true);
@@ -49,7 +49,7 @@ const UserProjectsContainer = () : JSX.Element => {
         )
         .then((data) => {
           setShow(false);
-          getData();
+          getAllUserProjects();
         })
         .catch((err: Error) => {
         });
@@ -64,6 +64,7 @@ const UserProjectsContainer = () : JSX.Element => {
       <div>
         <div><NavAfterLoggedIn /></div>
         <div>
+          {/* could modularize add-project-btn into separate component */}
           <button className="add-project-btn" onClick={onOpen}>Add Project</button>
           <AddProjectModal
             isShown={show}
@@ -77,7 +78,7 @@ const UserProjectsContainer = () : JSX.Element => {
           />
         </div>
         <div>
-          <UserProjects projects={projectsList}/>
+          <UserProjects projectsList={projectsList}/>
         </div>
       </div>
     )

@@ -5,9 +5,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
-import { DataTableProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand, Columns, Rows } from '../../types'
+import { DeadLetterMessagesProps, GridCellExpandProps, renderCellExpandParams, GridCellExpand, Columns, Rows } from '../../types'
 
-export default function DataTable(props: DataTableProps) {
+export default function DeadLetterMessages(props: DeadLetterMessagesProps) {
   const { messages } = props;
 
   function isOverflown(element: any) {
@@ -136,6 +136,7 @@ export default function DataTable(props: DataTableProps) {
     value: PropTypes.string,
   };
 
+  // Dead Letter Message Headers
   const columns: Columns = [
     { field: 'consumerTag', headerName: 'consumerTag', renderCell: renderCellExpand, flex: 1.5 },
     { field: 'deliveryTag', headerName: 'deliveryTag', renderCell: renderCellExpand, flex: 1 },

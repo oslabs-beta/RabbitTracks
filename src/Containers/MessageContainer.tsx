@@ -1,8 +1,8 @@
 import axios from 'axios';
 import * as React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
-import DataTable from '../Components/DeadLetterMessage';
+import DeadLetterMessages from '../Components/DeadLetterMessages';
 import NavOnMessagesPage from '../Components/NavBar/NavMessagesPage';
 import { io } from 'socket.io-client';
 
@@ -11,7 +11,7 @@ const MessageContainer = (): JSX.Element => {
 
   const { state } = useLocation();
 
-  const getData = async (): Promise<void> => {
+  const getProjectDeadLetterMessages = async (): Promise<void> => {
     try {
       const { data }: { data: [] } = await axios.post(
         '/messages/get-all-messages',
@@ -19,20 +19,20 @@ const MessageContainer = (): JSX.Element => {
       );
       setDeadLetterMessages(data);
     } catch (err) {
+      console.log("Error occurred while trying to get all project dead letter messages: " + err);
     }
   };
   
 
   useEffect(() => {
-    getData();
+    getProjectDeadLetterMessages();
 
   // Establish client-side socket connection on component mount
     const messagesSocket = io('http://localhost:3000/messages');
     messagesSocket.on('connect', () => {
-      messagesSocket.emit('join', 'consume-messages')
+      messagesSocket.emit('join room', 'consume-messages')
     });
-    messagesSocket.on('message-added', (callback) => { getData() });
-    messagesSocket.on('disconnect', () => console.log('Client side websocket has disconnected'));
+    messagesSocket.on('message-added', (callback) => { getProjectDeadLetterMessages() });
 
     return () => {
       // close socket connection on component unmount
@@ -43,7 +43,7 @@ const MessageContainer = (): JSX.Element => {
   return (
     <>
       <NavOnMessagesPage />
-      <DataTable messages={deadLetterMessages} />
+      <DeadLetterMessages messages={deadLetterMessages} />
     </>
   );
 };

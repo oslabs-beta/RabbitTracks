@@ -2,21 +2,21 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const cors = require('cors');
+const http = require('http');
 
 import express, { Application, Request, Response, NextFunction } from "express";
 import { ServerError } from "./../types";
 
-const PORT = process.env.PORT;
+const PORT : string = process.env.PORT;
 
 const authRouter = require('./routes/authRouter');
 const messageRouter = require('./routes/messageRouter');
 const userRouter = require('./routes/userRouter');
 
 const app: Application = express();
-const http = require('http');
 const httpServer = http.createServer(app);
-const DIST_DIR = path.join(__dirname, '../build/');
-const HTML_FILE = path.join(DIST_DIR, 'index.html');
+const DIST_DIR : string = path.join(__dirname, '../build/');
+const HTML_FILE : string = path.join(DIST_DIR, 'index.html');
 
 
 app.use(cookieParser());
@@ -66,7 +66,7 @@ const io = require('socket.io')(httpServer, {
 const messagesSocket = io.of('/messages');
 messagesSocket.on('connection', (socket: any) => {
   socket.join('consume-messages');
-  socket.on('join', function (room: any) {
+  socket.on('join room', function (room: any) {
     socket.join(room);
   });
   socket.on('message-added', function () {

@@ -10,7 +10,7 @@ export type UserProjects = {
 }
 
 export type UserProjectsProps = {
-  projects: Array<UserProjects>;
+  projectsList: Array<UserProjects>;
 }
 
 export type UserMessagesProps = {
@@ -101,7 +101,7 @@ export type UserController = {
 
 // types for '/src/Components/DeadLetterMessage'
 
-export type DataTableProps = {
+export type DeadLetterMessagesProps = {
   messages: Array<Messages>;
 };
 

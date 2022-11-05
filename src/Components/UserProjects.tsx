@@ -3,15 +3,16 @@ import { UserProjectsProps } from '../../types'
 import { useNavigate } from "react-router-dom"
 import axios from "axios";
 
-export default function UserProjects(props: UserProjectsProps) {
-    const { projects } = props;    
+export default function UserProjects(props: UserProjectsProps) : JSX.Element {
+    const { projectsList } = props;    
 
     let navigate = useNavigate() 
 
-    const handleClickGetMessages = (projectID : Number) => {
+    // can move up into UserProjectsContainer in the future to separate display and logical components
+    const handleClickGetMessages = async (projectID : Number) => {
       navigate("/messages", {state: {projectID: projectID}});
 
-      axios.post('/messages/run-consume', {
+      await axios.post('/messages/run-consume', {
         projectID
       },
       {
@@ -20,15 +21,16 @@ export default function UserProjects(props: UserProjectsProps) {
         },
       })
       .catch((err: Error) => {
+        console.log("Error when running consume: " + err)
       });
     } 
 
-    const rows: JSX.Element[] = projects.map((el, i) => {
+    const rows: JSX.Element[] = projectsList.map((proj, i) => {
         return (
           <div className="projects-container" key={i}>
             <div className="projects-div">
-          <p>{el.project_name}</p>
-          <button className="messages-btn" onClick={() => handleClickGetMessages(el.project_id)}>Click here to see failed messages</button>
+          <p>{proj.project_name}</p>
+          <button className="messages-btn" onClick={() => handleClickGetMessages(proj.project_id)}>Click here to see failed messages</button>
           </div>
           </div>
         )

@@ -50,6 +50,7 @@ export default function AddProjectModal ({isShown, handleClose, handleSave, head
           }
         }}
       >
+        {/* error prop in Input is how we notify user if their inputs are incorrect */}
         <FormLabel><b>{headerText}</b></FormLabel>
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="project-name">Project Name</InputLabel>
