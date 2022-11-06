@@ -4,7 +4,7 @@
  
 RabbitTracks is a full-stack application that developers use to monitor and debug failed messages in RabbitMQ.
  
-RabbitTracks is an open source devTool, accelerated under OSLabs.
+RabbitTracks is an open source devTool, accelerated under OSLabs. Please read our Medium article [here](https://medium.com/@jerikkoagatep/rabbittracks-tracking-your-rabbitmq-dead-letter-messages-ccee4cac65fa).
  
 ## What You’ll Need to Get Started
  
