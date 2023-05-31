@@ -4,7 +4,7 @@
  
 RabbitTracks is a full-stack application that developers use to monitor and debug failed messages in RabbitMQ.
  
-RabbitTracks is an open source devTool, accelerated under OSLabs. Please read our Medium article [here](https://medium.com/@jerikkoagatep/rabbittracks-tracking-your-rabbitmq-dead-letter-messages-ccee4cac65fa) for more background information!
+RabbitTracks is an open source devTool, accelerated under OSLabs. Please read our Medium article [here](https://medium.com/@jerikkoagatep/rabbittracks-tracking-your-rabbitmq-dead-letter-messages-ccee4cac65fa) for more background information.
  
 ## What You’ll Need to Get Started
  
@@ -14,9 +14,9 @@ RabbitTracks is an open source devTool, accelerated under OSLabs. Please read ou
  
 ## Database Set-Up Instructions
  
-Before installing the RabbitTracks application, it is vital you set up your Database!
+Before installing the RabbitTracks application, it is vital you set up your Database.
  
-1. Same as step 3 in the “What You’ll Need to Get Started” section! Set up a PostgresQL Database Hosting Service account (ie - ElephantSQL, ScaleGrid, Aiven, etc… it is free!)
+1. Same as step 3 in the “What You’ll Need to Get Started” section. Set up a PostgresQL Database Hosting Service account (ie - ElephantSQL, ScaleGrid, Aiven, etc… it is free!)
 2. Create Tables in SQL. Below is an image of the entity relationship diagrams that you’ll need for RabbitTracks. Also, below is code that you need to execute in your SQL’s query in order to replicate the diagram’s schema:
  
 <img src=src/assets/images/RabbitTracks-DB-Schema.png>
