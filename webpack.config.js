@@ -20,6 +20,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "RabbitTracks",
       template: "index.html",
+      favicon: './src/assets/images/favicon.ico'
     }),
     new NodePolyfillPlugin(),
   ],
