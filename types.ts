@@ -1,8 +1,7 @@
 import { Request, RequestHandler } from "express";
 import * as React from 'react'
 
-// types for '/rabbitmq/consume'
-
+// Types for '/rabbitmq/consume.ts'
 export type UserProjects = {
     project_id: number;
     project_name: string;
@@ -47,17 +46,17 @@ export interface Fields {
   routingKey?: string;
   messageCount?: number;
 }
+// End types for '/rabbitmq/consume.ts'
 
-// lives in server.ts
-
+// Lives in server.ts
 export type ServerError = {
   log?: string;
   status?: number;
   message?: string;
 };
+// End server.ts types
 
 // All the below Auth Types (used in authController and authRouter)
-
 export type AuthController = {
   encryptPassword?: RequestHandler;
   signup?: RequestHandler;
@@ -83,24 +82,24 @@ export type AuthRequestBody = {
   password?: string;
   passwordConfirm?: string;
 };
+// End types for Auth
 
-// types for '/server/controllers/messageController'
-
+// Types for '/server/controllers/messageController'
 export type MessageController = {
   getAllMessages?: RequestHandler;
   addMessage?: RequestHandler;
   runConsume?: RequestHandler;
 };
+// End types for '/server/controllers/messageController'
 
-// types for '/server/controllers/userController'
-
+// Types for '/server/controllers/userController'
 export type UserController = {
   addProject?: RequestHandler;
   getAllUserProjects?: RequestHandler;
 }
+// End types for '/server/controllers/userController'
 
-// types for '/src/Components/DeadLetterMessage'
-
+// Types for '/src/Components/DeadLetterMessage'
 export type DataTableProps = {
   messages: Array<Messages>;
 };
@@ -184,17 +183,17 @@ export type Rows = Array<{
   appId: string | null;
   clusterId: string | null;
 }>;
+// End types for '/src/Components/DeadLetterMessage'
 
-// types for AddProjectModal
-
+// Types for AddProjectModal.tsx
 export interface ModalProps {
   isShown: boolean;
   handleClose: () => void;
   handleSave: () => void;
-  // modalContent: JSX.Element;
   headerText: string;
   setNameErr: React.Dispatch<React.SetStateAction<boolean>>;
   setURLErr: React.Dispatch<React.SetStateAction<boolean>>;
   projectNameError: boolean;
   projectURLError: boolean;
 }
+// End types for AddProjectModal.tsx

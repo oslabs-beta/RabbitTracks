@@ -7,6 +7,8 @@ import Signup from "./Components/Signup";
 import ErrorPage from "./Containers/ErrorPageContainer";
 // import path from "path";
 
+// The App component contains the structure of the application, utilizing React Router to organize which components are displayed
+//  for which URL path
 const App = (): JSX.Element => {
   return (
     <Routes>
