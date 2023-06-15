@@ -1,4 +1,7 @@
 const path = require("path");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 require("dotenv").config();
@@ -25,7 +28,9 @@ module.exports = {
     }),
     // Node Polyfill Plugin to provide polyfills for Node.js core modules
     new NodePolyfillPlugin(),
-  ],
+    process.env.NODE_ENV === "development" && new BundleAnalyzerPlugin(),
+  ].filter(Boolean),
+
   devServer: {
     // Serve static files from the build directory
     static: {
