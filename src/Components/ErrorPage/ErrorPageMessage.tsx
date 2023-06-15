@@ -1,3 +1,5 @@
+// This componenet represents an error page message
+
 import React from "react";
 
 function ErrorPageMessage(): JSX.Element {

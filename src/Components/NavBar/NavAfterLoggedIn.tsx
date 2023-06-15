@@ -1,3 +1,6 @@
+// This component represents a navigation bar for the user interface after a user has logged in
+// It is responsible for rendering the header title, user account icon, and a dropdown menu with logout functionality
+
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -31,8 +34,7 @@ export default function NavAfterLoggedIn(): JSX.Element {
       .then((data) => {
         navigate("/");
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
 
   return (

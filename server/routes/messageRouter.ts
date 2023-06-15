@@ -1,10 +1,11 @@
-import express, { Request, Response } from "express"
+import express, { Request, Response } from "express";
 import { AuthController } from "../../types";
-const router = express.Router()
+const router = express.Router();
 
-const authController : AuthController = require("../controllers/authController");
+const authController: AuthController = require("../controllers/authController");
 const messageController = require("../controllers/messageController");
 
+// Get all messages endpoint
 router.post(
   "/get-all-messages",
   messageController.getAllMessages,
@@ -13,6 +14,7 @@ router.post(
   }
 );
 
+// Add message endpoint
 router.post(
   "/add-message",
   messageController.addMessage,
@@ -21,12 +23,13 @@ router.post(
   }
 );
 
+// Run consume endpoint
 router.post(
   "/run-consume",
   messageController.runConsume,
   (req: Request, res: Response) => {
-    return res.status(200).send('Consume file started');
+    return res.status(200).send("Consume file started");
   }
-)
+);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 {
-  "name": "RabbitTracks",
+  "name": "rabbittracks",
   "version": "1.0.0",
   "description": "UI for visualizing RabbitMQ Dead-Letter messages",
   "main": "src/index.js",
