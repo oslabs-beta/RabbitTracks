@@ -8,6 +8,7 @@ const db = require('../models/elephantsql');
 
 const userController: UserController = {};
 
+// The getAllUserProjects method takes the user_id from res.locals and selects all user projects from the database
 userController.getAllUserProjects = async (
   req: Request,
   res: Response,
@@ -43,6 +44,8 @@ userController.getAllUserProjects = async (
   }
 };
 
+// The addProject method takes the projectName and projectURL from the request body (user input) and inserts into the database 
+//  a new project.
 userController.addProject = async (
   req: Request,
   res: Response,
@@ -61,6 +64,7 @@ userController.addProject = async (
   await db
     .query(queryString, { type: QueryTypes.INSERT })
     .then((value: Array<Array<{ user_id: number }>>): void => {
+      // Unknown what the purpose of the below line is (Line 68):
       res.locals.message = value[0][0];
       return next();
     })

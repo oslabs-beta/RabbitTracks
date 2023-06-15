@@ -8,7 +8,10 @@ const expiresIn = process.env.JWT_EXPIRES_IN;
 const jwtSecret = process.env.JWT_SECRET;
 const saltFactor = parseInt(process.env.SALT_WORK_FACTOR);
 
+// Import types from express library
 import { Request, Response, NextFunction } from 'express';
+
+// Import types from types.ts file
 import {
   AuthController,
   AuthParams,
@@ -18,6 +21,7 @@ import {
 
 const authController: AuthController = {};
 
+// The encryptPassword method uses the bcrypt library to hash the inputted user password into an encrypted password
 authController.encryptPassword = async (
   req: Request,
   res: Response,
@@ -48,6 +52,7 @@ authController.encryptPassword = async (
   }
 };
 
+// The signup method takes the user input and inserts the data into the SQL database, returning the user_id
 authController.signup = async (
   req: Request,
   res: Response,
@@ -55,12 +60,14 @@ authController.signup = async (
 ): Promise<void> => {
 
   const { firstName, lastName, email }: AuthRequestBody = req.body;
+
   const params: AuthParams = [
     firstName,
     lastName,
     email,
     res.locals.encryptedPassword,
   ];
+
   const queryString: string = `INSERT INTO users (first_name, last_name, user_email, user_password) VALUES ($1, $2, $3, $4) RETURNING user_id;`;
 
   if (email) {
@@ -91,6 +98,8 @@ authController.signup = async (
   }
 };
 
+// The verifyUser method takes the user input and queries the database. 
+// If query is successful, user_password and user_id is saved in res.locals as encryptedPassword and user_id, respectively
 authController.verifyUser = async (
   req: Request,
   res: Response,
@@ -135,6 +144,8 @@ authController.verifyUser = async (
   }
 };
 
+// The verifyPassword method takes the user input and res.locals.encryptedPassword and uses the bcrypt library to compare the user inputted password with the saved
+//  encryptedPassword
 authController.verifyPassword = async (
   req: Request,
   res: Response,
@@ -176,6 +187,8 @@ authController.verifyPassword = async (
   }
 };
 
+// The createSession method takes res.locals.user_id and creates a JWT token. The JWT token and user_id are then used to update the database with the new JWT token.
+// The cookie session id is then updated with the new JWT token.
 authController.createSession = async (
   req: Request,
   res: Response,
@@ -217,6 +230,8 @@ authController.createSession = async (
   }
 };
 
+// The verifySession method takes current session_id from the cookies and decodes it using the JWT library. The decoded user_id is then used to query the database.
+// If the query is successful, user_id is saved in res.locals. Any errors along the way result in the current session_id being removed.
 authController.verifySession = async (
   req: Request,
   res: Response,
@@ -298,6 +313,7 @@ authController.verifySession = async (
   }
 };
 
+// The logout method clears the current session_id from the cookies.
 authController.logout = async (
   req: Request,
   res: Response,

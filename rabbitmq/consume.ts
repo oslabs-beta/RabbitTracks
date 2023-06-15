@@ -59,6 +59,7 @@ export const runConsume = (URL: string, projectID: number) => {
           fields?: MessageFields;
           properties?: MessageProperties;
         } = { ...msg };
+
         const {
           consumerTag,
           deliveryTag,
@@ -66,6 +67,7 @@ export const runConsume = (URL: string, projectID: number) => {
           exchange,
           routingKey,
         }: Fields = { ...fields };
+        
         const {
           contentType,
           contentEncoding,
