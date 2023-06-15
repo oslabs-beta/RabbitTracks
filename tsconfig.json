@@ -1,19 +1,22 @@
 {
   "compilerOptions": {
-    // "sourceMap": true,
-    "outDir": "./build/",
-    "target": "es6",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "jsx": "react",
-    "module": "CommonJS",
-    "esModuleInterop": true,
-    "noImplicitAny": true,
-    // "lib": [
-    //   "es2016",
-    //   "dom"
-    // ]
+    "outDir": "./build/",            // Output directory for compiled files
+    "target": "es6",                 // Target ECMAScript version
+    "allowJs": true,                 // Allow JavaScript files to be compiled
+    "moduleResolution": "node",      // Specify module resolution strategy
+    "jsx": "react",                  // Enable JSX support for React
+    "module": "CommonJS",            // Specify module system (CommonJS in this case)
+    "esModuleInterop": true,         // Enable interoperability between CommonJS and ES modules
+    "noImplicitAny": true            // Disallow implicit 'any' types
   },
-  "include": ["src/**/*", "server/**/*", "rabbitmq/consume.js", "src/Global.d.ts"],
-  "exclude": ["index.html", "src/assets/stylesheets/*"]
+  "include": [
+    "src/**/*",                     // Include all files in 'src' directory and its subdirectories
+    "server/**/*",                  // Include all files in 'server' directory and its subdirectories
+    "rabbitmq/consume.js",          // Include 'consume.js' file in 'rabbitmq' directory
+    "src/Global.d.ts"               // Include 'Global.d.ts' file in 'src' directory
+  ],
+  "exclude": [
+    "index.html",                   // Exclude 'index.html' file
+    "src/assets/stylesheets/*"      // Exclude all files in 'src/assets/stylesheets' directory
+  ]
 }

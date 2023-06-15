@@ -1,11 +1,12 @@
+// This component represents a signup form
+// It uses various components and utilities from Material-UI to style and handle the form
+
 import * as React from "react";
 import { useNavigate } from "react-router";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -16,7 +17,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavSignupPage from "./NavBar/NavSignupPage";
 import axios from "axios";
 
-function Copyright(props: any) : JSX.Element {
+function Copyright(props: any): JSX.Element {
   return (
     <Typography
       variant="body2"
@@ -43,19 +44,20 @@ export default function SignUp() {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    const data : FormData = new FormData(event.currentTarget);
+    const data: FormData = new FormData(event.currentTarget);
 
-    await axios.post("/auth/signup", {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-      passwordConfirm: data.get('passwordConfirm')
-    })
-    .then(data => {
-      navigate('/userprojects');
-    }).catch(err => {
-    })
+    await axios
+      .post("/auth/signup", {
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        email: data.get("email"),
+        password: data.get("password"),
+        passwordConfirm: data.get("passwordConfirm"),
+      })
+      .then((data) => {
+        navigate("/userprojects");
+      })
+      .catch((err) => {});
   };
 
   return (
@@ -156,10 +158,10 @@ export default function SignUp() {
                 Sign Up
               </Button>
               <Grid container justifyContent="center">
-                  <Link href="/" variant="body2">
-                    {"Already have an account? Login"}
-                  </Link>
-                </Grid>
+                <Link href="/" variant="body2">
+                  {"Already have an account? Login"}
+                </Link>
+              </Grid>
             </Box>
           </Box>
           <Copyright sx={{ mt: 5 }} />

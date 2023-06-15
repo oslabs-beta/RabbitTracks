@@ -1,3 +1,6 @@
+// This component represents a navigation bar for the signup page
+// It provides a title and a welcome statement to greet users
+
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";

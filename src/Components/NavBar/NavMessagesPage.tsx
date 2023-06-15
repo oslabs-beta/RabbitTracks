@@ -1,3 +1,6 @@
+// This component represents a navigation bar for the application after the user has logged in
+// It provides a menu with options for the logged-in user, including a logo, user account icon, and a logout option
+
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
@@ -33,8 +36,7 @@ export default function NavAfterLoggedIn(): JSX.Element {
       .then((data) => {
         navigate("/");
       })
-      .catch((err) => {
-      });
+      .catch((err) => {});
   };
 
   return (
@@ -44,7 +46,7 @@ export default function NavAfterLoggedIn(): JSX.Element {
           <Typography variant="h6" component="div">
             <Link to="/userprojects">
               <span className="hovertext" data-hover="Go to projects">
-              <img id="rabbit-paw-pic" src={RabbitPaw} />
+                <img id="rabbit-paw-pic" src={RabbitPaw} />
               </span>
             </Link>
           </Typography>

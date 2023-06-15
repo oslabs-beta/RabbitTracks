@@ -10,20 +10,24 @@ module.exports = {
   },
   output: {
     filename: "bundle.js",
-    publicPath: '/',
+    publicPath: "/",
     path: path.resolve(__dirname, "build"),
   },
   externals: {
     express: "express",
   },
   plugins: [
+    // HTML Webpack Plugin to generate an HTML file with injected bundle.js
     new HtmlWebpackPlugin({
       title: "RabbitTracks",
       template: "index.html",
+      favicon: "./src/assets/images/favicon.ico",
     }),
+    // Node Polyfill Plugin to provide polyfills for Node.js core modules
     new NodePolyfillPlugin(),
   ],
   devServer: {
+    // Serve static files from the build directory
     static: {
       publicPath: "/",
       directory: path.resolve(__dirname, "build"),
@@ -44,7 +48,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.jsx?/, // Transpile JavaScript and JSX files
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -58,22 +62,22 @@ module.exports = {
         },
       },
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.(ts|tsx)$/, // Transpile TypeScript files
         exclude: /node_modules/,
         use: ["ts-loader"],
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s[ac]ss$/i, // Process SCSS files
         exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif)$/i, // Load image files
         use: [
           {
             loader: "file-loader",
             options: {
-              name: "[path][name].[ext]",
+              name: "[path][name].[ext]", // Output file name and path
             },
           },
         ],
