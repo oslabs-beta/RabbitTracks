@@ -1,4 +1,4 @@
-context('Contain test', () => {
+context('Initial Cypress Test', () => {
     beforeEach(() => {
         cy.visit("http://localhost:8080")
     })
