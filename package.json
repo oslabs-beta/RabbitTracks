@@ -66,6 +66,7 @@
     "@mui/material": "^5.10.3",
     "@mui/types": "^7.2.0",
     "@mui/x-data-grid": "^5.17.0",
+    "@testing-library/cypress": "^9.0.0",
     "@testing-library/react": "^13.4.0",
     "@types/amqplib": "^0.8.2",
     "@types/bcryptjs": "^2.4.2",
