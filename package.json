@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "start": "cross-env NODE_ENV=production ts-node server/server.ts",
-    "build": "webpack",
+    "build": "webpack --profile",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.ts\""
   },
   "repository": {
@@ -51,6 +51,7 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
+    "webpack-bundle-analyzer": "^4.9.0",
     "ws": "^8.9.0"
   },
   "devDependencies": {

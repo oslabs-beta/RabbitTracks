@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 require("dotenv").config();
 
 module.exports = {
@@ -9,7 +10,8 @@ module.exports = {
     bundle: path.resolve(__dirname, "./src/index.tsx"),
   },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
+    chunkFilename: "[name].bundle.js",
     publicPath: '/',
     path: path.resolve(__dirname, "build"),
   },
@@ -20,9 +22,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "RabbitTracks",
       template: "index.html",
-      favicon: './src/assets/images/favicon.ico'
+      // favicon: './src/assets/images/favicon.ico'
     }),
     new NodePolyfillPlugin(),
+    process.env.NODE_ENV === "development" &&
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      generateStatsFile: true,
+      openAnalyzer: false,
+      logLevel: "info",
+    }),
   ],
   devServer: {
     static: {
@@ -52,6 +61,11 @@ module.exports = {
           options: {
             presets: [
               "@babel/preset-env",
+              {
+                "targets": "> 1%, not dead",
+                "useBuiltIns": "entry",
+                "corejs": "3.8"
+              },
               "@babel/preset-react",
               "@babel/preset-typescript",
             ],
@@ -81,4 +95,20 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        reactVendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+          name: 'vendor-react',
+          chunks: 'all',
+        },
+        corejsVendor: {
+          test: /[\\/]node_modules[\\/](core-js)[\\/]/,
+          name: 'vendor-corejs',
+          chunks: 'all',
+        }
+      }
+    }
+  }
 };
