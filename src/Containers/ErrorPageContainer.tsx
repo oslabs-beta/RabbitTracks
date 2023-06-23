@@ -1,3 +1,6 @@
+// This container represents an error page
+// It displays an error message, an image, and a link to navigate back to the home screen
+
 import React from "react";
 import { Link } from "react-router-dom";
 import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";

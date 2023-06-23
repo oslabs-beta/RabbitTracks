@@ -1,3 +1,6 @@
+// This component represents a navigation bar for the login page
+// It is responsible for rendering a welcome message and a statement on the page
+
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";

@@ -4,7 +4,7 @@
  
 RabbitTracks is a full-stack application that developers use to monitor and debug failed messages in RabbitMQ.
  
-RabbitTracks is an open source devTool, accelerated under OSLabs.
+RabbitTracks is an open source devTool, accelerated under OSLabs. Please read our Medium article [here](https://medium.com/@jerikkoagatep/rabbittracks-tracking-your-rabbitmq-dead-letter-messages-ccee4cac65fa) for more background information.
  
 ## What You’ll Need to Get Started
  
@@ -14,9 +14,9 @@ RabbitTracks is an open source devTool, accelerated under OSLabs.
  
 ## Database Set-Up Instructions
  
-Before installing the RabbitTracks application, it is vital you set up your Database!
+Before installing the RabbitTracks application, it is vital you set up your Database.
  
-1. Same as step 3 in the “What You’ll Need to Get Started” section! Set up a PostgresQL Database Hosting Service account (ie - ElephantSQL, ScaleGrid, Aiven, etc… it is free!)
+1. Same as step 3 in the “What You’ll Need to Get Started” section. Set up a PostgresQL Database Hosting Service account (ie - ElephantSQL, ScaleGrid, Aiven, etc… it is free!)
 2. Create Tables in SQL. Below is an image of the entity relationship diagrams that you’ll need for RabbitTracks. Also, below is code that you need to execute in your SQL’s query in order to replicate the diagram’s schema:
  
 <img src=src/assets/images/RabbitTracks-DB-Schema.png>
@@ -125,10 +125,8 @@ channel.assertQueue( queueName… , {
 2. Next, use the following command to install any new npm dependencies:
  
 ```bash
-npm install --legacy-peer-deps
+npm install 
 ```
- 
-\*Please note that you must add the flag “--legacy-peer-deps” in order to bypass potential React dependency version issues.
  
 3. Create a “.env” file in your root directory that consists of the following PRECISE key-value pairs:
  
@@ -175,9 +173,9 @@ Your browser will open RabbitTracks on [http://localhost:8080](http://localhost:
 The page will reload and update when you make changes in the codebase.\
 You may also see lint errors in the console.
  
-### `npm test`
+### `npm run cy:open` and `npm run cy:run`
  
-Runs all written frontend and backend tests... feel free to add your own as well!
+Runs all written frontend and backend tests in Cypress... feel free to add your own as well!
  
 ### `npm run build`
  

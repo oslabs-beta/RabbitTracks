@@ -1,4 +1,7 @@
 const path = require("path");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -18,15 +21,18 @@ module.exports = {
     express: "express",
   },
   plugins: [
+    // HTML Webpack Plugin to generate an HTML file with injected bundle.js
     new HtmlWebpackPlugin({
       title: "RabbitTracks",
       template: "index.html",
-      favicon: './src/assets/images/favicon.ico'
     }),
+    // Node Polyfill Plugin to provide polyfills for Node.js core modules
     new NodePolyfillPlugin(),
     process.env.NODE_ENV === "development",
   ],
+
   devServer: {
+    // Serve static files from the build directory
     static: {
       publicPath: "/",
       directory: path.resolve(__dirname, "build"),
@@ -47,18 +53,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.jsx?/, // Transpile JavaScript and JSX files
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
             presets: [
               "@babel/preset-env",
-              {
-                "targets": "> 1%, not dead",
-                "useBuiltIns": "entry",
-                "corejs": "3.8"
-              },
+              // {
+              //   "targets": "> 1%, not dead",
+              //   "useBuiltIns": "entry",
+              //   "corejs": "3.8"
+              // },
               "@babel/preset-react",
               "@babel/preset-typescript",
             ],
@@ -66,22 +72,22 @@ module.exports = {
         },
       },
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.(ts|tsx)$/, // Transpile TypeScript files
         exclude: /node_modules/,
         use: ["ts-loader"],
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s[ac]ss$/i, // Process SCSS files
         exclude: /node_modules/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpe?g|gif)$/i, // Load image files
         use: [
           {
             loader: "file-loader",
             options: {
-              name: "[path][name].[ext]",
+              name: "[path][name].[ext]", // Output file name and path
             },
           },
         ],

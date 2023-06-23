@@ -1,3 +1,7 @@
+// This component represents a login form for a web application
+// It includes form fields for email and password, as well as a submit button to sign in
+// It uses various components and utilities from Material-UI to style and handle the form
+
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert"
+import Alert from "@mui/material/Alert";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -38,8 +42,8 @@ const theme = createTheme();
 
 export default function Login(): JSX.Element {
   const [loginError, setLoginError] = useState(false);
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
 
   let navigate = useNavigate();
 
@@ -67,9 +71,9 @@ export default function Login(): JSX.Element {
 
   const handleLoginErrorClose = () => {
     setLoginError(false);
-    setEmailValue('');
-    setPasswordValue('');
-  }
+    setEmailValue("");
+    setPasswordValue("");
+  };
 
   return (
     <>
@@ -91,10 +95,11 @@ export default function Login(): JSX.Element {
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            {loginError && 
+            {loginError && (
               <Alert severity="error" onClose={handleLoginErrorClose}>
                 Incorrect login credentials
-              </Alert>}
+              </Alert>
+            )}
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -111,7 +116,7 @@ export default function Login(): JSX.Element {
                 autoComplete="email"
                 autoFocus
                 value={emailValue}
-                onChange={(e)=>setEmailValue(e.target.value)}
+                onChange={(e) => setEmailValue(e.target.value)}
               />
               <TextField
                 margin="normal"
@@ -123,7 +128,7 @@ export default function Login(): JSX.Element {
                 id="password"
                 autoComplete="current-password"
                 value={passwordValue}
-                onChange={(e)=>setPasswordValue(e.target.value)}
+                onChange={(e) => setPasswordValue(e.target.value)}
               />
               <Button
                 type="submit"
