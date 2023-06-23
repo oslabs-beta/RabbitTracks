@@ -46,11 +46,7 @@ export default function NavAfterLoggedIn(): JSX.Element {
           <Typography variant="h6" component="div">
             <Link to="/userprojects">
               <span className="hovertext" data-hover="Go to projects">
-<<<<<<< HEAD
                 <img id="rabbit-paw-pic" src={RabbitPaw} loading="lazy" />
-=======
-                <img id="rabbit-paw-pic" src={RabbitPaw} />
->>>>>>> dev
               </span>
             </Link>
           </Typography>
