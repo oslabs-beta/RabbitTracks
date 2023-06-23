@@ -2,8 +2,10 @@ import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import { useLocation } from "react-router-dom";
-import DataTable from '../Components/DeadLetterMessage';
-import NavOnMessagesPage from '../Components/NavBar/NavMessagesPage';
+// import DataTable from '../Components/DeadLetterMessage';
+const DataTable = React.lazy(() => import("../Components/DeadLetterMessage"))
+// import NavOnMessagesPage from '../Components/NavBar/NavMessagesPage';
+const NavOnMessagesPage= React.lazy(() => import("../Components/NavBar/NavMessagesPage"))
 import { io } from 'socket.io-client';
 
 const MessageContainer = (): JSX.Element => {

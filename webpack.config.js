@@ -11,7 +11,6 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
-    chunkFilename: "[name].bundle.js",
     publicPath: '/',
     path: path.resolve(__dirname, "build"),
   },
@@ -22,16 +21,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "RabbitTracks",
       template: "index.html",
-      // favicon: './src/assets/images/favicon.ico'
+      favicon: './src/assets/images/favicon.ico'
     }),
     new NodePolyfillPlugin(),
-    process.env.NODE_ENV === "development" &&
-    new BundleAnalyzerPlugin({
-      analyzerMode: "static",
-      generateStatsFile: true,
-      openAnalyzer: false,
-      logLevel: "info",
-    }),
+    process.env.NODE_ENV === "development",
   ],
   devServer: {
     static: {
@@ -95,20 +88,4 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        reactVendor: {
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
-          name: 'vendor-react',
-          chunks: 'all',
-        },
-        corejsVendor: {
-          test: /[\\/]node_modules[\\/](core-js)[\\/]/,
-          name: 'vendor-corejs',
-          chunks: 'all',
-        }
-      }
-    }
-  }
 };

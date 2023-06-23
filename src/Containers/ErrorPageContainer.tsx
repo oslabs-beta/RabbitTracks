@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
-import RabbitPhoto from "../../src/assets/images/rabbitphoto.jpg";
+import RabbitPhoto from "../assets/images/rabbitphoto.jpg";
 
 export default function ErrorPage() {
   return (
@@ -15,6 +15,7 @@ export default function ErrorPage() {
               alt=" <-- Sad Rabbit photo"
               title="Sad Rabbit photo"
               height="300"
+              loading="lazy"
             />
           </Link>
         </div>
