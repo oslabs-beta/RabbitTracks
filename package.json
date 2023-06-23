@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest",
     "start": "cross-env NODE_ENV=production ts-node server/server.ts",
-    "build": "webpack",
+    "build": "webpack --profile",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open\" \"cross-env NODE_ENV=development nodemon server/server.ts\"",
     "cy:open": "cypress open",
     "cy:run": "cypress run"
