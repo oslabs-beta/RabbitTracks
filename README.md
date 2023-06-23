@@ -125,10 +125,8 @@ channel.assertQueue( queueName… , {
 2. Next, use the following command to install any new npm dependencies:
  
 ```bash
-npm install --legacy-peer-deps
+npm install 
 ```
- 
-\*Please note that you must add the flag “--legacy-peer-deps” in order to bypass potential React dependency version issues.
  
 3. Create a “.env” file in your root directory that consists of the following PRECISE key-value pairs:
  
@@ -175,9 +173,9 @@ Your browser will open RabbitTracks on [http://localhost:8080](http://localhost:
 The page will reload and update when you make changes in the codebase.\
 You may also see lint errors in the console.
  
-### `npm test`
+### `npm run cy:open` and `npm run cy:run`
  
-Runs all written frontend and backend tests... feel free to add your own as well!
+Runs all written frontend and backend tests in Cypress... feel free to add your own as well!
  
 ### `npm run build`
  
