@@ -1,7 +1,4 @@
 const path = require("path");
-// const BundleAnalyzerPlugin =
-//   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 require("dotenv").config();
@@ -12,8 +9,8 @@ module.exports = {
     bundle: path.resolve(__dirname, "./src/index.tsx"),
   },
   output: {
-    filename: "[name].bundle.js",
-    publicPath: '/',
+    filename: "bundle.js",
+    publicPath: "/",
     path: path.resolve(__dirname, "build"),
   },
   externals: {
@@ -24,12 +21,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "RabbitTracks",
       template: "index.html",
+      favicon: "./src/assets/images/favicon.ico",
     }),
     // Node Polyfill Plugin to provide polyfills for Node.js core modules
     new NodePolyfillPlugin(),
-    process.env.NODE_ENV === "development",
   ],
-
   devServer: {
     // Serve static files from the build directory
     static: {
@@ -59,11 +55,6 @@ module.exports = {
           options: {
             presets: [
               "@babel/preset-env",
-              // {
-              //   "targets": "> 1%, not dead",
-              //   "useBuiltIns": "entry",
-              //   "corejs": "3.8"
-              // },
               "@babel/preset-react",
               "@babel/preset-typescript",
             ],
@@ -82,6 +73,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i, // Load image files
+        exclude: /node_modules/,
         use: [
           {
             loader: "file-loader",
