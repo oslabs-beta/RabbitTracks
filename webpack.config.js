@@ -6,12 +6,22 @@ require("dotenv").config();
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    bundle: path.resolve(__dirname, "./src/index.tsx"),
+    index: path.resolve(__dirname, "./src/index.tsx"),
+    userProjectsContainer: path.resolve(__dirname, "./src/Containers/UserProjectsContainer.tsx"),
+    messageContainer: path.resolve(__dirname, "./src/Containers/MessageContainer.tsx"),
+    deadLetterMessage: path.resolve(__dirname, "./src/Components/DeadLetterMessage.tsx")
   },
   output: {
-    filename: "bundle.js",
+    // filename: "bundle.js",
+    filename: "[name].bundle.js",
+    // chunkFilename: "[name].bundle.js",
     publicPath: "/",
     path: path.resolve(__dirname, "build"),
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    }
   },
   externals: {
     express: "express",
@@ -73,7 +83,6 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif)$/i, // Load image files
-        exclude: /node_modules/,
         use: [
           {
             loader: "file-loader",

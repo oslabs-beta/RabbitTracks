@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Route, Routes, Outlet, BrowserRouter } from "react-router-dom";
-const MessageContainer = React.lazy(() => import("./Containers/MessageContainer"));
-const UserProjectsContainer = React.lazy(() => import("./Containers/UserProjectsContainer"));
+const MessageContainer = lazy(() => import("./Containers/MessageContainer"));
+const UserProjectsContainer = lazy(() => import("./Containers/UserProjectsContainer"));
 import Login from "./Components/Login";
-import Signup from "./Components/Signup";
+const Signup = React.lazy(() => import("./Components/Signup"))
+// import Signup from "./Components/Signup";
 import ErrorPage from "./Containers/ErrorPageContainer";
 // import path from "path";
 
@@ -12,12 +13,12 @@ import ErrorPage from "./Containers/ErrorPageContainer";
 const App = (): JSX.Element => {
   return (
     <Routes>
-      <Route path="*" element={<ErrorPage />} />
-      <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      {/* <Route path="/signup/cat" element={<ErrorPage />} /> */}
-      <Route path="/userprojects" element={<UserProjectsContainer />} />
-      <Route path="/messages" element={<MessageContainer />} />
+        <Route path="*" element={<ErrorPage />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/signup/cat" element={<ErrorPage />} /> */}
+        <Route path="/userprojects" element={<UserProjectsContainer />} />
+        <Route path="/messages" element={<MessageContainer />} />
     </Routes>
   );
 };

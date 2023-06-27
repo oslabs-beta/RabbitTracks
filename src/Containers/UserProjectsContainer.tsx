@@ -5,8 +5,10 @@ import axios from "axios";
 import * as React from "react";
 import { useEffect, useState, MouseEvent, MouseEventHandler } from "react";
 import UserProjects from "../Components/UserProjects";
-import AddProjectModal from "../Components/AddProjectModal";
-import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
+const AddProjectModal = React.lazy(() => import("../Components/AddProjectModal"));
+// import AddProjectModal from "../Components/AddProjectModal";
+const NavAfterLoggedIn = React.lazy(() => import("../Components/NavBar/NavAfterLoggedIn"))
+// import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
 
 const UserProjectsContainer = (): JSX.Element => {
   const [projectsList, setProjectsList] = useState([]);
