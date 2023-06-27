@@ -2,12 +2,12 @@
 // It allows users to view their projects, add new projects, and interact with them
 
 import axios from "axios";
-import * as React from "react";
+import React, { lazy } from "react";
 import { useEffect, useState, MouseEvent, MouseEventHandler } from "react";
 import UserProjects from "../Components/UserProjects";
-const AddProjectModal = React.lazy(() => import("../Components/AddProjectModal"));
+const AddProjectModal = lazy(() => import("../Components/AddProjectModal"));
 // import AddProjectModal from "../Components/AddProjectModal";
-const NavAfterLoggedIn = React.lazy(() => import("../Components/NavBar/NavAfterLoggedIn"))
+const NavAfterLoggedIn = lazy(() => import("../Components/NavBar/NavAfterLoggedIn"))
 // import NavAfterLoggedIn from "../Components/NavBar/NavAfterLoggedIn";
 
 const UserProjectsContainer = (): JSX.Element => {

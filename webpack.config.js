@@ -6,10 +6,12 @@ require("dotenv").config();
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
+    // index: {import: path.resolve(__dirname, "./src/index.tsx"), dependOn: "shared"},
     index: path.resolve(__dirname, "./src/index.tsx"),
     userProjectsContainer: path.resolve(__dirname, "./src/Containers/UserProjectsContainer.tsx"),
     messageContainer: path.resolve(__dirname, "./src/Containers/MessageContainer.tsx"),
-    deadLetterMessage: path.resolve(__dirname, "./src/Components/DeadLetterMessage.tsx")
+    deadLetterMessage: path.resolve(__dirname, "./src/Components/DeadLetterMessage.tsx"),
+    // shared: "@mui"
   },
   output: {
     // filename: "bundle.js",

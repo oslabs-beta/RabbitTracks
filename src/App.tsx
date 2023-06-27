@@ -1,9 +1,9 @@
-import React, { Suspense, lazy } from "react";
-import { Route, Routes, Outlet, BrowserRouter } from "react-router-dom";
+import React, { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
 const MessageContainer = lazy(() => import("./Containers/MessageContainer"));
 const UserProjectsContainer = lazy(() => import("./Containers/UserProjectsContainer"));
 import Login from "./Components/Login";
-const Signup = React.lazy(() => import("./Components/Signup"))
+const Signup = lazy(() => import("./Components/Signup"))
 // import Signup from "./Components/Signup";
 import ErrorPage from "./Containers/ErrorPageContainer";
 // import path from "path";
