@@ -1,29 +1,36 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 require("dotenv").config();
+
+console.log(`Webpack is building in ${process.env.NODE_ENV} mode...`);
 
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: {
-    // index: {import: path.resolve(__dirname, "./src/index.tsx"), dependOn: "shared"},
-    index: path.resolve(__dirname, "./src/index.tsx"),
-    userProjectsContainer: path.resolve(__dirname, "./src/Containers/UserProjectsContainer.tsx"),
-    messageContainer: path.resolve(__dirname, "./src/Containers/MessageContainer.tsx"),
-    deadLetterMessage: path.resolve(__dirname, "./src/Components/DeadLetterMessage.tsx"),
-    // shared: "@mui"
+    // index: path.resolve(__dirname, "./src/index.tsx"),
+    index: { import: path.resolve(__dirname, "./src/index.tsx"), dependOn: "shared" },
+    app: { import: path.resolve(__dirname, "./src/App.tsx"), dependOn: "shared" },
+    login: { import: path.resolve(__dirname, "./src/Components/Login.tsx"), dependOn: "shared" },
+    signup: { import: path.resolve(__dirname, "./src/Components/Signup.tsx"), dependOn: "shared" },
+    userProjectsContainer: { import: path.resolve(__dirname, "./src/Containers/UserProjectsContainer.tsx"), dependOn: "shared" },
+    messageContainer: { import: path.resolve(__dirname, "./src/Containers/MessageContainer.tsx"), dependOn: "shared" },
+    deadLetterMessage: { import: path.resolve(__dirname, "./src/Components/DeadLetterMessage.tsx"), dependOn: "shared" },
+    shared: ["react", "react-dom", "@mui/material"],
   },
   output: {
     // filename: "bundle.js",
     filename: "[name].bundle.js",
-    // chunkFilename: "[name].bundle.js",
     publicPath: "/",
     path: path.resolve(__dirname, "build"),
+    // chunkFilename: "[name].chunk.js",
   },
   optimization: {
     splitChunks: {
       chunks: "all",
-    }
+    },
   },
   externals: {
     express: "express",
@@ -37,6 +44,7 @@ module.exports = {
     }),
     // Node Polyfill Plugin to provide polyfills for Node.js core modules
     new NodePolyfillPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
   devServer: {
     // Serve static files from the build directory

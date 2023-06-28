@@ -1,10 +1,12 @@
 // This container represents an error page
 // It displays an error message, an image, and a link to navigate back to the home screen
 
-import React from "react";
+import React, { lazy } from "react";
 import { Link } from "react-router-dom";
-import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
+// import ErrorPageMessage from "../Components/ErrorPage/ErrorPageMessage";
+const ErrorPageMessage = lazy(() => import("../Components/ErrorPage/ErrorPageMessage"));
 import RabbitPhoto from "../assets/images/rabbitphoto.jpg";
+// const RabbitPhoto = lazy(() => import("../assets/images/rabbitphoto.jpg"));
 
 export default function ErrorPage() {
   return (

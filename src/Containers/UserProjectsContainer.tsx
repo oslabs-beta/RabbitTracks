@@ -4,7 +4,8 @@
 import axios from "axios";
 import React, { lazy } from "react";
 import { useEffect, useState, MouseEvent, MouseEventHandler } from "react";
-import UserProjects from "../Components/UserProjects";
+const UserProjects = lazy(() => import("../Components/UserProjects"));
+// import UserProjects from "../Components/UserProjects";
 const AddProjectModal = lazy(() => import("../Components/AddProjectModal"));
 // import AddProjectModal from "../Components/AddProjectModal";
 const NavAfterLoggedIn = lazy(() => import("../Components/NavBar/NavAfterLoggedIn"))

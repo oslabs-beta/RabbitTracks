@@ -2,8 +2,8 @@
 // It includes form fields for email and password, as well as a submit button to sign in
 // It uses various components and utilities from Material-UI to style and handle the form
 
-import * as React from "react";
-import { useState } from "react";
+import React, { lazy, useState } from "react";
+// import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -16,7 +16,9 @@ import Alert from "@mui/material/Alert";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
+import createTheme from "@mui/material/styles/createTheme";
+const ThemeProvider = lazy(() => import("@mui/material/styles/ThemeProvider"));
 import axios from "axios";
 import NavLoginPage from "./NavBar/NavLoginPage";
 

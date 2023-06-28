@@ -2,8 +2,12 @@
 // It uses the DataGrid component from the @mui/x-data-grid package to render the table
 // -- includes options for sorting, column visibility, and cell content expansion
 
-import * as React from "react";
+// import * as React from "react";
+import React, { lazy } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+// import DataGrid from "@mui/x-data-grid";
+// const { DataGrid, GridToolbar } = lazy(() => import("@mui/x-data-grid"));
+// const xDataGrid = lazy(() => import("@mui/x-data-grid"));
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -19,6 +23,9 @@ import {
 } from "../../types";
 
 export default function DataTable(props: DataTableProps) {
+  // return (
+  //   <div>testing</div>
+  // )
   const { messages } = props;
 
   function isOverflown(element: any) {

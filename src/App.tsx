@@ -2,7 +2,8 @@ import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 const MessageContainer = lazy(() => import("./Containers/MessageContainer"));
 const UserProjectsContainer = lazy(() => import("./Containers/UserProjectsContainer"));
-import Login from "./Components/Login";
+// import Login from "./Components/Login";
+const Login = lazy(() => import("./Components/Login"));
 const Signup = lazy(() => import("./Components/Signup"))
 // import Signup from "./Components/Signup";
 import ErrorPage from "./Containers/ErrorPageContainer";

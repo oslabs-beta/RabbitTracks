@@ -2,13 +2,13 @@
 // It also establishes a socket connection to receive real-time updates when new messages are added
 
 import axios from "axios";
-import * as React from "react";
+import React, { lazy } from "react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 // import DataTable from '../Components/DeadLetterMessage';
-const DataTable = React.lazy(() => import("../Components/DeadLetterMessage"))
+const DataTable = lazy(() => import("../Components/DeadLetterMessage"))
 // import NavOnMessagesPage from '../Components/NavBar/NavMessagesPage';
-const NavOnMessagesPage= React.lazy(() => import("../Components/NavBar/NavMessagesPage"))
+const NavOnMessagesPage= lazy(() => import("../Components/NavBar/NavMessagesPage"))
 import { io } from 'socket.io-client';
 
 const MessageContainer = (): JSX.Element => {
