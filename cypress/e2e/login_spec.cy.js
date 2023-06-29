@@ -1,4 +1,17 @@
 context("App Actions Tests", () => {
+  // 6 tests below
+  // it greets with 'hello'
+  // the 'signup' button links correctly to diff page
+  // it requrires email has error message if empty
+  // ^same w password
+  // it requires VALID email/pass
+  // it navigates correctly to proj page when logged in
+
+
+
+
+
+
   //   it("links to projects page correctly", () => {
   //     cy.visit("/");
   //     cy.findAllByText("Don't have an account? Sign Up").last().click();
