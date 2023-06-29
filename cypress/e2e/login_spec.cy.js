@@ -1,3 +1,5 @@
+// JERIKKO HERE
+
 context("App Actions Tests", () => {
   // 6 tests below
   // it greets with 'hello'
@@ -6,11 +8,6 @@ context("App Actions Tests", () => {
   // ^same w password
   // it requires VALID email/pass
   // it navigates correctly to proj page when logged in
-
-
-
-
-
 
   //   it("links to projects page correctly", () => {
   //     cy.visit("/");
