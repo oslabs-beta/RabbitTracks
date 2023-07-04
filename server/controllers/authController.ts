@@ -68,7 +68,7 @@ authController.signup = async (
 
   const queryString: string = `INSERT INTO users (first_name, last_name, user_email, user_password) VALUES ($1, $2, $3, $4) RETURNING user_id;`;
 
-  if (email) {
+  if (firstName && lastName && email) {
     try {
       const results: Array<AuthResults> = await db.query(queryString, {
         bind: [...params],
