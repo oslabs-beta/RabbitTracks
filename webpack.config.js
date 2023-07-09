@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     // filename: "bundle.js",
-    filename: "[name].bundle.js",
+    filename: "[name].[chunkhash].js",
     publicPath: "/",
     path: path.resolve(__dirname, "build"),
     // chunkFilename: "[name].chunk.js",
