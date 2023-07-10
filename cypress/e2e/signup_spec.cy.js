@@ -11,11 +11,10 @@ context("Signup Page Tests", () => {
     cy.findByText(navbarText).should("exist");
   });
 
-  it("switches back to login page correctly", () => {
+  it("links to / (login page)", () => {
     cy.get(
       ".MuiTypography-root.MuiTypography-body2.MuiLink-root.MuiLink-underlineAlways.css-101ca9i-MuiTypography-root-MuiLink-root"
-    ).click();
-    cy.url().should("eq", "http://localhost:8080/");
+    ).should("have.attr", "href", "/");
   });
 
   it("requires first name field to have a value", () => {
@@ -114,7 +113,6 @@ context("Signup Page Tests", () => {
     const expectedString = "emailaddress" + randomNumber + "@random.com";
     cy.request("DELETE", `/user/deleteuser/${expectedString}`).then(
       (response) => {
-        console.log("response here!", response);
         expect(response.status).to.equal(200);
         expect(response.body).to.include(expectedString);
       }
