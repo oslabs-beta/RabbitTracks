@@ -26,4 +26,23 @@ router.post(
   }
 );
 
+router.get(
+  "/get-all-users",
+  userController.getAllUsers,
+  (_req: Request, res: Response) => {
+    return res.status(200).send(res.locals.allusers);
+  }
+);
+
+// Successfully deletes users with no projects attached to them
+router.delete(
+  "/deleteuser/:email",
+  userController.deleteUser,
+  (_req: Request, res: Response) => {
+    return res
+      .status(200)
+      .send(res.locals.deleteduser || "User not found - nothing happened");
+  }
+);
+
 module.exports = router;
