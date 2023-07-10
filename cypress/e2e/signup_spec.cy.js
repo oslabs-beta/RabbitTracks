@@ -19,7 +19,6 @@ context("Signup Page Tests", () => {
   });
 
   it("requires first name field to have a value", () => {
-    const randomNumber = Math.floor(Math.random() * 10000);
     cy.intercept("POST", "/auth/signup").as("signupRequest");
     cy.get("input")
       .eq(1)
@@ -36,7 +35,6 @@ context("Signup Page Tests", () => {
   });
 
   it("requires last name field to have a value - response is a 400 status if field is missing", () => {
-    const randomNumber = Math.floor(Math.random() * 10000);
     cy.intercept("POST", "/auth/signup").as("signupRequest");
     cy.get("input")
       .eq(0)
@@ -53,7 +51,6 @@ context("Signup Page Tests", () => {
   });
 
   it("requires email field to have a value - response is a 400 status if field is missing", () => {
-    const randomNumber = Math.floor(Math.random() * 10000);
     cy.intercept("POST", "/auth/signup").as("signupRequest");
     cy.get("input")
       .eq(0)
@@ -70,7 +67,6 @@ context("Signup Page Tests", () => {
   });
 
   it("requires both password fields to be filled out and match", () => {
-    const randomNumber = Math.floor(Math.random() * 10000);
     cy.intercept("POST", "/auth/signup").as("signupRequest");
     cy.get("input")
       .eq(0)
@@ -115,7 +111,14 @@ context("Signup Page Tests", () => {
   });
 
   it("deletes new, created user from database", () => {
-    cy.log(randomNumber);
+    const expectedString = "emailaddress" + randomNumber + "@random.com";
+    cy.request("DELETE", `/user/deleteuser/${expectedString}`).then(
+      (response) => {
+        console.log("response here!", response);
+        expect(response.status).to.equal(200);
+        expect(response.body).to.include(expectedString);
+      }
+    );
   });
 });
 
