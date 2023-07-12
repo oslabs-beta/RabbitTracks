@@ -3,6 +3,7 @@ const navbarText = Cypress.env("navbarText");
 context("Home Page Render Test", () => {
   beforeEach(() => {
     cy.visit("/signup");
+    // cy.request('/api').its('body').should('have.length', 10)
   });
   //   it("contains text", () => {
   //     cy.get("#welcome-statement").should(

@@ -1,21 +1,21 @@
 import { Request, RequestHandler } from "express";
-import * as React from 'react'
+import * as React from "react";
 
 // Types for '/rabbitmq/consume.ts'
 export type UserProjects = {
-    project_id: number;
-    project_name: string;
-    project_url: string
-}
+  project_id: number;
+  project_name: string;
+  project_url: string;
+};
 
 export type UserProjectsProps = {
   projects: Array<UserProjects>;
-}
+};
 
 export type UserMessagesProps = {
   projectId?: number;
-  onClick?: React.MouseEventHandler
-}
+  onClick?: React.MouseEventHandler;
+};
 
 export interface CreateDLXMessage extends Fields, Properties {
   projectId: number;
@@ -96,14 +96,15 @@ export type MessageController = {
 export type UserController = {
   addProject?: RequestHandler;
   getAllUserProjects?: RequestHandler;
-}
+  deleteUser?: RequestHandler;
+  getAllUsers?: RequestHandler;
+};
 // End types for '/server/controllers/userController'
 
 // Types for '/src/Components/DeadLetterMessage'
 export type DataTableProps = {
   messages: Array<Messages>;
 };
-
 
 export interface GridCellExpand {
   propTypes?: any;

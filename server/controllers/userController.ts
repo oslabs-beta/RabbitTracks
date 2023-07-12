@@ -1,10 +1,10 @@
-require('dotenv').config();
+require("dotenv").config();
 
-import { UserProjects, UserController } from '../../types';
-import { Request, Response, NextFunction } from 'express';
-import { QueryTypes } from 'sequelize';
+import { UserProjects, UserController } from "../../types";
+import { Request, Response, NextFunction } from "express";
+import { QueryTypes } from "sequelize";
 
-const db = require('../models/elephantsql');
+const db = require("../models/elephantsql");
 
 const userController: UserController = {};
 
@@ -32,19 +32,19 @@ userController.getAllUserProjects = async (
             err
           )}`,
           status: 500,
-          message: 'Query from database unsuccessful.',
+          message: "Query from database unsuccessful.",
         });
       });
   } else {
     return next({
-      log: 'Error in userController.getAllUserProjects... Did not receive user_id in getAllUserProjects request.',
+      log: "Error in userController.getAllUserProjects... Did not receive user_id in getAllUserProjects request.",
       status: 500,
-      message: 'Did not receive user_id in getAllUserProjects request.',
+      message: "Did not receive user_id in getAllUserProjects request.",
     });
   }
 };
 
-// The addProject method takes the projectName and projectURL from the request body (user input) and inserts into the database 
+// The addProject method takes the projectName and projectURL from the request body (user input) and inserts into the database
 //  a new project.
 userController.addProject = async (
   req: Request,
@@ -74,9 +74,56 @@ userController.addProject = async (
           err
         )}`,
         status: 500,
-        message: 'Unable to add project to database.',
+        message: "Unable to add project to database.",
       });
     });
+};
+
+userController.deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const email = req.params.email;
+  const deleteQuery = "DELETE FROM users WHERE user_email = $1 RETURNING *";
+
+  try {
+    const [deletedUser] = await db.query(deleteQuery, {
+      bind: [email],
+      type: QueryTypes.DELETE,
+    });
+
+    if (!deletedUser) {
+      res.locals.deleteduser = null;
+    } else {
+      // Store the deleted user's data in res.locals.deleteduser
+      res.locals.deleteduser = deletedUser["user_email"];
+    }
+    next();
+  } catch (error) {
+    next({
+      log: `Error in userController.deleteuser... Unable to get single user: ${JSON.stringify(
+        error
+      )}`,
+      status: 500,
+      message: error,
+    });
+  }
+};
+
+userController.getAllUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const usersTable = "SELECT * FROM users";
+  try {
+    const results = await db.query(usersTable);
+    res.locals.allusers = results;
+    next();
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = userController;
